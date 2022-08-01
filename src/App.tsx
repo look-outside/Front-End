@@ -1,30 +1,30 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "./components/Layout";
-import Clothes from "./pages/Clothes/Clothes";
-import DetailPost from "./pages/DetailPost/DetailPost";
-import Home from "./pages/Home/Home";
-import Meeting from "./pages/Meeting/Meeting";
-import Sky from "./pages/Sky/Sky";
-import GlobalStyle from "./styles/GlobalStyles";
+import Clothes from "./pages/clothes/Clothes";
+import Home from "./pages/home/Home";
+import Meeting from "./pages/meeting/Meeting";
+import Sky from "./pages/sky/Sky";
+import GlobalStyle from "./styles/GlobalStyle";
 
 function App() {
 	return (
 		<BrowserRouter>
 			<GlobalStyle />
 			<Routes>
-				<Route path="/" element={<Layout />}>
-					<Route index element={<Home />} />
-					<Route path="/today_clothes" element={<Clothes />}>
-						{/* /daily , /:id */}
-						{/* /free, /:id */}
+				<Route path="/" element={<Home />} />
+				<Route path="/today_clothes" element={<Clothes />}>
+					{/* <Route path="/daily" element={}>
+						<Route path=":id" element={}/>
 					</Route>
-					<Route path="/today_sky" element={<Sky />}>
-						<Route path=":id" element={<DetailPost />} />
-					</Route>
-					<Route path="/today_meeting" element={<Meeting />}>
-						<Route path=":id" element={<DetailPost />} />
-					</Route>
+					<Route path="/free" element={}>
+						<Route path=":id" element={}/>
+					</Route> */}
+				</Route>
+				<Route path="/today_sky" element={<Sky />}>
+					{/* <Route path=":id" element={<DetailPost />} /> */}
+				</Route>
+				<Route path="/today_meeting" element={<Meeting />}>
+					{/* <Route path=":id" element={<DetailPost />} /> */}
 				</Route>
 			</Routes>
 		</BrowserRouter>

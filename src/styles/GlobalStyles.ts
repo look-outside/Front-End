@@ -9,6 +9,10 @@ const GlobalStyles = createGlobalStyle`
     a,p,span {
         text-decoration: none;
     }
+
+    /* a, a:visited, a:active{
+        color : black
+    } */
     body{
         width:100%;
     }

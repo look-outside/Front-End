@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
@@ -17,7 +16,6 @@ function App() {
 				<Route path="/" element={<Layout />}>
 					<Route index element={<Home />} />
 					<Route path="today_clothes" element={<Clothes />} />
-					
 					<Route path="today_sky" element={<Sky />} />
 					<Route path="today_meeting" element={<Meeting />}/>
 				</Route>

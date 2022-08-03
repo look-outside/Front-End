@@ -138,13 +138,11 @@ const FirstNavTag = styled.ul`
 		align-items: center;
 		font-weight: 700;
 	}
-
 	@media screen and (min-width:420px){
 		.text{
 			font-size: 1rem;
 		}
 	}
-
 	@media screen and (max-width: 767px) {
 		flex-basis: 100%;
 		
@@ -160,8 +158,6 @@ const FirstNavTag = styled.ul`
 		flex-basis: 60%;
 		.text{
 			font-size: 1.5rem;
-
-		}
 	}
 `;
 
@@ -175,7 +171,6 @@ const SecondNavTag = styled.ul`
 		font-size: 0.7rem;
 		color: skyblue;
 	}
-
 	@media screen and (min-width: 768px) {
 		column-gap: 1em;
 		display: flex;

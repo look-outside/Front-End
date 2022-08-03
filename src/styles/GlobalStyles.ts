@@ -6,6 +6,12 @@ const GlobalStyles = createGlobalStyle`
     *{
         box-sizing : border-box
     }
+    a,p,span {
+        text-decoration: none;
+    }
+    body{
+        width:100%;
+    }
 `;
 
 export default GlobalStyles;

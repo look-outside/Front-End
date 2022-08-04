@@ -11,9 +11,9 @@ const Layout = () => {
 		<>
 			<Header />
 			{/* <Sidebar /> */}
-			{/* <Main> */}
+			<Main>
 				<Outlet />
-			{/* </Main> */}
+			</Main>
 			<Footer />
 		</>
 	);
@@ -23,11 +23,13 @@ export default Layout;
 
 // 나중에 설정? 공통부분
 
-// const Main = styled.main`
-// 	min-height: 100vh;
-// 	padding: 0 2em;
-// 	@media screen and (min-width: 1160px) {
-// 		max-width: 1160px;
-// 		margin: 0 auto;
-// 	}
-// `;
+const Main = styled.main`
+	/* min-height: 100vh;
+	padding: 0 2em;
+	@media screen and (min-width: 1160px) {
+		max-width: 1160px;
+		margin: 0 auto;
+	} */
+	flex: 1;
+	margin-bottom: 50px;
+`;

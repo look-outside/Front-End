@@ -86,10 +86,7 @@ const LogoTag = styled.div`
 	justify-content: center;
 	align-items: center;
 	padding: 1em 2em;
-	@media screen and (min-width: 1200px) {
-		max-width: 1200px;
-		margin: 0 auto;
-	}
+	
 	a {
 		display: flex;
 		flex-direction: column;
@@ -119,8 +116,8 @@ const NavTag = styled.nav`
 			align-items: center;
 			justify-content: space-between;
 			padding: 0.7em 2em;
-			@media screen and (min-width: 1200px) {
-				max-width: 1200px;
+			@media screen and (min-width: 1160px) {
+				max-width: 1160px;
 				margin: 0 auto;
 			}
 		}
@@ -138,13 +135,11 @@ const FirstNavTag = styled.ul`
 		align-items: center;
 		font-weight: 700;
 	}
-
 	@media screen and (min-width:420px){
 		.text{
 			font-size: 1rem;
 		}
 	}
-
 	@media screen and (max-width: 767px) {
 		flex-basis: 100%;
 		
@@ -160,8 +155,6 @@ const FirstNavTag = styled.ul`
 		flex-basis: 60%;
 		.text{
 			font-size: 1.5rem;
-
-		}
 	}
 `;
 
@@ -175,7 +168,6 @@ const SecondNavTag = styled.ul`
 		font-size: 0.7rem;
 		color: skyblue;
 	}
-
 	@media screen and (min-width: 768px) {
 		column-gap: 1em;
 		display: flex;

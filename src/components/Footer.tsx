@@ -20,9 +20,6 @@ export default Footer;
 const FooterTag = styled.footer`
 	background-color: skyblue;
 	width: 100%;
-	margin-top: 50px;
-	position: sticky;
-	top: 100%;
 	a {
 		display: flex;
 		flex-direction: column;
@@ -39,8 +36,8 @@ const FooterTag = styled.footer`
 	}
 	div {
 		padding: 1em 2em;
-		@media screen and (min-width: 1200px) {
-			max-width: 1200px;
+		@media screen and (min-width: 1160px) {
+			max-width: 1160px;
 			margin: 0 auto;
 		}
 	}

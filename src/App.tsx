@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import Clothes from "./pages/clothes/Clothes";
 
 import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
 import Meeting from "./pages/meeting/Meeting";
 import Sky from "./pages/sky/Sky";
 import GlobalStyles from "./styles/GlobalStyles";
@@ -19,6 +20,7 @@ function App() {
 
 					<Route path="today_sky" element={<Sky />} />
 					<Route path="today_meeting" element={<Meeting />}/>
+					<Route path="login" element={<Login/>}/>
 				</Route>
 			</Routes>
 		</BrowserRouter>

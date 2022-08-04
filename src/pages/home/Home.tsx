@@ -97,7 +97,7 @@ const DUMMY_Image_POST = [
 
 const Home = () => {
 	return (
-		<Main>
+		<Wrapper>
 			<FreePostAndMapTag>
 				<FreePostTag>
 					<SectionHeaderTag>
@@ -170,14 +170,13 @@ const Home = () => {
 				</SectionHeaderTag>
 				<FreePosts posts={DUMMY_FREE_POST} path="/today_meeting" />
 			</section>
-		</Main>
+		</Wrapper>
 	);
 };
 
 export default Home;
 
-export const Main = styled.main`
-	/* min-height: 100vh; */
+const Wrapper = styled.div`
 	padding: 0 2em;
 	display: grid;
 	row-gap: 5em;

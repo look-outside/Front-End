@@ -86,10 +86,7 @@ const LogoTag = styled.div`
 	justify-content: center;
 	align-items: center;
 	padding: 1em 2em;
-	@media screen and (min-width: 1200px) {
-		max-width: 1200px;
-		margin: 0 auto;
-	}
+	
 	a {
 		display: flex;
 		flex-direction: column;
@@ -119,8 +116,8 @@ const NavTag = styled.nav`
 			align-items: center;
 			justify-content: space-between;
 			padding: 0.7em 2em;
-			@media screen and (min-width: 1200px) {
-				max-width: 1200px;
+			@media screen and (min-width: 1160px) {
+				max-width: 1160px;
 				margin: 0 auto;
 			}
 		}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Post } from "../../../types";
+import { Post } from "../../types/types";
 
 interface Props {
 	posts: Post[];

@@ -10,9 +10,6 @@ const GlobalStyles = createGlobalStyle`
         text-decoration: none;
     }
 
-    /* a, a:visited, a:active{
-        color : black
-    } */
     body{
         width:100%;
     }

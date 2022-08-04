@@ -10,11 +10,9 @@ const GlobalStyles = createGlobalStyle`
         text-decoration: none;
     }
 
-    /* a, a:visited, a:active{
-        color : black
-    } */
     body{
         width:100%;
+        font-family: 'Noto Sans KR', sans-serif;
     }
 `;
 

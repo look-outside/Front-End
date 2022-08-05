@@ -171,6 +171,7 @@ const Home = () => {
 				<FreePosts posts={DUMMY_FREE_POST} path="/today_meeting" />
 			</section>
 		</ContainerTag>
+
 	);
 };
 

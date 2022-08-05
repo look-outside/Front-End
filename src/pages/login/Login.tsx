@@ -103,7 +103,7 @@ const Login = () => {
 							<div className="divider">
 								<span>|</span>
 							</div>
-							<Link to="find/password">비밀번호 찾기</Link>
+							<Link to="/find/password">비밀번호 찾기</Link>
 						</div>
 						<div className="sns">
 							<p>카카오로 간편하게 시작하세요</p>
@@ -157,21 +157,19 @@ export const FormWrapperTag = styled.div`
 export const FormTag = styled.form`
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	row-gap: 1.5em;
+
 	width: 100%;
 	.loginAndJoin {
 		display: flex;
 		flex-direction: column;
 		row-gap: 0.5em;
-		margin-bottom: 1em;
-		margin-top: 2em;
 		width: 100%;
 	}
 	.find {
 		display: flex;
 		column-gap: 0.5em;
 		justify-content: center;
-		margin-bottom: 1em;
 		font-size: 0.8rem;
 		a,
 		span {

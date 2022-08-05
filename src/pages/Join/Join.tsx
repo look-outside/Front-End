@@ -8,6 +8,7 @@ import {
 	InputWrapperTag,
 	WrapperTag,
 	ErrorTag,
+	FormTag,
 } from "../login/Login";
 import {AiOutlineCheck} from "react-icons/ai"
 
@@ -50,7 +51,7 @@ const Join = () => {
 		hasError: password2InputHasError,
 		valueChangeHandler: password2ChangedHandler,
 		inputBlurHandler: password2BlurHandler,
-	} = useInput((value) => value.trim() !== "" && value.length >= 6);
+	} = useInput((value) => value.trim() !== "" && value.length >= 6 && enteredPassword === value);
 
 	const {
 		value: enteredEmail,
@@ -80,7 +81,6 @@ const Join = () => {
 	const joinHandler = () => {
 		// 모두 입력했는지 확인 후 처리 => required 자동
 	};
-	const idRef = useRef<HTMLInputElement>(null);
 	const vaildCheckHandler = (name:string) => {
 		if(name === "nickname") setVaildCheckNickName((pre) => !pre);
 		if(name === "id") setVaildCheckId((pre)=>!pre);
@@ -150,7 +150,6 @@ const Join = () => {
 							<label htmlFor="id">아이디</label>
 							<VaildCheckWrapperTag>
 								<input
-									ref={idRef}
 									id="id"
 									type="text"
 									placeholder="아이디를 입력해주세요."
@@ -281,10 +280,6 @@ const Join = () => {
 
 export default Join;
 
-const FormTag = styled.form`
-	display: grid;
-	row-gap: 1.5em;
-`;
 
 const VaildCheckWrapperTag = styled.div`
 	display: flex;
@@ -302,7 +297,7 @@ const GenderTag = styled.div`
 	display: flex;
 	align-items: center;
 	column-gap: 1em;
-
+	margin-bottom: 1.5em;
 	div {
 		display: flex;
 		align-items: center;

@@ -51,7 +51,7 @@ const Join = () => {
 		hasError: password2InputHasError,
 		valueChangeHandler: password2ChangedHandler,
 		inputBlurHandler: password2BlurHandler,
-	} = useInput((value) => value.trim() !== "" && value.length >= 6);
+	} = useInput((value) => value.trim() !== "" && value.length >= 6 && enteredPassword === value);
 
 	const {
 		value: enteredEmail,
@@ -81,7 +81,6 @@ const Join = () => {
 	const joinHandler = () => {
 		// 모두 입력했는지 확인 후 처리 => required 자동
 	};
-	const idRef = useRef<HTMLInputElement>(null);
 	const vaildCheckHandler = (name:string) => {
 		if(name === "nickname") setVaildCheckNickName((pre) => !pre);
 		if(name === "id") setVaildCheckId((pre)=>!pre);
@@ -151,7 +150,6 @@ const Join = () => {
 							<label htmlFor="id">아이디</label>
 							<VaildCheckWrapperTag>
 								<input
-									ref={idRef}
 									id="id"
 									type="text"
 									placeholder="아이디를 입력해주세요."

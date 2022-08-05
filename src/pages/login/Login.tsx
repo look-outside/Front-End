@@ -103,7 +103,7 @@ const Login = () => {
 							<div className="divider">
 								<span>|</span>
 							</div>
-							<Link to="find/password">비밀번호 찾기</Link>
+							<Link to="/find/password">비밀번호 찾기</Link>
 						</div>
 						<div className="sns">
 							<p>카카오로 간편하게 시작하세요</p>

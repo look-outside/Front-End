@@ -59,7 +59,10 @@ const Header = () => {
 											<span>마이 페이지</span>
 										</Link>
 									) : (
-										<Link to="/admin_page" className="border">
+										<Link
+											to="/admin_page"
+											className="border"
+										>
 											<span>관리자 페이지</span>
 										</Link>
 									)}
@@ -86,7 +89,7 @@ const LogoTag = styled.div`
 	justify-content: center;
 	align-items: center;
 	padding: 1em 2em;
-	
+
 	a {
 		display: flex;
 		flex-direction: column;
@@ -135,26 +138,25 @@ const FirstNavTag = styled.ul`
 		align-items: center;
 		font-weight: 700;
 	}
-	@media screen and (min-width:420px){
-		.text{
+	@media screen and (min-width: 420px) {
+		.text {
 			font-size: 1rem;
 		}
 	}
 	@media screen and (max-width: 767px) {
 		flex-basis: 100%;
-		
 	}
 	@media screen and (min-width: 768px) {
 		flex-basis: 50%;
-		.text{
+		.text {
 			font-size: 1.2rem;
 		}
-		
 	}
 	@media screen and (min-width: 1024px) {
 		flex-basis: 60%;
-		.text{
+		.text {
 			font-size: 1.5rem;
+		}
 	}
 `;
 
@@ -172,7 +174,7 @@ const SecondNavTag = styled.ul`
 		column-gap: 1em;
 		display: flex;
 		.border {
-			font-size: .8rem;
+			font-size: 0.8rem;
 			padding: 0.5em 1em;
 		}
 	}
@@ -184,4 +186,4 @@ const SecondNavTag = styled.ul`
 			padding: 0.5em 1em;
 		}
 	}
-
+`;

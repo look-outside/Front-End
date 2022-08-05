@@ -49,7 +49,7 @@ const MyMenu = styled.div`
     display: flex;
     flex-basis: 20%;
     flex-direction: column;
-    @media screen and (max-width: 767px){
+    @media screen and (max-width: 1024px){
         flex-direction: row;
         text-align: center;
     };
@@ -59,23 +59,24 @@ const MyTitle = styled.div`
     height: 75px;
     font-size: 1.8rem;
     font-weight: 430;
-    @media screen and (max-width: 767px){
-        border: 1px solid #CCCCCC;
+    @media screen and (max-width: 1024px){
         height: 50px;
         display: flex;
         justify-content: center;
-        font-size: 1rem;
+        font-size: 1.5rem;
         font-weight: 700;
+        font-weight: bolder;
         flex-basis: 38%;
         align-items: center;
     };
-    @media screen and (min-width: 369px) and (max-width: 614px) {
+    @media screen and (max-width: 480px) {
+        font-size: 0.9rem;
         flex-basis: 35%;
     };
 `;
 
 const MyList = styled.ul`
-    @media screen and (max-width: 767px){
+    @media screen and (max-width: 1024px){
         display: flex;
     };
 `;
@@ -100,7 +101,7 @@ const MyTab = styled.li`
     @media screen and (min-width: 369px) and (max-width: 614px) {
         padding: 0 0.4em;
     };
-    @media screen and (min-width: 526px) and (max-width: 767px) {
+    @media screen and (min-width: 526px) and (max-width: 1024px) {
         padding: 0 0.5em;
     };
 `;

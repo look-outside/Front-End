@@ -8,6 +8,7 @@ import Posts from "./components/myPage/Posts";
 import Clothes from "./pages/clothes/Clothes";
 
 import Home from "./pages/home/Home";
+import Join from "./pages/Join/Join";
 import Login from "./pages/login/Login";
 import Meeting from "./pages/meeting/Meeting";
 import MyPage from "./pages/myPage/MyPage";
@@ -25,6 +26,7 @@ function App() {
 					<Route path="today_sky" element={<Sky />} />
 					<Route path="today_meeting" element={<Meeting />}/>
 					<Route path="login" element={<Login/>}/>
+					<Route path="join" element={<Join/>}/>
 
 					<Route path="my_page" element={<MyPage />}>
 						<Route path='info' element={<Info />} />

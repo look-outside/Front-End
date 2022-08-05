@@ -97,12 +97,12 @@ const DUMMY_Image_POST = [
 
 const Home = () => {
 	return (
-		<Wrapper>
+		<ContainerTag>
 			<FreePostAndMapTag>
 				<FreePostTag>
 					<SectionHeaderTag>
 						<SectionTitleTag>
-							<h2>오늘의 옷 - 자유글</h2>
+							<h2>오늘 뭐 입지?</h2>
 						</SectionTitleTag>
 						<Link to="/today_clothes/free">
 							<span className="more">
@@ -170,14 +170,14 @@ const Home = () => {
 				</SectionHeaderTag>
 				<FreePosts posts={DUMMY_FREE_POST} path="/today_meeting" />
 			</section>
-		</Wrapper>
+		</ContainerTag>
 
 	);
 };
 
 export default Home;
 
-const Wrapper = styled.div`
+const ContainerTag = styled.div`
 	padding: 0 2em;
 	display: grid;
 	row-gap: 5em;

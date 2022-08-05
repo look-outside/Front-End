@@ -1,44 +1,82 @@
-import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { RiKakaoTalkFill } from "react-icons/ri";
+import useInput from "../../hooks/use-input";
 
 const Login = () => {
-	const idRef = useRef<HTMLInputElement>(null);
-	const passwordRef = useRef<HTMLInputElement>(null);
-	const [openModal, setOpenModal] = useState(false)
-	
+	const [openModal, setOpenModal] = useState(false);
+	const navigate = useNavigate();
+	const {
+		value: enteredId,
+		isValid: enteredIdIsValid,
+		hasError: idInputHasError,
+		valueChangeHandler: idChangedHandler,
+		inputBlurHandler: idBlurHandler,
+		reset: resetIdInput,
+	} = useInput((value) => value.trim() !== "" && value.length >= 5);
+
+	const {
+		value: enteredPassword,
+		isValid: enteredPasswordIsValid,
+		hasError: passwordInputHasError,
+		valueChangeHandler: passwordChangedHandler,
+		inputBlurHandler: passwordBlurHandler,
+		reset: resetPasswordInput,
+	} = useInput((value) => value.trim() !== "" && value.length >= 6);
+
 	const goToHome = () => {
-		// navigation 사용 
-	}
+		navigate("/", {
+			state: { login: true, user: { nickname: "sihyeong" } },
+		});
+	};
 
 	const loginHandler = () => {
-		/*
-			1.로그인 요청
-			2.아이디가 있으면 goToHome (200)
-			3. 없다면 모달창 setOpenModal(true) 포탈 사용 login할때 추가!
-		*/
-	}
+		// 아이디 or 비밀번호가 잘못 됬을때
+		//  모달창
+		// 아이디 비밀번호 초기화
+		resetIdInput();
+		resetPasswordInput();
+		goToHome();
+		//
+	};
+
+	let formValid = false;
+	if (enteredIdIsValid && enteredPasswordIsValid) formValid = true;
 
 	return (
-		<Wrapper>
+		<ContainerTag>
 			<WrapperTag>
 				<h2>로그인</h2>
 				<FormWrapperTag>
 					<FormTag>
 						<InputWrapperTag>
 							<input
-								ref={idRef}
 								type="text"
 								placeholder="아이디 입력"
+								value={enteredId}
+								onChange={idChangedHandler}
+								onBlur={idBlurHandler}
 								required
 							/>
+							{idInputHasError && (
+								<ErrorTag>
+									아이디를 5자리 이상 입력해주세요.
+								</ErrorTag>
+							)}
 							<input
-								ref={passwordRef}
 								type="password"
 								placeholder="비밀번호 입력"
+								value={enteredPassword}
+								onChange={passwordChangedHandler}
+								onBlur={passwordBlurHandler}
 								required
 							/>
+							{passwordInputHasError && (
+								<ErrorTag>
+									비밀번호를 6자리 이상 입력해주세요.
+								</ErrorTag>
+							)}
 						</InputWrapperTag>
 
 						<div className="loginAndJoin">
@@ -47,6 +85,7 @@ const Login = () => {
 								bgColor="skyblue"
 								color="white"
 								onClick={loginHandler}
+								disabled={!formValid}
 							>
 								로그인
 							</ButtonTag>
@@ -56,9 +95,7 @@ const Login = () => {
 								color="skyblue"
 								border="skyblue"
 							>
-								<Link to="/join">
-									회원 가입
-								</Link>
+								<Link to="/join">회원 가입</Link>
 							</ButtonTag>
 						</div>
 						<div className="find">
@@ -78,13 +115,13 @@ const Login = () => {
 					</FormTag>
 				</FormWrapperTag>
 			</WrapperTag>
-		</Wrapper>
+		</ContainerTag>
 	);
 };
 
 export default Login;
 
-const Wrapper = styled.div`
+export const ContainerTag = styled.div`
 	padding: 0 2em;
 	width: 100%;
 	@media screen and (min-width: 500px) {
@@ -93,7 +130,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const WrapperTag = styled.div`
+export const WrapperTag = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -111,16 +148,17 @@ const WrapperTag = styled.div`
 	}
 `;
 
-const FormWrapperTag = styled.div`
+export const FormWrapperTag = styled.div`
 	width: 100%;
+	display: grid;
+	row-gap: 1em;
 `;
 
-const FormTag = styled.form`
+export const FormTag = styled.form`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-
 	.loginAndJoin {
 		display: flex;
 		flex-direction: column;
@@ -157,7 +195,7 @@ const FormTag = styled.form`
 	}
 `;
 
-const InputWrapperTag = styled.div`
+export const InputWrapperTag = styled.div`
 	display: flex;
 	flex-direction: column;
 	row-gap: 0.5em;
@@ -174,7 +212,7 @@ const InputWrapperTag = styled.div`
 			border: 2px solid skyblue;
 		}
 		::placeholder {
-			font-size: 0.8rem;
+			font-size: 0.7rem;
 		}
 	}
 	@media screen and (min-width: 372px) {
@@ -187,13 +225,19 @@ const InputWrapperTag = styled.div`
 	}
 `;
 
+export const ErrorTag = styled.span`
+	color: red;
+	font-size: 0.8rem;
+	padding: 0.5em;
+`;
+
 interface ButtonProps {
 	bgColor: string;
 	color?: string;
-	border?: string;
+	border?: string ;
 }
 
-const ButtonTag = styled.button<ButtonProps>`
+export const ButtonTag = styled.button<ButtonProps>`
 	width: 100%;
 	border: none;
 	cursor: pointer;
@@ -202,13 +246,21 @@ const ButtonTag = styled.button<ButtonProps>`
 	border: ${({ border }) => (border ? `1px solid ${border}` : "none")};
 	padding: 1em;
 	border-radius: 5px;
-	font-size: 0.8rem;
-	a{
+	font-size: 0.7rem;
+	transition: all .5s;
+	a {
 		color: ${({ color }) => (color ? color : "black")};
+	}
+	svg{
+		font-size: 1rem;
 	}
 	#kakao {
 		margin-left: 0.5em;
 	}
+	:disabled {
+		background-color: gray;
+	}
+
 	@media screen and (min-width: 372px) {
 		font-size: 1rem;
 	}

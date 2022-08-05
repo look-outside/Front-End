@@ -24,7 +24,7 @@ const Container = styled.div`
         max-width: 1160px;
         margin: 0 auto;
     };
-    @media screen and (max-width: 767px){
+    @media screen and (max-width: 1024px){
         flex-direction: column;
     };
 `;

@@ -8,6 +8,7 @@ import {
 	InputWrapperTag,
 	WrapperTag,
 	ErrorTag,
+	FormTag,
 } from "../login/Login";
 import {AiOutlineCheck} from "react-icons/ai"
 
@@ -281,10 +282,7 @@ const Join = () => {
 
 export default Join;
 
-const FormTag = styled.form`
-	display: grid;
-	row-gap: 1.5em;
-`;
+
 
 const VaildCheckWrapperTag = styled.div`
 	display: flex;
@@ -302,7 +300,7 @@ const GenderTag = styled.div`
 	display: flex;
 	align-items: center;
 	column-gap: 1em;
-
+	margin-bottom: 1.5em;
 	div {
 		display: flex;
 		align-items: center;

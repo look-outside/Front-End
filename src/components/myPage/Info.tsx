@@ -1,68 +1,49 @@
 import React from 'react';
 import styled from 'styled-components';
+import Outline from '../../styles/mypage/Outline';
+import TabTitle from '../../styles/mypage/TabTitle';
 
 const Info = () => {
     return (
-        <UpdateContainer>
+        <Outline>
             <TabTitle>회원정보 수정</TabTitle>
-            <UpdateLine>
-                <UpdateTitle>이름</UpdateTitle>
-                <UpdateValue/>
-            </UpdateLine>
-            <UpdateLine>
-                <UpdateTitle>닉네임</UpdateTitle>                
-                <UpdateValue></UpdateValue>
-            </UpdateLine>
-            <UpdateLine>
-                <UpdateTitle>아이디</UpdateTitle>
-                <UpdateValue placeholder='기존아이디'></UpdateValue>
+            <Line>
+                <Title>이름</Title>
+                <Val></Val>
+            </Line>
+            <Line>
+                <Title>닉네임</Title>                
+                <Val></Val>
+            </Line>
+            <Line>
+                <Title>아이디</Title>
+                <Val placeholder='기존아이디'></Val>
                 {/* 추후 readonly, name,value 추가 */}
-            </UpdateLine>
-            <UpdateLine>
-                <UpdateTitle>현재 비밀번호</UpdateTitle>
-                <UpdateValue type='password'></UpdateValue>
-            </UpdateLine>
-            <UpdateLine>
-                <UpdateTitle>새 비밀번호</UpdateTitle>
-                <UpdateValue type='password'></UpdateValue>
-            </UpdateLine>
-            <UpdateLine>
-                <UpdateTitle>새 비밀번호 확인</UpdateTitle>
-                <UpdateValue type='password'></UpdateValue>
-            </UpdateLine>
-            <UpdateLine>
-                <UpdateTitle>이메일</UpdateTitle>
-                <UpdateValue placeholder='ex) look@outside.com'></UpdateValue>
-            </UpdateLine>
-            <UpdateBtn>수정 완료</UpdateBtn>
-        </UpdateContainer>
+            </Line>
+            <Line>
+                <Title>현재 비밀번호</Title>
+                <Val type='password'></Val>
+            </Line>
+            <Line>
+                <Title>새 비밀번호</Title>
+                <Val type='password'></Val>
+            </Line>
+            <Line>
+                <Title>새 비밀번호 확인</Title>
+                <Val type='password'></Val>
+            </Line>
+            <Line>
+                <Title>이메일</Title>
+                <Val placeholder='ex) look@outside.com'></Val>
+            </Line>
+            <Btn>수정 완료</Btn>
+        </Outline>
     );
 };
 
 export default Info;
 
-const UpdateContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const TabTitle = styled.div`
-    width: 100%;
-    padding: 1.2em ;
-    font-size: 1.3rem;
-    font-weight: 420;
-    border-bottom: 1px solid gray;
-    @media screen and (max-width: 1024px){
-        display: flex;
-        justify-content: center;
-    };
-    @media screen and (max-width: 480px){
-        font-size: 1rem;
-    };
-`;
-
-const UpdateLine = styled.div`
+const Line = styled.div`
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -77,22 +58,21 @@ const UpdateLine = styled.div`
     };
 `;
 
-const UpdateTitle = styled.label`
+const Title = styled.label`
     padding: 0.6em;
 `;
 
-const UpdateValue = styled.input`
+const Val = styled.input`
     font-size: 1rem;
     padding: 0.6em;
     border-radius: 5px;
     border: 1px solid #C3C3C3;
 `;
 
-const UpdateBtn = styled.button`
+const Btn = styled.button`
     color: white;
     background-color: skyblue;
     font-size: 1rem;
-    font-weight: 650;
     padding: 0.4em 1.5em;
     margin: 2em;
     border-radius: 5px;

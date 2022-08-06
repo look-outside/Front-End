@@ -1,42 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
+import Outline from '../../styles/mypage/Outline';
+import TabTitle from '../../styles/mypage/TabTitle';
 
 const Delete = () => {
     return (
-        <DeleteContainer>
+        <Outline>
             <TabTitle>회원 탈퇴</TabTitle>
-            <DelTitle>탈퇴하시겠습니까?</DelTitle>
-            <DelBtn>네</DelBtn>
+            <Title>탈퇴하시겠습니까?</Title>
+            <Btn>네</Btn>
             {/* 추후 alert 추가 */}
-        </DeleteContainer>
+        </Outline>
     );
 };
 
 export default Delete;
 
-const DeleteContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const TabTitle = styled.div`
-    width: 100%;
-    padding: 1.2em ;
-    font-size: 1.3rem;
-    font-weight: 420;
-    border-bottom: 1px solid gray;
-    @media screen and (max-width: 1024px){
-        display: flex;
-        justify-content: center;
-    };
-    @media screen and (max-width: 480px){
-        font-size: 1rem;
-    };
-`;
-
-const DelTitle = styled.p`
-    font-size: 1.5em;
+const Title = styled.p`
+    font-size: 1.2em;
     padding: 2em 0;
     @media screen and (max-width: 1024px){
         font-size: 1.3rem;
@@ -47,10 +28,10 @@ const DelTitle = styled.p`
     };
 `;
 
-const DelBtn = styled.button`
+const Btn = styled.button`
     color: white;
     background-color: skyblue;
-    padding: 0.3em 1.5em;
+    padding: 0.3em 1.3em;
     border-radius: 5px;
     border: 1px solid skyblue;
     &:hover {

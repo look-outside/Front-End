@@ -1,16 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import Outline from '../../styles/mypage/Outline';
-import TabTitle from '../../styles/mypage/TabTitle';
+import * as i from '../../styles/mypage/TabInner';
 
 const Delete = () => {
     return (
-        <Outline>
-            <TabTitle>회원 탈퇴</TabTitle>
+        <i.Outline>
+            <i.TabTitle>회원 탈퇴</i.TabTitle>
             <Title>탈퇴하시겠습니까?</Title>
             <Btn>네</Btn>
             {/* 추후 alert 추가 */}
-        </Outline>
+        </i.Outline>
     );
 };
 

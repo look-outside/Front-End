@@ -1,17 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import Column from '../../styles/mypage/Column';
-import Outline from '../../styles/mypage/Outline';
-import TabTitle from '../../styles/mypage/TabTitle';
+import Col from '../../styles/mypage/MyList';
+import * as i from '../../styles/mypage/TabInner';
 
 const Posts = () => {
     return (
-        <Outline>
-            <TabTitle>작성글 목록</TabTitle>
-            <Column>
+        <i.Outline>
+            <i.TabTitle>작성글 목록</i.TabTitle>
+            <Col>
                 <li id='content'>글 제목</li>
                 <li id='day'>날짜</li>
-            </Column>
+            </Col>
             <Post>
                 <img src={process.env.PUBLIC_URL + '/test.jpg'} alt='test' />
                 {/* 임시 이미지 */}
@@ -21,8 +20,7 @@ const Posts = () => {
                 </li>
                 <li id='date'>20.08.06</li>
             </Post>
-
-        </Outline>
+        </i.Outline>
     );
 };
 

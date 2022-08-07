@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import Outline from '../../styles/mypage/Outline';
-import TabTitle from '../../styles/mypage/TabTitle';
+import * as i from '../../styles/mypage/TabInner';
 
 const Info = () => {
     return (
-        <Outline>
-            <TabTitle>회원정보 수정</TabTitle>
+        <i.Outline>
+            <i.TabTitle>회원정보 수정</i.TabTitle>
             <Line>
                 <Title>이름</Title>
                 <Val></Val>
@@ -37,7 +36,7 @@ const Info = () => {
                 <Val placeholder='ex) look@outside.com'></Val>
             </Line>
             <Btn>수정 완료</Btn>
-        </Outline>
+        </i.Outline>
     );
 };
 

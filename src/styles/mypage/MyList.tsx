@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Column = styled.ul`
+const Col = styled.ul`
     border-bottom: 1px solid gray;
     display: flex;
     flex-direction: row;
@@ -24,4 +24,4 @@ const Column = styled.ul`
     };
 `;
 
-export default Column;
+export default Col;

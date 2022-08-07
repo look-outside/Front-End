@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
-const TabTitle = styled.div`
+export const Outline = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+export const TabTitle = styled.div`
     width: 100%;
     padding: 1.2em ;
     font-size: 1.3rem;
@@ -14,5 +20,3 @@ const TabTitle = styled.div`
         font-size: 1rem;
     };
 `;
-
-export default TabTitle;

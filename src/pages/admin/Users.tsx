@@ -7,15 +7,15 @@ const Users = () => {
         <i.Outline>
             <i.TabTitle>회원 목록</i.TabTitle>
             <Col>
-                <li id='id'>회원 ID</li>
-                <li id='name'>이름</li>
-                <li id='nick'>닉네임</li>
+                <li>회원 ID</li>
+                <li>이름</li>
+                <li>닉네임</li>
                 <Del>삭제</Del>
             </Col>
             <Cnt>
-                <li id='id'>test</li>
-                <li id='name'>루루룩</li>
-                <li id='nick'>룩아웃사이드</li>
+                <li>test</li>
+                <li>루루룩</li>
+                <li>룩아웃</li>
                 <input type='checkbox'/>
             </Cnt>
         </i.Outline>
@@ -33,24 +33,21 @@ const Col = styled.ul`
     border-bottom: 1px solid gray;
     text-align: center;
     li{
-        border: 1px solid lightblue;
-    }
-    #id{
-        flex-basis: 30%;
-    }
-    #name{
-        flex-basis: 30%;
-    }
-    #nick{
-        flex-basis: 30%;
-    }
+        width: 30%;
+    }  
     @media screen and (max-width: 768px){
         font-size: 1rem;
     };
+    @media screen and (max-width: 666px){
+        li{ width: 28%; }
+    };
     @media screen and (max-width: 480px){
         font-size: 0.9rem;
-        padding: 0.6em;
+        li{ width: 27%; }
     };
+    @media screen and (max-width: 401px){
+        li{ width: 26%; }
+    }
 `;
 
 const Cnt = styled.ul`
@@ -64,24 +61,21 @@ const Cnt = styled.ul`
         margin-left: 2em;
     }
     li{
-        border: 1px solid palevioletred;
+        width: 30%;
     }
-    #id{
-        flex-basis: 30%;
-    }
-    #name{
-        flex-basis: 30%;
-    }
-    #nick{
-        flex-basis: 30%;
-    }
-    
     @media screen and (max-width: 768px){
         font-size: 0.9rem;
     };
+    @media screen and (max-width: 666px){
+        li{ width: 28%; }
+    };
     @media screen and (max-width: 480px){
         font-size: 0.8rem;
+        li{ width: 27%; }
     };
+    @media screen and (max-width: 401px){
+        li{ width: 26%; }
+    }
 `;
 
 const Del = styled.button`

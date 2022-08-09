@@ -138,6 +138,7 @@ const FirstNavTag = styled.ul`
 		align-items: center;
 		font-weight: 700;
 	}
+
 	@media screen and (min-width: 420px) {
 		.text {
 			font-size: 1rem;
@@ -156,6 +157,7 @@ const FirstNavTag = styled.ul`
 		flex-basis: 60%;
 		.text {
 			font-size: 1.5rem;
+
 		}
 	}
 `;

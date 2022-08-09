@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import useInput from "../../hooks/use-input";
+import Swal from "sweetalert2";
 
 const Login = () => {
-	const [openModal, setOpenModal] = useState(false);
+
 	const navigate = useNavigate();
 	const {
 		value: enteredId,
@@ -25,20 +26,22 @@ const Login = () => {
 		reset: resetPasswordInput,
 	} = useInput((value) => value.trim() !== "" && value.length >= 6);
 
-	const goToHome = () => {
-		navigate("/", {
-			state: { login: true, user: { nickname: "sihyeong" } },
-		});
-	};
-
 	const loginHandler = () => {
 		// 아이디 or 비밀번호가 잘못 됬을때
 		//  모달창
 		// 아이디 비밀번호 초기화
+		Swal.fire({
+			position: 'center',
+			icon: 'success',
+			title: '로그인 완료!',
+			timer: 1500,
+			confirmButtonText: "확인",
+			confirmButtonColor: "skyblue"
+		}).then(()=>
+			navigate("/")
+		)
 		resetIdInput();
 		resetPasswordInput();
-		goToHome();
-		//
 	};
 
 	let formValid = false;
@@ -184,7 +187,6 @@ export const FormTag = styled.form`
 		width: 100%;
 		font-size: 0.8rem;
 	}
-
 	@media screen and (min-width: 372px) {
 		.find,
 		.sns {
@@ -258,7 +260,6 @@ export const ButtonTag = styled.button<ButtonProps>`
 	:disabled {
 		background-color: gray;
 	}
-
 	@media screen and (min-width: 372px) {
 		font-size: 1rem;
 	}

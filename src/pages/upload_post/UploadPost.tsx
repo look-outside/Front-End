@@ -19,6 +19,7 @@ const UploadPost = () => {
 		event.preventDefault();
 		const file = event.target.files[0];
 	}
+
 	const submitHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
 		console.log(formRef);
 		event.preventDefault();
@@ -34,7 +35,7 @@ const UploadPost = () => {
 			cancelButtonColor: "red",
 		}).then((result) => {
 			if (result.isConfirmed) {
-				console.log("HI");
+				navigate(-1)
 			} else {
 				Swal.close();
 			}
@@ -192,7 +193,7 @@ const InputWrapperTag = styled.div`
 		flex-direction: row;
 	align-items: center;
 
-		column-gap: 3.5em;
+		column-gap: 2em;
 	}
 `;
 

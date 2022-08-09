@@ -38,5 +38,21 @@ export const handlers = [
                 }
             ])
         )
-    })
+    }),
+    rest.get('/my_page/info', (req, res, ctx) => {
+        // const no = req.url.searchParams.get('no');
+        return res (
+            ctx.status(200),
+            ctx.json(
+                {
+                    useNo: 1,
+                    useNick: "nickname4",
+                    useId: "id4",
+                    usePw: "$2a$10$vy9TR/EEK8XlAWBMBryCJOXxhiy1IRnLmdyAIK9JZES4eypQgOhPW",
+                    useName: "test",
+                    useEmail: "test@test.com",
+                }
+            )
+        )
+    }),
 ]

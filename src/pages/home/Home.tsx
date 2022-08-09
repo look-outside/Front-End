@@ -177,6 +177,7 @@ const Home = () => {
 
 export default Home;
 
+
 const ContainerTag = styled.div`
 	padding: 0 2em;
 	display: grid;

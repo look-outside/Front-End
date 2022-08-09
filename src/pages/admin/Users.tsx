@@ -1,8 +1,26 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as i from '../../styles/mypage/TabInner';
 
+export interface User {
+    useNo : number | undefined,
+    userNick :string | undefined;
+    userId :string | undefined;
+    userName :string | undefined;
+}
+
 const Users = () => {
+
+    const [data, setData] = useState<User[] | null>(null);
+
+    useEffect(() => {
+        axios.get('/user')
+        .then(res => {
+            setData(res.data);      
+        })        
+    },[])
+
     return (
         <i.Outline>
             <i.TabTitle>회원 목록</i.TabTitle>
@@ -12,12 +30,18 @@ const Users = () => {
                 <li>닉네임</li>
                 <Del>삭제</Del>
             </Col>
-            <Cnt>
-                <li>test</li>
-                <li>루루룩</li>
-                <li>룩아웃</li>
-                <input type='checkbox'/>
-            </Cnt>
+            {
+                data && (
+                    data.map((user,i) => (
+                        <Cnt key = {i}>
+                            <li>{user.userId}</li>
+                            <li>{user.userName}</li>
+                            <li>{user.userNick}</li>
+                            <input type='checkbox'/>
+                        </Cnt>
+                    ))
+                )
+            }
         </i.Outline>
     );
 };

@@ -36,7 +36,7 @@ function App() {
 					<Route path="today_meeting" element={<Meeting />}/>
 					<Route path="login" element={<Login/>}/>
 					<Route path="join" element={<Join/>}/>
-
+					<Route path="upload_post" element={<UploadPost/>}/>	
 					<Route path="find">
 						<Route path="id" element={<FindId/>}/>
 						<Route path="password" element={<FindPassword/>}/>

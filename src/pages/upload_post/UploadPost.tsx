@@ -35,7 +35,7 @@ const UploadPost = () => {
 			cancelButtonColor: "red",
 		}).then((result) => {
 			if (result.isConfirmed) {
-				console.log("HI");
+				navigate(-1)
 			} else {
 				Swal.close();
 			}

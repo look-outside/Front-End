@@ -1,23 +1,42 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as i from '../../styles/mypage/TabInner';
 
+interface InfoT {
+    useNo: number,
+    useNick: string,
+    useId: string,
+    usePw: string,
+    useName: string,
+    useEmail: string,
+}
+
 const Info = () => {
+
+    const [data, setData] = useState<InfoT>();
+
+    useEffect(() => {
+        axios.get('/my_page/info')
+        .then(res => {
+            setData(res.data);
+        })
+    }, [])
+
     return (
         <i.Outline>
             <i.TabTitle>회원정보 수정</i.TabTitle>
             <Line>
                 <Title>이름</Title>
-                <Val></Val>
+                <Val placeholder={data?.useName} ></Val>
             </Line>
             <Line>
                 <Title>닉네임</Title>                
-                <Val></Val>
+                <Val placeholder={data?.useNick}></Val>
             </Line>
             <Line>
                 <Title>아이디</Title>
-                <Val placeholder='기존아이디'></Val>
-                {/* 추후 readonly, name,value 추가 */}
+                <Val placeholder={data?.useId} readOnly></Val>
             </Line>
             <Line>
                 <Title>현재 비밀번호</Title>
@@ -33,7 +52,7 @@ const Info = () => {
             </Line>
             <Line>
                 <Title>이메일</Title>
-                <Val placeholder='ex) look@outside.com'></Val>
+                <Val placeholder={data?.useEmail}></Val>
             </Line>
             <Btn>수정 완료</Btn>
         </i.Outline>

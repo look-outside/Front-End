@@ -19,10 +19,10 @@ import GlobalStyles from "./styles/GlobalStyles";
 import Info from "./pages/myPage/Info";
 // import Posts from "./pages/myPage/Posts";
 import Delete from "./pages/myPage/Delete";
-// import Comments from "./pages/myPage/Comments";
-import Admin from "./pages/admin/Admin";
-import Users from "./pages/admin/Users";
-import Board from "./pages/admin/Board";
+import Comments from "./pages/myPage/Comments";
+import Admin from "./pages/admins/Admin";
+import Users from "./pages/admins/Users";
+import Board from "./pages/admins/Board";
 
 function App() {
 	return (

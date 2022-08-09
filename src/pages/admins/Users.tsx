@@ -4,22 +4,39 @@ import styled from 'styled-components';
 import * as i from '../../styles/mypage/TabInner';
 
 export interface User {
-    useNo : number | undefined,
-    userNick :string | undefined;
-    userId :string | undefined;
-    userName :string | undefined;
+    userNo : number,
+    userNick :string,
+    userId :string,
+    userName :string,
 }
 
 const Users = () => {
 
     const [data, setData] = useState<User[] | null>(null);
+    const cks :number[] = [];
 
     useEffect(() => {
         axios.get('/user')
         .then(res => {
-            setData(res.data);      
+            setData(res.data);
         })        
     },[])
+
+    const checks = (ck: boolean, n:number) => {
+        if (ck) {
+            cks.push(n);
+        }else {
+            cks.splice(cks.indexOf(n), 1);
+        }
+    }
+
+    const del = () => {
+        axios.delete('/user', {
+            data: {
+                userNum: cks
+            }
+        })
+    }
 
     return (
         <i.Outline>
@@ -28,7 +45,7 @@ const Users = () => {
                 <li>회원 ID</li>
                 <li>이름</li>
                 <li>닉네임</li>
-                <Del>삭제</Del>
+                <Del onClick={()=> del()}>삭제</Del>
             </Col>
             {
                 data && (
@@ -37,7 +54,7 @@ const Users = () => {
                             <li>{user.userId}</li>
                             <li>{user.userName}</li>
                             <li>{user.userNick}</li>
-                            <input type='checkbox'/>
+                            <input type='checkbox' name={user.userId} value={user.userNo} onChange={(e)=>{checks(e.target.checked,user.userNo)}} />
                         </Cnt>
                     ))
                 )

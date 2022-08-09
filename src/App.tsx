@@ -16,6 +16,7 @@ import Login from "./pages/login/Login";
 import Meeting from "./pages/meeting/Meeting";
 import MyPage from "./pages/myPage/MyPage";
 import Sky from "./pages/sky/Sky";
+import UploadPost from "./pages/upload_post/UploadPost";
 import GlobalStyles from "./styles/GlobalStyles";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
 						<Route path="id" element={<FindId/>}/>
 						<Route path="password" element={<FindPassword/>}/>
 					</Route>
+					<Route path="upload_post" element={<UploadPost/>}/>
 					<Route path="edit_password" element={<NewPassword/>}/>
 					<Route path="my_page" element={<MyPage />}>
 						<Route path='info' element={<Info />} />

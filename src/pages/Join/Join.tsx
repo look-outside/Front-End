@@ -11,8 +11,11 @@ import {
 	FormTag,
 } from "../login/Login";
 import {AiOutlineCheck} from "react-icons/ai"
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Join = () => {
+	const navigate = useNavigate()
 	const {
 		value: enteredName,
 		isValid: enteredNameIsValid,
@@ -78,8 +81,20 @@ const Join = () => {
 
 	const goToLogin = () => {};
 
-	const joinHandler = () => {
+	const joinHandler = (event:React.ChangeEvent<HTMLFormElement>) => {
 		// 모두 입력했는지 확인 후 처리 => required 자동
+		// 회원 가입 성공
+		event.preventDefault()
+		Swal.fire({
+			position: 'center',
+			icon: 'success',
+			title: '회원 가입 완료!',
+			timer: 1500,
+			confirmButtonText: "확인",
+			confirmButtonColor: "skyblue"
+		}).then(()=>
+			navigate("/")
+		)
 	};
 	const vaildCheckHandler = (name:string) => {
 		if(name === "nickname") setVaildCheckNickName((pre) => !pre);
@@ -95,7 +110,7 @@ const Join = () => {
 			<WrapperTag>
 				<h2>회원가입</h2>
 				<FormWrapperTag>
-					<FormTag>
+					<FormTag onSubmit={joinHandler}>
 						{/* 이름 */}
 						<InputWrapperTag>
 							<label htmlFor="name">이름</label>
@@ -266,7 +281,7 @@ const Join = () => {
 						<ButtonTag
 							color="white"
 							bgColor="skyblue"
-							onClick={joinHandler}
+							type="submit"
 							disabled={!formValid}
 						>
 							회원가입

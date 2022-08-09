@@ -31,5 +31,6 @@ const Main = styled.main`
 		margin: 0 auto;
 	} */
 	flex: 1;
-	margin-bottom: 50px;
+	
+margin-bottom: 50px;
 `;

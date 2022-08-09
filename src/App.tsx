@@ -19,7 +19,6 @@ import Comments from "./pages/myPage/Comments";
 import Admin from "./pages/admin/Admin";
 import Users from "./pages/admin/Users";
 import Board from "./pages/admin/Board";
-import Test from "./pages/admin/Test";
 
 function App() {
 	return (
@@ -47,7 +46,6 @@ function App() {
 					<Route path="admin" element={<Admin/>}>
 						<Route path="users" element={<Users/>} />
 						<Route path="board" element={<Board/>} />
-						{/* <Route path="test" element={<Test/>} /> */}
 					</Route>
 
 				</Route>

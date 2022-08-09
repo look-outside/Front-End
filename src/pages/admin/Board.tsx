@@ -1,8 +1,25 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as i from '../../styles/mypage/TabInner';
 
+interface Article {
+    boardNo: number | undefined,
+    title: string | undefined,
+    district: string | undefined,
+    date: string | undefined
+}
+
 const Board = () => {
+    const [article, setArticle] = useState<Article[] | null>(null);
+
+    useEffect(() => {
+        axios.get('/article')
+        .then(res => {
+            setArticle(res.data);
+        })
+    },[])
+
     return (
         <i.Outline>
             {/* 필터 추가 */}
@@ -13,12 +30,18 @@ const Board = () => {
                 <li>날짜</li>
                 <Del>삭제</Del>
             </Col>
-            <Cnt>
-                <li id='head2'>글 제목 추가글 제목 추가글</li>
-                <li>서울시 강동구</li>
-                <li>20.08.06</li>
-                <input type='checkbox'/>
-            </Cnt>
+            {
+                article && (
+                    article.map((post,i) => (
+                        <Cnt key={i}>
+                            <li id='head2'>{post.title}</li>
+                            <li>{post.district}</li>
+                            <li>{post.date}</li>
+                            <input type='checkbox'/>
+                        </Cnt>
+                    ))
+                )
+            }
         </i.Outline>
     );
 };

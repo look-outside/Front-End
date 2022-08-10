@@ -17,12 +17,14 @@ import Sky from "./pages/sky/Sky";
 import UploadPost from "./pages/upload_post/UploadPost";
 import GlobalStyles from "./styles/GlobalStyles";
 import Info from "./pages/myPage/Info";
-// import Posts from "./pages/myPage/Posts";
+import Posts from "./pages/myPage/Posts";
 import Delete from "./pages/myPage/Delete";
 import Comments from "./pages/myPage/Comments";
 import Admin from "./pages/admins/Admin";
 import Users from "./pages/admins/Users";
 import Board from "./pages/admins/Board";
+import DailyLook from "./pages/clothes/DailyLook";
+import Free from "./pages/clothes/Free";
 
 function App() {
 	return (
@@ -31,7 +33,11 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Layout />}>
 					<Route index element={<Home />} />
-					<Route path="today_clothes" element={<Clothes />} />
+					<Route path="today_clothes">
+						<Route path="main" element={<Clothes />} />
+						<Route path="dailylook" element={<DailyLook />} />
+						<Route path="free" element={<Free />} />
+					</Route>
 					<Route path="today_sky" element={<Sky />} />
 					<Route path="today_meeting" element={<Meeting />}/>
 					<Route path="login" element={<Login/>}/>
@@ -44,8 +50,8 @@ function App() {
 					<Route path="edit_password" element={<NewPassword/>}/>
 					<Route path="my_page" element={<MyPage />}>
 						<Route path='info' element={<Info />} />
-						{/* <Route path='posts' element={<Posts/>} />
-						<Route path='comments' element={<Comments/>} /> */}
+						<Route path='posts' element={<Posts/>} />
+						<Route path='comments' element={<Comments/>} />
 						<Route path='delete' element={<Delete/>} />
 					</Route>
 					<Route path="admin" element={<Admin/>}>

@@ -10,7 +10,7 @@ interface Post {
     useDis: string
 }
 
-const Sky = () => {
+const DailyLook = () => {
     const [data, setData] = useState<Post[]>([]);
     
     useEffect(() => {
@@ -22,10 +22,9 @@ const Sky = () => {
 
     return (
         <c.Container>
-            <c.Title>오늘의 하늘</c.Title>
+            <c.Title>데일리룩</c.Title>
             <c.Btn><MdEdit />글쓰기</c.Btn>
             <c.Filter>지역 선택 필터</c.Filter>{/* 추후 추가 */}
-
             <c.Imgs>
                 {
                     data && (
@@ -44,4 +43,4 @@ const Sky = () => {
     );
 };
 
-export default Sky;
+export default DailyLook;

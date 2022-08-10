@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Del from '../../styles/Admin';
 import * as i from '../../styles/mypage/TabInner';
 
-export interface User {
+interface User {
     userNo : number,
     userNick :string,
     userId :string,
@@ -12,7 +13,7 @@ export interface User {
 
 const Users = () => {
 
-    const [data, setData] = useState<User[] | null>(null);
+    const [data, setData] = useState<User[]>([]);
     const cks :number[] = [];
 
     useEffect(() => {
@@ -31,11 +32,8 @@ const Users = () => {
     }
 
     const del = () => {
-        axios.delete('/user', {
-            data: {
-                userNum: cks
-            }
-        })
+        axios.delete('/manager/user', {data: { useNos : cks }})
+        .then(res => {alert('삭제되었습니다!')})
     }
 
     return (
@@ -116,16 +114,5 @@ const Cnt = styled.ul`
     };
     @media screen and (max-width: 401px){
         li{ width: 26%; }
-    }
-`;
-
-const Del = styled.button`
-    color: white;
-    background-color: skyblue;
-    border: 2px solid skyblue;
-    border-radius: 5px;
-    margin-left: 1em;
-    &:hover {
-        cursor: pointer;
     }
 `;

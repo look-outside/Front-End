@@ -19,7 +19,7 @@ const Header = () => {
 					<div>
 						<FirstNavTag>
 							<li>
-								<NavLink to="/today_clothes">
+								<NavLink to="/today_clothes/main">
 									<span className="text">오늘의 옷</span>
 								</NavLink>
 							</li>

@@ -5,10 +5,10 @@ import Del from '../../styles/Admin';
 import * as i from '../../styles/mypage/TabInner';
 
 interface User {
-    userNo : number,
-    userNick :string,
-    userId :string,
-    userName :string,
+    useNo : number,
+    useNick :string,
+    useId :string,
+    useName :string,
 }
 
 const Users = () => {
@@ -17,13 +17,13 @@ const Users = () => {
     const cks :number[] = [];
 
     useEffect(() => {
-        axios.get('/user')
+        axios.get('/manager')
         .then(res => {
-            setData(res.data);
+            setData(res.data.data.content);
         })        
     },[])
-
-    const checks = (ck: boolean, n:number) => {
+    
+    const checks = (ck: boolean, n:number) => { //삭제할 회원 선택
         if (ck) {
             cks.push(n);
         }else {
@@ -31,9 +31,17 @@ const Users = () => {
         }
     }
 
-    const del = () => {
-        axios.delete('/manager/user', {data: { useNos : cks }})
-        .then(res => {alert('삭제되었습니다!')})
+    const del = () => { //회원 삭제
+        const formData = new FormData();
+        formData.append("useNos", JSON.stringify(cks));
+        // console.log('formdata: ' + formData);
+        // console.log('formdata-get: ' + formData.get("useNos")); 
+
+        return axios.delete('/manager/user', {
+            data: {useNos : formData},
+            headers: {"content-type": "multipart/form-data"}
+        })
+        .then(res => console.log('삭제'));
     }
 
     return (
@@ -49,14 +57,14 @@ const Users = () => {
                 data && (
                     data.map((user,i) => (
                         <Cnt key = {i}>
-                            <li>{user.userId}</li>
-                            <li>{user.userName}</li>
-                            <li>{user.userNick}</li>
-                            <input type='checkbox' name={user.userId} value={user.userNo} onChange={(e)=>{checks(e.target.checked,user.userNo)}} />
+                            <li>{user.useId}</li>
+                            <li>{user.useName}</li>
+                            <li>{user.useNick}</li>
+                            <input type='checkbox' name={user.useId} value={user.useNo} onChange={(e)=>{checks(e.target.checked,user.useNo)}} />
                         </Cnt>
                     ))
                 )
-            }
+            }            
         </i.Outline>
     );
 };

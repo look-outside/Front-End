@@ -1,14 +1,26 @@
+import axios from 'axios';
 import React from 'react';
 import styled from 'styled-components';
 import * as i from '../../styles/mypage/TabInner';
 
 const Delete = () => {
+
+    const userDel = () => {
+        axios.delete('/user/id2') //:id 추후 변경예정
+        .then(res => {
+            if (res.data.status === 200) {
+                document.location.href = '/' //메인페이지 이동
+            }else {
+                alert('오류가 발생했습니다. 관리자에게 문의바랍니다.');
+            }
+        })
+    }
+
     return (
         <i.Outline>
             <i.TabTitle>회원 탈퇴</i.TabTitle>
             <Title>탈퇴하시겠습니까?</Title>
-            <Btn>네</Btn>
-            {/* 추후 alert 추가 */}
+            <Btn onClick={() => userDel()}>네</Btn>
         </i.Outline>
     );
 };

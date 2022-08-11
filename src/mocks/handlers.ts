@@ -86,4 +86,43 @@ export const handlers = [
             ])
         )
     }),
+    rest.get('/articles', (req, res, ctx) => { //페이징 처리
+        const pageNum = req.url.searchParams.get('page')
+        
+        // if (pageNum) {
+        //     return res {
+        //         ctx.status(pageNum)
+        //     }
+        // }
+
+        return res (
+            ctx.status(Number(pageNum)),
+            ctx.json([
+                {
+                    artNo: 1,
+                    artTitle: '내추럴 소프트 숲속향',
+                    useNick: "듀링듀링",
+                    useDis: '서울 강동구'
+                },
+                {
+                    artNo: 2,
+                    artTitle: '내추럴 숲속향',
+                    useNick: "듀링",
+                    useDis: '서울 강동구'
+                },
+                {
+                    artNo: 3,
+                    artTitle: '내추럴 소프트 숲속향숲속향',
+                    useNick: "듀",
+                    useDis: '서울 강동구'
+                },
+                {
+                    artNo: 4,
+                    artTitle: '내추럴',
+                    useNick: "듀링듀",
+                    useDis: '서울 강동구'
+                },
+            ])
+        )
+    }),
 ]

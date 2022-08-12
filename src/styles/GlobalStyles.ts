@@ -20,7 +20,7 @@ const GlobalStyles = createGlobalStyle`
     #root{
         display: flex;
         flex-direction: column;
-        height:100%;
+        height:100vh;
     }
 
 `;

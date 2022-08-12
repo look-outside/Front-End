@@ -1,25 +1,48 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Del from '../../styles/Admin';
 import * as i from '../../styles/mypage/TabInner';
 
-export interface User {
-    useNo : number | undefined,
-    userNick :string | undefined;
-    userId :string | undefined;
-    userName :string | undefined;
+interface User {
+    useNo : number,
+    useNick :string,
+    useId :string,
+    useName :string,
 }
 
 const Users = () => {
 
-    const [data, setData] = useState<User[] | null>(null);
+    const [data, setData] = useState<User[]>([]);
+    const cks :number[] = [];
 
     useEffect(() => {
-        axios.get('/user')
+        axios.get('/manager')
         .then(res => {
-            setData(res.data);      
+            setData(res.data.data.content);
         })        
     },[])
+    
+    const checks = (ck: boolean, n:number) => { //삭제할 회원 선택
+        if (ck) {
+            cks.push(n);
+        }else {
+            cks.splice(cks.indexOf(n), 1);
+        }
+    }
+
+    const del = () => { //회원 삭제
+        const formData = new FormData();
+        formData.append("useNos", JSON.stringify(cks));
+        // console.log('formdata: ' + formData);
+        // console.log('formdata-get: ' + formData.get("useNos")); 
+
+        return axios.delete('/manager/user', {
+            data: {useNos : formData},
+            headers: {"content-type": "multipart/form-data"}
+        })
+        .then(res => console.log('삭제'));
+    }
 
     return (
         <i.Outline>
@@ -28,20 +51,20 @@ const Users = () => {
                 <li>회원 ID</li>
                 <li>이름</li>
                 <li>닉네임</li>
-                <Del>삭제</Del>
+                <Del onClick={()=> del()}>삭제</Del>
             </Col>
             {
                 data && (
                     data.map((user,i) => (
                         <Cnt key = {i}>
-                            <li>{user.userId}</li>
-                            <li>{user.userName}</li>
-                            <li>{user.userNick}</li>
-                            <input type='checkbox'/>
+                            <li>{user.useId}</li>
+                            <li>{user.useName}</li>
+                            <li>{user.useNick}</li>
+                            <input type='checkbox' name={user.useId} value={user.useNo} onChange={(e)=>{checks(e.target.checked,user.useNo)}} />
                         </Cnt>
                     ))
                 )
-            }
+            }            
         </i.Outline>
     );
 };
@@ -99,16 +122,5 @@ const Cnt = styled.ul`
     };
     @media screen and (max-width: 401px){
         li{ width: 26%; }
-    }
-`;
-
-const Del = styled.button`
-    color: white;
-    background-color: skyblue;
-    border: 2px solid skyblue;
-    border-radius: 5px;
-    margin-left: 1em;
-    &:hover {
-        cursor: pointer;
     }
 `;

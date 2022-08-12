@@ -1,6 +1,8 @@
 import React from "react";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import useInput from "../../hooks/use-input";
+import { findId } from "../../services/user";
 import {
 	ButtonTag,
 	ContainerTag,
@@ -12,6 +14,7 @@ import {
 } from "../login/Login";
 
 const FindId = () => {
+	const navigate = useNavigate()
 	const {
 		value: enteredName,
 		isValid: enteredNameIsValid,
@@ -32,7 +35,34 @@ const FindId = () => {
 			/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
 	);
 
-	const findIdHandler = () => {};
+	const findIdHandler = async(event:React.ChangeEvent<HTMLFormElement>) => {
+		event.preventDefault()
+		const res = await findId(enteredEmail)
+		if(res.data.status === 200){
+			Swal.fire(
+				{
+					position: 'center',
+					title:'유저 정보',
+					html: 
+					`<p>아이디 : ${res.data.data}</p>`,
+					confirmButtonText: "확인",
+					confirmButtonColor: "skyblue"
+				}
+			).then(()=>navigate('/login'))
+		}else{
+			Swal.fire(
+				{
+					position: 'center',
+					title:'유저 정보',
+					html: 
+					`${res.data.data}`,
+					confirmButtonText: "확인",
+					confirmButtonColor: "skyblue"
+				}
+			)
+		}
+	};
+
 	let formValid = false;
 
 	if (enteredNameIsValid && enteredEmailIsValid) formValid = true;
@@ -41,7 +71,7 @@ const FindId = () => {
 			<WrapperTag>
 				<h2>아이디 찾기</h2>
 				<FormWrapperTag>
-					<FormTag>
+					<FormTag onSubmit={findIdHandler}>
 						{/* 이름 */}
 						<InputWrapperTag>
 							<label htmlFor="name">이름</label>
@@ -82,7 +112,7 @@ const FindId = () => {
 						<ButtonTag
 							color="white"
 							bgColor="skyblue"
-							onClick={findIdHandler}
+							type="submit"
 							disabled={!formValid}
 						>
 							아이디 찾기

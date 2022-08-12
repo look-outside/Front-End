@@ -1,17 +1,18 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Del from '../../styles/Admin';
 import * as i from '../../styles/mypage/TabInner';
 
 interface Article {
-    boardNo: number | undefined,
-    title: string | undefined,
-    district: string | undefined,
-    date: string | undefined
+    boardNo: number,
+    title: string,
+    district: string,
+    date: string
 }
 
 const Board = () => {
-    const [article, setArticle] = useState<Article[] | null>(null);
+    const [article, setArticle] = useState<Article[]>([]);
 
     useEffect(() => {
         axios.get('/article')
@@ -119,15 +120,4 @@ const Cnt = styled.ul`
     @media screen and (max-width: 401px){
         li{ width: 26%; }
     }/* 세부반응형 추후 추가 */
-`;
-
-const Del = styled.button`
-    color: white;
-    background-color: skyblue;
-    border: 2px solid skyblue;
-    border-radius: 5px;
-    margin-left: 1em;
-    &:hover {
-        cursor: pointer;
-    }    
 `;

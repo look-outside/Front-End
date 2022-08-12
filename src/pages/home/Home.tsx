@@ -131,7 +131,7 @@ const Home = () => {
 					<SectionTitleTag>
 						<h2>데일리 룩</h2>
 					</SectionTitleTag>
-					<Link to="/today_clothes/daily">
+					<Link to="/today_clothes/dailylook">
 						<span className="more">
 							더보기 <AiOutlineCaretRight />
 						</span>

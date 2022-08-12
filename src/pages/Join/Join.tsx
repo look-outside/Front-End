@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useInput from "../../hooks/use-input";
 import {
@@ -10,12 +10,16 @@ import {
 	ErrorTag,
 	FormTag,
 } from "../login/Login";
-import {AiOutlineCheck} from "react-icons/ai"
+import { AiOutlineCheck } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { checkId, checkNickName, signUp } from "../../services/user";
 
 const Join = () => {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+	const [gender, setGender] = useState<string>("none");
+	const [vaildCheckNickName, setVaildCheckNickName] = useState(false);
+	const [vaildCheckId, setVaildCheckId] = useState(false);
 	const {
 		value: enteredName,
 		isValid: enteredNameIsValid,
@@ -30,7 +34,7 @@ const Join = () => {
 		hasError: nickNameInputHasError,
 		valueChangeHandler: nickNameChangedHandler,
 		inputBlurHandler: nickNameBlurHandler,
-	} = useInput((value) => value.trim() !== "" && value.length >= 3);
+	} = useInput((value) => value.trim() !== "" && value.length <= 6);
 
 	const {
 		value: enteredId,
@@ -54,7 +58,12 @@ const Join = () => {
 		hasError: password2InputHasError,
 		valueChangeHandler: password2ChangedHandler,
 		inputBlurHandler: password2BlurHandler,
-	} = useInput((value) => value.trim() !== "" && value.length >= 6 && enteredPassword === value);
+	} = useInput(
+		(value) =>
+			value.trim() !== "" &&
+			value.length >= 6 &&
+			enteredPassword === value
+	);
 
 	const {
 		value: enteredEmail,
@@ -75,36 +84,93 @@ const Join = () => {
 		enteredIdIsValid &&
 		enteredPasswordIsValid &&
 		enteredPassword2IsValid &&
-		enteredEmailIsValid
+		enteredEmailIsValid &&
+		vaildCheckNickName &&
+		vaildCheckId
 	)
 		formValid = true;
 
-	const goToLogin = () => {};
+	const joinHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const res = await signUp({
+			useNick: enteredNickName,
+			useId: enteredId,
+			usePw: enteredPassword,
+			useName: enteredName,
+			useGender: gender,
+			useEmail: enteredEmail,
+		});
 
-	const joinHandler = (event:React.ChangeEvent<HTMLFormElement>) => {
-		// 모두 입력했는지 확인 후 처리 => required 자동
-		// 회원 가입 성공
-		event.preventDefault()
-		Swal.fire({
-			position: 'center',
-			icon: 'success',
-			title: '회원 가입 완료!',
-			timer: 1500,
-			confirmButtonText: "확인",
-			confirmButtonColor: "skyblue"
-		}).then(()=>
-			navigate("/")
-		)
+		if (res.data.status === 200) {
+			Swal.fire({
+				position: "center",
+				icon: "success",
+				title: "회원 가입 완료!",
+				timer: 1500,
+				confirmButtonText: "확인",
+				confirmButtonColor: "skyblue",
+			}).then(() => navigate("/login"));
+		}
 	};
-	const vaildCheckHandler = (name:string) => {
-		if(name === "nickname") setVaildCheckNickName((pre) => !pre);
-		if(name === "id") setVaildCheckId((pre)=>!pre);
-		
-		
+
+	// 중복체크
+
+	let checkedId = "";
+	let checkedNickName = "";
+
+	// 중복체크 후 지웠을때 이벤트
+	useEffect(() => {
+		if (checkedId !== enteredId) {
+			setVaildCheckId(false);
+		}
+	}, [checkedId, enteredId]);
+	useEffect(() => {
+		if (checkedNickName !== enteredNickName) {
+			setVaildCheckNickName(false);
+		}
+	}, [checkedNickName, enteredNickName]);
+
+	const vaildCheckHandler = async (name: string) => {
+		if (name === "id") {
+			const res = await checkId(enteredId);
+			if (res.data === true) {
+				setVaildCheckId(false);
+				Swal.fire({
+					position: "center",
+					icon: "error",
+					title: "중복된 아이디 입니다.",
+					confirmButtonText: "확인",
+					confirmButtonColor: "skyblue",
+				});
+			} else {
+				setVaildCheckId(true);
+				checkedId = enteredId;
+			}
+		}
+		if (name === "nickname") {
+			const res = await checkNickName(enteredNickName);
+			if (res.data === true) {
+				setVaildCheckNickName(false);
+				Swal.fire({
+					position: "center",
+					icon: "error",
+					title: "중복된 닉네임 입니다.",
+					confirmButtonText: "확인",
+					confirmButtonColor: "skyblue",
+				});
+			} else {
+				setVaildCheckNickName(true);
+				checkedNickName = enteredNickName;
+			}
+		}
 	};
-	const [vaildCheckNickName, setVaildCheckNickName] =
-		useState(false);
-	const [vaildCheckId, setVaildCheckId] = useState(false);
+	const changeRadioBtnHandler = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		event.preventDefault();
+		setGender(event.target.value);
+	};
+
 	return (
 		<ContainerTag>
 			<WrapperTag>
@@ -143,20 +209,25 @@ const Join = () => {
 									required
 								/>
 								<ButtonTag
-						
+									type="button"
 									bgColor={
 										vaildCheckNickName ? "skyblue" : "gray"
 									}
 									color="white"
-									border={vaildCheckNickName ? "skyblue" : "none"}
-									onClick={() => vaildCheckHandler("nickname")}
+									border={
+										vaildCheckNickName ? "skyblue" : "none"
+									}
+									disabled={!enteredNickNameIsValid}
+									onClick={() =>
+										vaildCheckHandler("nickname")
+									}
 								>
-									<AiOutlineCheck/>
+									<AiOutlineCheck />
 								</ButtonTag>
 							</VaildCheckWrapperTag>
 							{nickNameInputHasError && (
 								<ErrorTag>
-									닉네임을 3자리 이상 입력해주세요.
+									닉네임을 1 ~ 6자리 이하로 입력해주세요.
 								</ErrorTag>
 							)}
 						</InputWrapperTag>
@@ -176,14 +247,13 @@ const Join = () => {
 
 								<ButtonTag
 									type="button"
-									bgColor={
-										vaildCheckId ? "skyblue" : "gray"
-									}
+									bgColor={vaildCheckId ? "skyblue" : "gray"}
 									color="white"
 									border={vaildCheckId ? "skyblue" : "none"}
+									disabled={!enteredIdIsValid}
 									onClick={() => vaildCheckHandler("id")}
 								>
-									<AiOutlineCheck/>
+									<AiOutlineCheck />
 								</ButtonTag>
 							</VaildCheckWrapperTag>
 							{idInputHasError && (
@@ -252,7 +322,8 @@ const Join = () => {
 									type="radio"
 									id="man"
 									name="gender"
-									value="man"
+									value="1"
+									onChange={changeRadioBtnHandler}
 								/>
 								<label htmlFor="man">남자</label>
 							</div>
@@ -262,7 +333,8 @@ const Join = () => {
 									type="radio"
 									id="girl"
 									name="gender"
-									value="girl"
+									value="2"
+									onChange={changeRadioBtnHandler}
 								/>
 								<label htmlFor="girl">여자</label>
 							</div>
@@ -272,7 +344,9 @@ const Join = () => {
 									type="radio"
 									id="none"
 									name="gender"
-									value="none"
+									value="0"
+									onChange={changeRadioBtnHandler}
+									checked
 								/>
 								<label htmlFor="none">선택안함</label>
 							</div>
@@ -294,7 +368,6 @@ const Join = () => {
 };
 
 export default Join;
-
 
 const VaildCheckWrapperTag = styled.div`
 	display: flex;

@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { logout } from "../services/user";
+import useAuthStore from "../store/authStore";
+
+interface User {
+	id: string;
+	type: string;
+	nickname: string;
+}
 
 const Header = () => {
-	// 임시
-	let isLogined = false;
-	let isAdmin = false;
+	const [user, setUser] = useState<User | null>();
+	const { userProfile, removeUser } = useAuthStore();
+	useEffect(() => {
+		setUser(userProfile);
+	}, [userProfile]);
+
 	return (
 		<HeaderTag>
 			<LogoTag>
@@ -35,7 +46,7 @@ const Header = () => {
 							</li>
 						</FirstNavTag>
 						<SecondNavTag>
-							{!isLogined && (
+							{!user && (
 								<>
 									<Link to="/login" className="border">
 										<span>로그인</span>
@@ -45,17 +56,21 @@ const Header = () => {
 									</Link>
 								</>
 							)}
-							{isLogined && (
+							{user && (
 								<>
 									<li className="border">
-										<span>닉네임</span>
+										<span>{user.nickname}</span>
 									</li>
-									<li className="border">
-										{/* 요건 나중에*/}
-										<span>로그아웃</span>
+									<li>
+										<button
+											className="border"
+											onClick={() => logout(removeUser)}
+										>
+											<span>로그아웃</span>
+										</button>
 									</li>
-									{!isAdmin ? (
-										<Link to="/mypage" className="border">
+									{user.type === "USER" ? (
+										<Link to="/my_page" className="border">
 											<span>마이 페이지</span>
 										</Link>
 									) : (
@@ -106,6 +121,7 @@ const LogoTag = styled.div`
 			text-transform: uppercase;
 		}
 	}
+
 `;
 
 const NavTag = styled.nav`
@@ -157,7 +173,6 @@ const FirstNavTag = styled.ul`
 		flex-basis: 60%;
 		.text {
 			font-size: 1.5rem;
-
 		}
 	}
 `;
@@ -171,6 +186,11 @@ const SecondNavTag = styled.ul`
 		border-radius: 10px;
 		font-size: 0.7rem;
 		color: skyblue;
+		cursor: pointer;
+	}
+	button {
+		border: none;
+		background-color: transparent;
 	}
 	@media screen and (min-width: 768px) {
 		column-gap: 1em;

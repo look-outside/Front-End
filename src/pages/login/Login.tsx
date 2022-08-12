@@ -4,10 +4,12 @@ import styled from "styled-components";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import useInput from "../../hooks/use-input";
 import Swal from "sweetalert2";
+import { login } from "../../services/user";
+import useAuthStore from "../../store/authStore";
 
 const Login = () => {
-
 	const navigate = useNavigate();
+	const {addUser} = useAuthStore();
 	const {
 		value: enteredId,
 		isValid: enteredIdIsValid,
@@ -26,22 +28,33 @@ const Login = () => {
 		reset: resetPasswordInput,
 	} = useInput((value) => value.trim() !== "" && value.length >= 6);
 
-	const loginHandler = () => {
-		// 아이디 or 비밀번호가 잘못 됬을때
-		//  모달창
-		// 아이디 비밀번호 초기화
-		Swal.fire({
-			position: 'center',
-			icon: 'success',
-			title: '로그인 완료!',
-			timer: 1500,
-			confirmButtonText: "확인",
-			confirmButtonColor: "skyblue"
-		}).then(()=>
-			navigate("/")
-		)
-		resetIdInput();
-		resetPasswordInput();
+	const loginHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const res = await login({
+			useId: enteredId,
+			usePw: enteredPassword,
+		},addUser);
+		if (res.status === 200) {
+			Swal.fire({
+				position: "center",
+				icon: "success",
+				title: "로그인 완료!",
+				timer: 1500,
+				confirmButtonText: "확인",
+				confirmButtonColor: "skyblue",
+			}).then(() =>navigate("/"));
+		} else {
+			Swal.fire({
+				position: "center",
+				icon: "warning",
+				title: "로그인 실패!",
+				timer: 1500,
+				confirmButtonText: "확인",
+				confirmButtonColor: "skyblue",
+			});
+			resetIdInput();
+			resetPasswordInput();
+		}
 	};
 
 	let formValid = false;
@@ -52,7 +65,7 @@ const Login = () => {
 			<WrapperTag>
 				<h2>로그인</h2>
 				<FormWrapperTag>
-					<FormTag>
+					<FormTag onSubmit={loginHandler}>
 						<InputWrapperTag>
 							<input
 								type="text"
@@ -87,7 +100,6 @@ const Login = () => {
 								type="submit"
 								bgColor="skyblue"
 								color="white"
-								onClick={loginHandler}
 								disabled={!formValid}
 							>
 								로그인
@@ -234,7 +246,7 @@ export const ErrorTag = styled.span`
 interface ButtonProps {
 	bgColor: string;
 	color?: string;
-	border?: string ;
+	border?: string;
 }
 
 export const ButtonTag = styled.button<ButtonProps>`
@@ -247,11 +259,11 @@ export const ButtonTag = styled.button<ButtonProps>`
 	padding: 1em;
 	border-radius: 5px;
 	font-size: 0.7rem;
-	transition: all .5s;
+	transition: all 0.5s;
 	a {
 		color: ${({ color }) => (color ? color : "black")};
 	}
-	svg{
+	svg {
 		font-size: 1rem;
 	}
 	#kakao {

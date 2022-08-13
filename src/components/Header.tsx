@@ -65,12 +65,12 @@ const Header = () => {
 										</button>
 									</li>
 									{userProfile?.type === "USER" ? (
-										<Link to="/my_page" className="border">
+										<Link to="/my/info" className="border">
 											<span>마이 페이지</span>
 										</Link>
 									) : (
 										<Link
-											to="/admin_page"
+											to="/admin/users"
 											className="border"
 										>
 											<span>관리자 페이지</span>

@@ -4,13 +4,13 @@ import styled from "styled-components";
 import Footer from "./Footer";
 
 import Header from "./Header";
-// import Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar";
 
 const Layout = () => {
 	return (
 		<>
 			<Header />
-			{/* <Sidebar /> */}
+			<Sidebar />
 			<Main>
 				<Outlet />
 			</Main>

@@ -1,19 +1,34 @@
 import create from "zustand";
 import { persist, devtools } from "zustand/middleware";
 
-const authStore = (set: any) => ({
-	userProfile: null,
-	token : null,
-	addUser: (user: any, token: string) => set({ userProfile: user ,token}),
-	removeUser: () => set({ userProfile: null ,token:null}),
-});
+interface User {
+	id: string;
+	type: string;
+	nickname: string;
+}
 
-const useAuthStore = create(
+interface UserState {
+	userProfile: null | User;
+	token: string | null;
+	addUser: (user: User, token: string) => void;
+	removeUser: () => void;
+}
+
+
+// 따로 타입 지정은 나중에
+
+const authStore = create<UserState>()(
 	devtools(
-		persist(authStore, {
-			name: "user",
-		})
+		persist((set) => ({
+			userProfile: null,
+			token: null,
+			addUser: (user: User, token: string) =>
+				set({ userProfile: user, token }),
+			removeUser: () => set({ userProfile: null, token: null }),
+		}),{name : "user"})
 	)
+	
 );
 
-export default useAuthStore;
+
+export default authStore;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { logout } from "../services/user";
-import useAuthStore from "../store/authStore";
+import authStore from "../store/authStore";
 
 interface User {
 	id: string;
@@ -11,12 +11,7 @@ interface User {
 }
 
 const Header = () => {
-	const [user, setUser] = useState<User | null>();
-	const { userProfile, removeUser } = useAuthStore();
-	useEffect(() => {
-		setUser(userProfile);
-	}, [userProfile]);
-
+	const { userProfile, removeUser } = authStore()
 	return (
 		<HeaderTag>
 			<LogoTag>
@@ -46,7 +41,7 @@ const Header = () => {
 							</li>
 						</FirstNavTag>
 						<SecondNavTag>
-							{!user && (
+							{!userProfile && (
 								<>
 									<Link to="/login" className="border">
 										<span>로그인</span>
@@ -56,10 +51,10 @@ const Header = () => {
 									</Link>
 								</>
 							)}
-							{user && (
+							{userProfile && (
 								<>
 									<li className="border">
-										<span>{user.nickname}</span>
+										<span>{userProfile?.nickname}</span>
 									</li>
 									<li>
 										<button
@@ -69,7 +64,7 @@ const Header = () => {
 											<span>로그아웃</span>
 										</button>
 									</li>
-									{user.type === "USER" ? (
+									{userProfile?.type === "USER" ? (
 										<Link to="/my_page" className="border">
 											<span>마이 페이지</span>
 										</Link>

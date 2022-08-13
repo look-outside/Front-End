@@ -5,11 +5,11 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 import useInput from "../../hooks/use-input";
 import Swal from "sweetalert2";
 import { login } from "../../services/user";
-import useAuthStore from "../../store/authStore";
+import authStore from "../../store/authStore";
 
 const Login = () => {
 	const navigate = useNavigate();
-	const {addUser} = useAuthStore();
+	const {addUser} = authStore();
 	const {
 		value: enteredId,
 		isValid: enteredIdIsValid,

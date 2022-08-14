@@ -1,17 +1,40 @@
 import axios from 'axios';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
+import authStore from '../../store/authStore';
 import * as i from '../../styles/mypage/TabInner';
 
 const Delete = () => {
 
+    const { userProfile, removeUser } = authStore()
+
+    const navigate = useNavigate()
+
     const userDel = () => {
-        axios.delete('/user/id2') //:id 추후 변경예정
+        axios.delete(`../user/${userProfile?.no}`)
         .then(res => {
             if (res.data.status === 200) {
-                document.location.href = '/' //메인페이지 이동
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: res.data.data,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+                .then(() => {
+                    removeUser();
+                    navigate('/');
+                }) //메인페이지 이동
             }else {
-                alert('오류가 발생했습니다. 관리자에게 문의바랍니다.');
+                console.log(res.data)
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Error',
+                    text: res.data.data
+                })
             }
         })
     }

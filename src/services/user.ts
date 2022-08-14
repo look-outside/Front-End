@@ -17,6 +17,7 @@ interface Token {
 	useId: string;
 	useRole: string;
 	useNick: string;
+	useNo: number;
 }
 
 export const signUp = async (userInfo: UserInfo) => {
@@ -71,11 +72,12 @@ export const login = async (userInfo: UserInfo, addUser: any) => {
 			withCredentials: true,
 		});
 		const token = res.data.jwtToken
-		const { useId, useRole, useNick }: Token = jwtDecode(token);
+		const { useId, useRole, useNick, useNo }: Token = jwtDecode(token);
 		const user = {
 			id: useId,
 			type: useRole,
 			nickname: useNick,
+			no: useNo
 		};
 		onLoginSuccess(token);
 		addUser(user,token);

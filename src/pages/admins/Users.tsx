@@ -12,36 +12,28 @@ interface User {
 }
 
 const Users = () => {
-
     const [data, setData] = useState<User[]>([]);
+    
     const cks :number[] = [];
 
     useEffect(() => {
         axios.get('/manager')
         .then(res => {
             setData(res.data.data.content);
-        })        
+        })
     },[])
     
-    const checks = (ck: boolean, n:number) => { //삭제할 회원 선택
+    const checks = (ck: boolean, no: number) => { //삭제회원 선택
         if (ck) {
-            cks.push(n);
+            cks.push(no);
         }else {
-            cks.splice(cks.indexOf(n), 1);
+            cks.splice(cks.indexOf(no), 1);
         }
     }
 
     const del = () => { //회원 삭제
-        const formData = new FormData();
-        formData.append("useNos", JSON.stringify(cks));
-        // console.log('formdata: ' + formData);
-        // console.log('formdata-get: ' + formData.get("useNos")); 
-
-        return axios.delete('/manager/user', {
-            data: {useNos : formData},
-            headers: {"content-type": "multipart/form-data"}
-        })
-        .then(res => console.log('삭제'));
+        return axios.delete(`/user/${cks}`)
+        .then(res => window.location.reload()); //@
     }
 
     return (

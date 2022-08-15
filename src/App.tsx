@@ -48,7 +48,7 @@ function App() {
 						<Route path="password" element={<FindPassword/>}/>
 					</Route>
 					<Route path="edit_password" element={<NewPassword/>}/>
-					<Route path="my_page" element={<MyPage />}>
+					<Route path="my" element={<MyPage />}>
 						<Route path='info' element={<Info />} />
 						{/* <Route path='posts' element={<Posts/>} />
 						<Route path='comments' element={<Comments/>} /> */}

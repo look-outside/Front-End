@@ -5,6 +5,7 @@ interface User {
 	id: string;
 	type: string;
 	nickname: string;
+	no : number;
 }
 
 interface UserState {

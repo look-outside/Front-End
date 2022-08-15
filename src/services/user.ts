@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios  from "axios";
 import jwtDecode from "jwt-decode";
 
 
@@ -21,10 +21,8 @@ interface Token {
 }
 
 export const signUp = async (userInfo: UserInfo) => {
-	console.log(userInfo);
 	try {
 		const res = await axios.post("/user/sign-up", userInfo);
-		console.log(res);
 		return res;
 	} catch (error: any) {
 		return error;
@@ -33,7 +31,6 @@ export const signUp = async (userInfo: UserInfo) => {
 
 export const checkId = async (userId: string) => {
 	const res = await axios.get(`/user/Id/${userId}`);
-	console.log(res);
 	return res.data;
 };
 
@@ -44,14 +41,12 @@ export const checkNickName = async (userNickName: string) => {
 
 export const logout = async (removeUser: any) => {
 	await axios.put(`/user/sign-out`);
-	// Cookies.remove("user")
 	removeUser();
 };
 
 export const findId = async (email: string) => {
 	try {
 		const res = await axios.get(`/user/Email/${email}`);
-		console.log(res);
 		return res;
 	} catch (error: any) {
 		return error;
@@ -71,7 +66,7 @@ export const login = async (userInfo: UserInfo, addUser: any) => {
 		const res = await axios.post("/user/sign-in", userInfo, {
 			withCredentials: true,
 		});
-		const token = res.data.jwtToken
+		const token = res.data.accessToken
 		const { useId, useRole, useNick, useNo }: Token = jwtDecode(token);
 		const user = {
 			id: useId,

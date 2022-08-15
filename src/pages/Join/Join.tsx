@@ -17,7 +17,7 @@ import { checkId, checkNickName, signUp } from "../../services/user";
 
 const Join = () => {
 	const navigate = useNavigate();
-	const [gender, setGender] = useState<string>("none");
+	const [gender, setGender] = useState<string>("0");
 	const [vaildCheckNickName, setVaildCheckNickName] = useState(false);
 	const [vaildCheckId, setVaildCheckId] = useState(false);
 	const {
@@ -133,6 +133,7 @@ const Join = () => {
 	const vaildCheckHandler = async (name: string) => {
 		if (name === "id") {
 			const res = await checkId(enteredId);
+			console.log(res)
 			if (res.data === true) {
 				setVaildCheckId(false);
 				Swal.fire({

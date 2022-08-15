@@ -25,6 +25,7 @@ import Users from "./pages/admins/Users";
 import Board from "./pages/admins/Board";
 import DailyLook from "./pages/clothes/DailyLook";
 import Free from "./pages/clothes/Free";
+import DetailPost from "./pages/detail_post/DetailPost";
 
 function App() {
 	return (
@@ -40,6 +41,7 @@ function App() {
 					</Route>
 					<Route path="today_sky" element={<Sky />} />
 					<Route path="today_meeting" element={<Meeting />}/>
+					<Route path="today_meeting/:id" element={<DetailPost/>}/>
 					<Route path="login" element={<Login/>}/>
 					<Route path="join" element={<Join/>}/>
 					<Route path="upload_post" element={<UploadPost/>}/>	

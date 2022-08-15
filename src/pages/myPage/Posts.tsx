@@ -1,25 +1,53 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import authStore from '../../store/authStore';
 import Col from '../../styles/mypage/MyList';
 import * as i from '../../styles/mypage/TabInner';
 
+interface ArticleT {
+    artNo: number,
+    useNo: number,
+    artSubject: string,
+    artContents: string,
+    artCreated: string
+}
+
 const Posts = () => {
+    const { userProfile } = authStore()
+
+    const [data,setData] = useState<ArticleT[]>();
+
+    useEffect(() => {
+        axios.get(`/article/list/${userProfile?.no}`)
+        .then(res => {
+            setData(res.data.data.content);
+        })
+    },[])
+
+
     return (
         <i.Outline>
             <i.TabTitle>작성글 목록</i.TabTitle>
             <Col>
                 <li id='content'>글 제목</li>
                 <li id='day'>날짜</li>
-            </Col>
-            <Post>
-                <img src={process.env.PUBLIC_URL + '/test.jpg'} alt='test' />
-                {/* 임시 이미지 */}
-                <li id='sub'>
-                    <span id='title' >글 제목 추가</span>
-                    <span id='dist'>서울시 강동구</span>
-                </li>
-                <li id='date'>20.08.06</li>
-            </Post>
+            </Col>            
+            {
+                data && (
+                    data?.map((art, i) => (
+                        <Post key={i}>
+                            <img src={process.env.PUBLIC_URL + '/test.jpg'} alt='test' />
+                            <li id='sub'>
+                                <span id='title' >{art.artSubject}</span>
+                                <span id='dist'>{art.artContents}</span>
+                            </li>
+                            <li id='date'>{art.artCreated.slice(0,8 )}</li>
+                        </Post>
+                    ))
+                )
+            }
+            
         </i.Outline>
     );
 };

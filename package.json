@@ -52,10 +52,6 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.3",
-    "msw": "^0.44.2"
-  },
-  "msw": {
-    "workerDirectory": "public"
+    "@types/react-router-dom": "^5.3.3"
   }
 }

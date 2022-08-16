@@ -7,7 +7,6 @@ import authStore from '../../store/authStore';
 import * as i from '../../styles/mypage/TabInner';
 
 const Delete = () => {
-
     const { userProfile, removeUser } = authStore()
 
     const navigate = useNavigate()
@@ -17,9 +16,8 @@ const Delete = () => {
         .then(res => {
             if (res.data.status === 200) {
                 Swal.fire({
-                    position: 'center',
                     icon: 'success',
-                    title: res.data.data,
+                    text: '탈퇴 완료',
                     showConfirmButton: false,
                     timer: 1000
                 })
@@ -28,12 +26,9 @@ const Delete = () => {
                     navigate('/');
                 }) //메인페이지 이동
             }else {
-                console.log(res.data)
                 Swal.fire({
-                    position: 'center',
                     icon: 'error',
-                    title: 'Error',
-                    text: res.data.data
+                    text: '오류가 발생했습니다. 관리자에게 문의 바랍니다.'
                 })
             }
         })
@@ -42,25 +37,26 @@ const Delete = () => {
     return (
         <i.Outline>
             <i.TabTitle>회원 탈퇴</i.TabTitle>
-            <Title>탈퇴하시겠습니까?</Title>
-            <Btn onClick={() => userDel()}>네</Btn>
+            <i.Title>탈퇴하시겠습니까?</i.Title>
+            <Btn onClick={() => {
+                Swal.fire({
+                    icon: 'warning',
+                    text: '정말 탈퇴하시겠습니까?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    confirmButtonColor: 'skyblue',
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        userDel();
+                    }
+                })
+            }}>네</Btn>
         </i.Outline>
     );
 };
 
 export default Delete;
-
-const Title = styled.p`
-    font-size: 1.2em;
-    padding: 2em 0;
-    @media screen and (max-width: 1024px){
-        font-size: 1.3rem;
-        padding: 2em 0;
-    };
-    @media screen and (max-width: 480px){
-        font-size: 1rem;
-    };
-`;
 
 const Btn = styled.button`
     color: white;

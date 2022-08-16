@@ -16,6 +16,7 @@ import MyPage from "./pages/myPage/MyPage";
 import Sky from "./pages/sky/Sky";
 import UploadPost from "./pages/upload_post/UploadPost";
 import GlobalStyles from "./styles/GlobalStyles";
+import PwCheck from "./pages/myPage/PwCheck";
 import Info from "./pages/myPage/Info";
 import Posts from "./pages/myPage/Posts";
 import Delete from "./pages/myPage/Delete";
@@ -49,7 +50,8 @@ function App() {
 					</Route>
 					<Route path="edit_password" element={<NewPassword/>}/>
 					<Route path="my" element={<MyPage />}>
-						<Route path='info' element={<Info />} />
+						<Route path='info' element={<PwCheck />} />
+						<Route path='info/update' element={<Info />} />
 						<Route path='posts' element={<Posts/>} />
 						<Route path='comments' element={<Comments/>} />
 						<Route path='delete' element={<Delete/>} />
@@ -58,7 +60,6 @@ function App() {
 						<Route path="users" element={<Users/>} />
 						<Route path="board" element={<Board/>} />
 					</Route>
-
 				</Route>
 			</Routes>
 		</BrowserRouter>

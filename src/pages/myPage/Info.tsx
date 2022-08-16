@@ -1,6 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import styled, { css } from 'styled-components';
+import Swal from 'sweetalert2';
+import authStore, { User } from '../../store/authStore';
 import * as i from '../../styles/mypage/TabInner';
 
 interface InfoT {
@@ -12,72 +15,117 @@ interface InfoT {
     useEmail: string,
 }
 
-// interface UpdateT {
-//     useNick: string,
-//     usePw: string,
-//     useNPw: string,
-//     useNPwCk: string,
-//     useEmail: string,
-// }
-
 const Info = () => {
+    const { userProfile } = authStore();
+
+    const navigate = useNavigate();
 
     const [data, setData] = useState<InfoT>();
 
+    const [useNick,setNick] = useState('');
+    const [usePw,setPw] = useState('');
+    const [usePwCk,setPwCk] = useState('');
+    const [useEmail,setEmail] = useState('');
+
+    // 안내메시지
+    const [nickMsg,setNickMsg] = useState('');
+    const [pwMsg,setPwMsg] = useState('');
+    const [pwCkMsg,setPwCkMsg] = useState('');
+    const [emailMsg,setEmailMsg] = useState('');
+
     useEffect(() => {
-        axios.get('/user/id')
+        axios.get(`/user/${userProfile?.no}`)
         .then(res => {
             setData(res.data.data);
-            // console.log(res.data.data);
         })
-    }, [])
+    }, [userProfile?.no])
 
-    const [inputs,setInputs] = useState({
-        useNick : '',
-        useNPw : '',
-        useNPwCk : '',
-        useEmail : '',
-    })
+    //syncro
+    useEffect(() => { changeNick() }, [useNick])
+    useEffect(() => { changePw() }, [usePw])
+    useEffect(() => { changePwCk() }, [usePwCk])
+    useEffect(() => { changeEmail() }, [useEmail])
 
-    const {useNick, useNPw, useNPwCk, useEmail} = inputs;
-
-    const [nickMsg,setNickMsg] = useState('');
-    const [nPwMsg,setNPwMsg] = useState('');
-    const [nPwCkMsg,setNPwCkMsg] = useState('');
-    // const [emailMsg,setEmailMsg] = useState('');
-
-    const changeInput = (e :React.ChangeEvent<HTMLInputElement>) => {
-        const {value, name} = e.target;
-        setInputs({
-            ...inputs,
-            [name]:value
+    //변경함수
+    const changeNick = () => {
+        axios.get(`/user/Nickname/${useNick}`)
+        .then(res => {
+            if (res.data.data === true && useNick.length <= 6) {
+                setNickMsg('중복된 닉네임입니다');
+            } else if (useNick.length > 6){
+                setNickMsg('닉네임은 6자 이하로 가능합니다');
+            } else{
+                setNickMsg('');
+            }
         })
+    }
 
-        if (useNick.length > 6){
-            setNickMsg('닉네임은 6자 이하로 가능합니다')
+    const changePw = () => {
+        if (usePw.length !== 0 && usePw.length < 6){
+            setPwMsg('비밀번호는 6자 이상 가능합니다');
         }else {
-            setNickMsg('');
-        }
-
-        if (useNPw.length < 6){
-            setNPwMsg('비밀번호는 6자 이상 가능합니다')
-            // console.log(useNPw) -- 비동기 살펴보기
-        }else {
-            setNPwMsg('')
-        }
-
-        if (useNPw !== useNPwCk) {
-            setNPwCkMsg('비밀번호가 맞지 않습니다')
-        }else {
-            setNPwCkMsg('')
+            setPwMsg('')
         }
     }
 
-    const updateInfo = () => {
-        axios.put('/user/id',{ //api완성되면 수정
-            useNick : 'zuzu'
+    const changePwCk = () => {
+        if (usePwCk.length !== 0 && usePw !== usePwCk) {
+            setPwCkMsg('비밀번호가 맞지 않습니다')
+        }else if (usePwCk.length !== 0 && usePwCk.length < 6){
+            setPwCkMsg('비밀번호는 6자 이상 가능합니다')
+        }else {
+            setPwCkMsg('')
+        }
+    }
+
+    const changeEmail = () => {
+        const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
+
+        if (useEmail.length !== 0 && !emailRegEx.test(useEmail)) {
+            setEmailMsg('올바른 이메일 형식이 아닙니다')
+        } else {
+            axios.get(`/user/Email/${useEmail}`)
+            .then(res => {
+                if (res.data.data === true) {
+                    setEmailMsg('중복된 닉네임입니다.');
+                } else{
+                    setEmailMsg('');
+                }
+            })
+        }
+    }
+
+    const updateInfo = (userProfile : User|null) => {
+        axios.put('/user',{
+            useNo : userProfile?.no,
+            useNick : useNick,
+            usePw : usePw,
+            useEmail : useEmail
         })
-        .then(res => console.log('수정 완료'));
+        .then(res => {
+            if (res.data.data === 1) {
+                Swal.fire({
+                    icon: 'success',
+                    text: '수정 완료!',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+                .then(() => { navigate('/'); }) //메인페이지 이동
+            }else {
+                Swal.fire({
+                    icon: 'error',
+                    text: '오류가 발생했습니다. 관리자에게 문의 바랍니다.'
+                })
+            }
+        });
+    }
+
+    const allCk = () => {
+        if (((nickMsg && pwMsg && pwCkMsg && emailMsg) === '') && ((useNick || usePw || useEmail) !== '')) {
+            return false; //수정가능
+        }else {
+            return true;
+        }
     }
 
     return (
@@ -85,37 +133,33 @@ const Info = () => {
             <i.TabTitle>회원정보 수정</i.TabTitle>
             <Line>
                 <Title>이름</Title>
-                <Val placeholder={data?.useName} readOnly></Val>
+                <i.Val placeholder={data?.useName} readOnly />
             </Line>
             <Line>
                 <Title>닉네임</Title>                
-                <Val placeholder={data?.useNick} name='useNick' value={useNick} onChange={(e)=> changeInput(e)}></Val>
+                <i.Val placeholder={data?.useNick} onChange={(e)=>  setNick(e.target.value)}/>
                 <span>{nickMsg}</span>
             </Line>
             <Line>
                 <Title>아이디</Title>
-                <Val placeholder={data?.useId} readOnly></Val>
-            </Line>
-            <Line>
-                <Title>현재 비밀번호</Title>
-                <Val type='password'></Val>
+                <i.Val placeholder={data?.useId} readOnly />
             </Line>
             <Line>
                 <Title>새 비밀번호</Title>
-                <Val type='password' placeholder='새 비밀번호를 입력해주세요' name='useNPw' value={useNPw} onChange={(e)=> changeInput(e)}></Val>
-                <span>{nPwMsg}</span>
+                <i.Val type='password' placeholder='새 비밀번호를 입력해주세요' onChange={(e)=> setPw(e.target.value)}/>
+                <span>{pwMsg}</span>
             </Line>
             <Line>
                 <Title>새 비밀번호 확인</Title>
-                <Val type='password' placeholder='새 비밀번호를 다시 입력해주세요' name='useNPwCk' value={useNPwCk} onChange={(e)=> changeInput(e)}></Val>
-                <span>{nPwCkMsg}</span>
+                <i.Val type='password' placeholder='새 비밀번호를 다시 입력해주세요' onChange={(e)=> setPwCk(e.target.value)}/>
+                <span>{pwCkMsg}</span>
             </Line>
             <Line>
                 <Title>이메일</Title>
-                <Val placeholder={data?.useEmail} name='useEmail' value={useNPwCk} onChange={(e)=> changeInput(e)}></Val>
-                {/* <span>{emailMsg}</span> */}
+                <i.Val placeholder={data?.useEmail} onChange={(e)=> setEmail(e.target.value)}/>
+                <span>{emailMsg}</span>
             </Line>
-            <Btn onClick={()=> updateInfo()}>수정 완료</Btn>
+            <UpBtn onClick={()=> updateInfo(userProfile)} disabled={allCk()} confirm={allCk()} >수정 완료</UpBtn>
         </i.Outline>
     );
 };
@@ -123,10 +167,14 @@ const Info = () => {
 export default Info;
 
 const Line = styled.div`
-    width: 50%;
+    width: 45%;
     display: flex;
     flex-direction: column;
     margin: 0.5em;
+    span {
+        margin-top: 0.5em;
+        color: red;
+    }
     @media screen and (max-width: 1024px){
         font-size: 1rem;
         width: 60%;
@@ -141,22 +189,14 @@ const Title = styled.label`
     padding: 0.6em;
 `;
 
-const Val = styled.input`
-    font-size: 1rem;
-    padding: 0.6em;
-    border-radius: 5px;
-    border: 1px solid #C3C3C3;
-`;
-
-const Btn = styled.button`
-    color: white;
-    background-color: skyblue;
-    font-size: 1rem;
-    padding: 0.4em 1.5em;
-    margin: 2em;
-    border-radius: 5px;
-    border: 1px solid skyblue;
-    &:hover {
-        cursor: pointer;
-    }
+const UpBtn = styled(i.Btn)<{confirm :boolean}>`
+    ${props => 
+        props.confirm &&
+        css`
+            background-color: gray;
+            border: 1px solid gray;
+            &:hover{
+                cursor: default;
+            }
+    `};
 `;

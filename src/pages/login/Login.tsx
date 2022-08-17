@@ -42,7 +42,7 @@ const Login = () => {
 				timer: 1500,
 				confirmButtonText: "확인",
 				confirmButtonColor: "skyblue",
-			}).then(() =>navigate("/"));
+			}).then(() =>navigate(-1));
 		} else {
 			Swal.fire({
 				position: "center",

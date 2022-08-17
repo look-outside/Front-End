@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { ContainerTag, WrapperTag } from "../meeting/Meeting";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import WritePost from "../../components/write_post/WritePost";
 
 interface State {
 	category: string;
@@ -13,15 +14,8 @@ const UploadPost = () => {
 	const navigate = useNavigate();
 	const formRef = useRef<HTMLFormElement>(null);
 	const { category } = location.state as State;
-	const [file, setFile] = useState();
-
-	function handleChange(event: any) {
-		event.preventDefault();
-		const file = event.target.files[0];
-	}
 
 	const submitHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
-		console.log(formRef);
 		event.preventDefault();
 		Swal.fire({
 			position: "center",
@@ -35,7 +29,7 @@ const UploadPost = () => {
 			cancelButtonColor: "red",
 		}).then((result) => {
 			if (result.isConfirmed) {
-				navigate(-1)
+				navigate(-1);
 			} else {
 				Swal.close();
 			}
@@ -61,7 +55,10 @@ const UploadPost = () => {
 									name="weather"
 									value="sun"
 								/>
-								<span>☀️</span>
+								<div>
+									<abbr title="맑음">☀️</abbr>
+									<span>맑음</span>
+								</div>
 							</label>
 
 							<label htmlFor="sunBehindCloud">
@@ -71,7 +68,10 @@ const UploadPost = () => {
 									name="weather"
 									value="sunBehindCloud"
 								/>
-								<span>⛅</span>
+								<div>
+									<abbr title="구름 많음">⛅</abbr>
+									<span>구름 많음</span>
+								</div>
 							</label>
 
 							<label htmlFor="cloud">
@@ -81,7 +81,10 @@ const UploadPost = () => {
 									name="weather"
 									value="cloud"
 								/>
-								<span>☁️</span>
+								<div>
+									<abbr title="흐림">☁️</abbr>
+									<span>흐림</span>
+								</div>
 							</label>
 
 							<label htmlFor="rain">
@@ -91,7 +94,10 @@ const UploadPost = () => {
 									name="weather"
 									value="rain"
 								/>
-								<span>🌧️</span>
+								<div>
+									<abbr title="비">🌧️</abbr>
+									<span>비</span>
+								</div>
 							</label>
 
 							<label htmlFor="lightning">
@@ -101,7 +107,10 @@ const UploadPost = () => {
 									name="weather"
 									value="lightning"
 								/>
-								<span>🌩️</span>
+								<div>
+									<abbr title="번개">🌩️</abbr>
+									<span>번개</span>
+								</div>
 							</label>
 
 							<label htmlFor="none">
@@ -111,7 +120,10 @@ const UploadPost = () => {
 									name="weather"
 									value="none"
 								/>
-								<span>✖️</span>
+								<div>
+									<abbr title="선택 안함">✖️</abbr>
+									<span>선택 안함</span>
+								</div>
 							</label>
 						</RadioWrapperTag>
 					</InputWrapperTag>
@@ -123,18 +135,7 @@ const UploadPost = () => {
 							placeholder="제목을 입력해주세요."
 						/>
 					</InputWrapperTag>
-					<InputWrapperTag>
-						<label htmlFor="content">내용</label>
-						<textarea
-							name="content"
-							id="content"
-							placeholder="내욜을 입력해주세요."
-						></textarea>
-					</InputWrapperTag>
-					<InputWrapperTag>
-						<label htmlFor="file">파일 선택</label>
-						<input type="file" id="file" onChange={handleChange} />
-					</InputWrapperTag>
+					<WritePost />
 					<ButtonWrapperTag>
 						<button type="button" onClick={() => navigate(-1)}>
 							취소
@@ -163,6 +164,7 @@ const FormTag = styled.form`
 	display: flex;
 	flex-direction: column;
 	row-gap: 1.5em;
+	width: 100%;
 	p {
 		font-size: 1.2rem;
 	}
@@ -173,8 +175,8 @@ const FormTag = styled.form`
 	textarea {
 		width: 100%;
 		flex: 2;
-		padding: .5em;
-		:focus{
+		padding: 0.5em;
+		:focus {
 			outline-color: skyblue;
 		}
 	}
@@ -191,7 +193,7 @@ const InputWrapperTag = styled.div`
 
 	@media screen and (min-width: 460px) {
 		flex-direction: row;
-	align-items: center;
+		align-items: center;
 
 		column-gap: 2em;
 	}
@@ -211,12 +213,13 @@ const ButtonWrapperTag = styled.div`
 		border-radius: 5px;
 		background-color: skyblue;
 		width: 100%;
+		cursor: pointer;
 	}
 
 	@media screen and (min-width: 420px) {
 		flex-direction: row;
 		column-gap: 1em;
-		button{
+		button {
 			width: max-content;
 		}
 	}
@@ -229,7 +232,8 @@ const RadioWrapperTag = styled.div`
 	flex: 2;
 	height: 100%;
 	justify-content: space-between;
-	column-gap: 1em;
+	column-gap: 0.5em;
+	min-width: min-content;
 	label {
 		position: relative;
 		width: 100%;
@@ -240,12 +244,14 @@ const RadioWrapperTag = styled.div`
 			position: relative;
 			z-index: 1;
 			appearance: none;
-			display:none
+			display: none;
 		}
-		span {
+		div {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			column-gap: 0.5em;
 			padding: 0.3em;
-			top: 0;
-			left: 0;
 			background-color: white;
 			border-radius: 5px;
 			box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -258,10 +264,27 @@ const RadioWrapperTag = styled.div`
 			@media screen and (min-width: 1024px) {
 				font-size: 1.5rem;
 			}
+			abbr {
+				text-decoration: none;
+			}
+			span {
+				font-size: 0.5rem;
+				@media screen and (max-width: 600px) {
+					display: none;
+				}
+				@media screen and (min-width: 820px) {
+					font-size: 0.75rem;
+				}
+				@media screen and (min-width: 1024px) {
+					font-size: 1rem;
+				}
+			}
 		}
-		input:checked ~ span {
+		input:checked ~ div {
+			transition: all 0.5s;
 			box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+			background-color: skyblue;
+			color: white;
 		}
 	}
 `;
-

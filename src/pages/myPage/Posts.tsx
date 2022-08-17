@@ -10,7 +10,9 @@ interface ArticleT {
     useNo: number,
     artSubject: string,
     artContents: string,
-    artCreated: string
+    artCreated: string,
+    regAddr1: string,
+    regAddr2: string,
 }
 
 const Posts = () => {
@@ -25,14 +27,13 @@ const Posts = () => {
         })
     },[])
 
-
     return (
         <i.Outline>
             <i.TabTitle>작성글 목록</i.TabTitle>
             <Col>
                 <li id='content'>글 제목</li>
                 <li id='day'>날짜</li>
-            </Col>            
+            </Col>
             {
                 data && (
                     data?.map((art, i) => (
@@ -40,9 +41,9 @@ const Posts = () => {
                             <img src={process.env.PUBLIC_URL + '/test.jpg'} alt='test' />
                             <li id='sub'>
                                 <span id='title' >{art.artSubject}</span>
-                                <span id='dist'>{art.artContents}</span>
+                                <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
                             </li>
-                            <li id='date'>{art.artCreated.slice(0,8 )}</li>
+                            <li id='date'>{art.artCreated.slice(0,8)}</li>
                         </Post>
                     ))
                 )

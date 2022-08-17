@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import Del from '../../styles/Admin';
 import * as i from '../../styles/mypage/TabInner';
 
@@ -17,7 +18,7 @@ const Users = () => {
     const cks :number[] = [];
 
     useEffect(() => {
-        axios.get('/manager')
+        axios.get('/manager/user')
         .then(res => {
             setData(res.data.data.content);
         })
@@ -32,8 +33,16 @@ const Users = () => {
     }
 
     const del = () => { //회원 삭제
-        return axios.delete(`/user/${cks}`)
-        .then(res => window.location.reload()); //@
+        return axios.delete(`/manager/user/${cks}`)
+        .then(res => {
+            Swal.fire({
+                icon: 'success',
+                text: '삭제 완료!',
+                showConfirmButton: false,
+                timer: 1000
+            })
+            .then(() => window.location.reload())            
+        });
     }
 
     return (
@@ -52,7 +61,7 @@ const Users = () => {
                             <li>{user.useId}</li>
                             <li>{user.useName}</li>
                             <li>{user.useNick}</li>
-                            <input type='checkbox' name={user.useId} value={user.useNo} onChange={(e)=>{checks(e.target.checked,user.useNo)}} />
+                            <input type='checkbox' onChange={(e)=>{checks(e.target.checked,user.useNo)}} />
                         </Cnt>
                     ))
                 )

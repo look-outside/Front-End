@@ -4,6 +4,7 @@ import { ContainerTag, WrapperTag } from "../meeting/Meeting";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import WritePost from "../../components/write_post/WritePost";
+import SelectRezion from "../../components/select_region/SelectRegion";
 
 interface State {
 	category: string;
@@ -14,6 +15,10 @@ const UploadPost = () => {
 	const navigate = useNavigate();
 	const formRef = useRef<HTMLFormElement>(null);
 	const { category } = location.state as State;
+
+	const getRegionNumber = (region:string) => {
+		console.log(region)
+	}
 
 	const submitHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -42,6 +47,7 @@ const UploadPost = () => {
 				<PageHeaderTag>
 					<h2>카테고리 - {category}</h2>
 				</PageHeaderTag>
+				<SelectRezion onGetRegionNumber={getRegionNumber}/>
 				<FormTag onSubmit={submitHandler} ref={formRef}>
 					<InputWrapperTag>
 						<div>

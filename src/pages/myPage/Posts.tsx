@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Pagination from '../../components/Pagination';
 import authStore from '../../store/authStore';
 import Col from '../../styles/mypage/MyList';
 import * as i from '../../styles/mypage/TabInner';
+import { PageT } from '../../types/types';
 
 interface ArticleT {
     artNo: number,
@@ -20,12 +22,16 @@ const Posts = () => {
 
     const [data,setData] = useState<ArticleT[]>();
 
+    const [page, setPage] = useState<PageT>();
+    const [curPage, setCurPage] = useState(1); 
+
     useEffect(() => {
-        axios.get(`/article/list/${userProfile?.no}`)
+        axios.get(`/article/list/${userProfile?.no}`, { params: {page: (curPage-1)} })
         .then(res => {
-            setData(res.data.data.content);
+            setData(res.data.data.list)
+            setPage(res.data.data.pageable)
         })
-    },[])
+    },[curPage])
 
     return (
         <i.Outline>
@@ -48,7 +54,11 @@ const Posts = () => {
                     ))
                 )
             }
-            
+            {
+                data && (
+                    <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={3}/>
+                )
+            }
         </i.Outline>
     );
 };

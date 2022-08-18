@@ -5,3 +5,7 @@ export interface Post {
 	district: string;
 	id: number;
 }
+
+export type PageT = {
+    [key :string] :number
+}

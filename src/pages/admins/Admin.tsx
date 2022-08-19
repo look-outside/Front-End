@@ -14,7 +14,7 @@ const Admin = () => {
                             color: isActive ? "skyblue" : "black",
                             fontWeight: isActive ? "bold" : ""
                         } }} >
-                        <t.Tabs>회원 목록</t.Tabs>
+                        <t.Tabs>회원/관리자 목록</t.Tabs>
                     </NavLink>
                     <NavLink to="/admin/board" style={({ isActive }) => { return { 
                             color: isActive ? "skyblue" : "black",

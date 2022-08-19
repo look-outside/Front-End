@@ -1,29 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { MdEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
-
-
+import SelectRezion from "../../components/select_region/SelectRegion";
+import CateHeader from "../../components/CateHeader";
+const list = [
+	{
+		useNo: 3,
+		regNo: "0101",
+		artContents: "살려줘어어",
+		artSubject: "리라라",
+		artNo: 1,
+		artCategory: 1,
+		useNick: "hj2",
+		imgSave: "",
+		artCreated: "22.08.18 17:24:29",
+		regAddr2: "종로구",
+		regAddr1: "서울특별시",
+		artWselect: 3,
+	},
+];
 const Meeting = () => {
-
+	const [region, setRegion] = useState<string>("");
+	const getRegionHandler = (reg: string) => {
+		console.log(reg)
+		setRegion(reg);
+	};
+	// useEffect(()=>{
+	// 	//  호출
+	// },[region])
 	return (
 		<ContainerTag>
-			<WrapperTag>
-				<PageHeaderTag>
-					<div className="title">
-						<h2>오늘의 모임</h2>
-					</div>
-
-					<button type="button">
-            <Link to="/upload_post" state={{category:"오늘의 모임"}}>
-						<MdEdit />
-						글쓰기
-            </Link>
-					</button>
-          
-					
-				</PageHeaderTag>
-			</WrapperTag>
+			<CateHeader category="오늘의 모임" onGetRegionNumber={getRegionHandler}/>
+			<ListBoxTag>
+				<p>{list[0].artSubject}</p>
+				<p>{list[0].useNick}</p>
+				<p>{list[0].artCreated}</p>
+				<p>{list[0].regAddr2}</p>
+				<p>{list[0].regAddr1}</p>
+			</ListBoxTag>
 		</ContainerTag>
 	);
 };
@@ -38,45 +52,10 @@ export const ContainerTag = styled.div`
 		margin: 0 auto;
 	}
 `;
-export const WrapperTag = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-  row-gap: 2em;
-	width: 100%;
-`;
 
-export const PageHeaderTag = styled.div`
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	.title {
-		padding: 1em 3em;
-		border: 1px solid skyblue;
-		justify-items: center;
-		h2 {
-			font-size: 1.8rem;
-			font-weight: 700;
-			color: skyblue;
-		}
-	}
-	button {
-		background-color: skyblue;
-		border-radius: 5px;
-		border: none;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		column-gap: 0.5em;
-		color: white;
-    a{
-      color:white;
-      padding: 0.5em 1em;
-      width: 100%;
 
-    }
-		position: absolute;
-		right: 2em;
-	}
+const ListBoxTag = styled.div`
+	border-radius: 10px;
+	background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+	box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 `;

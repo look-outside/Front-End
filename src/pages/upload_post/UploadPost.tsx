@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import { ContainerTag, WrapperTag } from "../meeting/Meeting";
+import { ContainerTag } from "../meeting/Meeting";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import WritePost from "../../components/write_post/WritePost";
 import SelectRezion from "../../components/select_region/SelectRegion";
+import { WrapperTag } from "../../components/CateHeader";
 
 interface State {
 	category: string;

@@ -27,6 +27,7 @@ import Board from "./pages/admins/Board";
 import DailyLook from "./pages/clothes/DailyLook";
 import Free from "./pages/clothes/Free";
 import DetailPost from "./pages/detail_post/DetailPost";
+import SnsLogin from "./pages/SnsLogin";
 
 function App() {
 	return (
@@ -62,6 +63,7 @@ function App() {
 						<Route path="users" element={<Users/>} />
 						<Route path="board" element={<Board/>} />
 					</Route>
+					<Route path="/oauth/redirect" element={<SnsLogin/>}/>
 				</Route>
 			</Routes>
 		</BrowserRouter>

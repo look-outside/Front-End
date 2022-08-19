@@ -1,9 +1,9 @@
 export interface Post {
-	title: string;
-	nickName: string;
-	city: string;
-	district: string;
-	id: number;
+    artNo: number,
+    artSubject: string,
+    useNick: string,
+    regAddr1: string,
+    regAddr2: string,
 }
 
 export type PageT = {

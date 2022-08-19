@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  /* border: 1px solid black; */
     padding: 0 2em;
     display: flex;
     flex-direction: column;
@@ -12,7 +11,6 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.span`
-    /* border: 1px solid red; */
     color: skyblue;
     font-size: 2.2rem;
     font-weight: bold;
@@ -50,14 +48,12 @@ export const Filter = styled.div`
 `;
 
 export const Imgs = styled.div`
-    /* border: 1px solid black; */
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 `;
 
 export const Card = styled.div`
-    /* border: 1px solid red; */
     flex-basis: 23%;
     margin-bottom: 0.8em;
     p {
@@ -80,7 +76,6 @@ export const Card = styled.div`
 `;
 
 export const Img = styled.img`
-    /* border: 1px solid yellow; */
     max-width: 100%;
     height: auto;
     margin-bottom: 0.7em;

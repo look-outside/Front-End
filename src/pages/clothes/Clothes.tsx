@@ -1,10 +1,26 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { AiOutlineCaretRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import * as c from '../../styles/Category';
 
 const Clothes = () => {
+  const [daily, setDaily] = useState([]);
+  const [free, setFree] = useState([]);
+
+  // useEffect(() => {
+  //   // axios.get('/article/list/0')
+  //   axios.get('/article/list/1/0101') // 임시
+  //     .then(res => {
+  //       setDaily(res.data.data.list)
+  //     })
+  //   // axios.get('/article/list/1')
+  //   axios.get('/article/list/1/0101')
+  //     .then(res => {
+  //       setDaily(res.data.data.list)
+  //   })
+  // })
   
   return (
     <c.Container>
@@ -18,25 +34,25 @@ const Clothes = () => {
         </span>
       </Line>
 
-      <c.Imgs>
+      {/* 임시 (맨 밑의 코딩o) */}
+      <c.Imgs>        
         <Card>
-          <Img src='/test.jpg' alt='test1' />
+          <c.Img src='/test.jpg' alt='test1' />
           <span>서울 강동구</span>
         </Card>
         <Card>
-          <Img src='/test.jpg' alt='test1' />
+          <c.Img src='/test.jpg' alt='test1' />
           <span>서울 송파구</span>
         </Card>
         <Card>
-          <Img src='/test.jpg' alt='test1' />
+          <c.Img src='/test.jpg' alt='test1' />
           <span>서울 강남구</span>
         </Card>
         <Card>
-          <Img src='/test.jpg' alt='test1' />
+          <c.Img src='/test.jpg' alt='test1' />
           <span>서울 마포구</span>
         </Card>
       </c.Imgs>
-
 
       <Line>        
       <span id='sub'>
@@ -47,25 +63,27 @@ const Clothes = () => {
         </span>
       </Line>
 
-      <c.Imgs>
-        <Card>
-          <Img src='/test.jpg' alt='test1' />
-          <span>서울 강동구</span>
-        </Card>
-        <Card>
-          <Img src='/test.jpg' alt='test1' />
-          <span>경기 하남시</span>
-        </Card>
-        <Card>
-          <Img src='/test.jpg' alt='test1' />
-          <span>서울 강남구</span>
-        </Card>
-        <Card>
-          <Img src='/test.jpg' alt='test1' />
-          <span>울산 울주군</span>
-        </Card>
-      </c.Imgs>
-      
+      {/* 임시 (맨 밑의 코딩o) */}
+      <Article>
+        <span id='title'>내추럴 소프트 숲속향</span>
+        <span id='dist'>서울특별시 강동구</span>
+      </Article>
+      <Article>
+        <span id='title'>이틀 뒤 나는 제주도</span>
+        <span id='dist'>제주도 서귀포시</span>
+      </Article>
+      <Article>
+        <span id='title'>내추럴 소프트 숲속향내추럴 소프트 숲속향</span>
+        <span id='dist'>서울특별시 강동구</span>
+      </Article>
+      <Article>
+        <span id='title'>이틀 뒤 나는 제주도이틀 뒤 나는 제주도이틀 뒤 나는 제주도</span>
+        <span id='dist'>제주도 서귀포시</span>
+      </Article>
+      <Article>
+        <span id='title'>이틀 뒤 나는 제주도이틀 뒤 나는 제주도</span>
+        <span id='dist'>제주도 서귀포시</span>
+      </Article>
     </c.Container>
   )
 }
@@ -73,12 +91,10 @@ const Clothes = () => {
 export default Clothes
 
 const Line = styled.div`
-  /* border: 1px solid pink; */
   padding: 0.8em;
   display: flex;
   margin-top: 3em;
   #sub {
-    /* border: 1px solid purple; */
     width: 60%;
     font-size: 1.5rem;
     font-weight: 500;
@@ -91,7 +107,6 @@ const Line = styled.div`
     };
   }
   #more {
-    /* border: 1px solid black; */
     width: 30%;
     margin-left: auto;
     font-size: 0.9rem;
@@ -99,7 +114,7 @@ const Line = styled.div`
     justify-content: end;
     align-items: flex-end;
     @media screen and (max-width: 480px) {
-        font-size: 0.8rem;
+      font-size: 0.8rem;
     };
   }
   #black {
@@ -108,7 +123,6 @@ const Line = styled.div`
 `;
 
 const Card = styled.div`
-  /* border: 1px solid red; */
   flex-basis: 22%;
   margin-bottom: 0.5em;
   color: gray;
@@ -121,13 +135,65 @@ const Card = styled.div`
   };
 `;
 
-const Img = styled.img`
-  /* border: 1px solid yellow; */
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 0.7em;
-  border-radius: 10px;
+const Article = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0.6em 0.5em;
+  border-bottom: 1px solid lightgray;
+  #title {
+    width: 75%;
+    @media screen and (max-width: 523px) {
+      width: 72%;
+    };
+    @media screen and (max-width: 480px) {
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 0.4em;
+    };
+  }
+  #dist {
+    width: 25%;
+    color: gray;
+    text-align: right;
+    @media screen and (max-width: 523px) {
+      width: 28%;
+    };
+    @media screen and (max-width: 480px) {
+      width: 100%;
+      text-align: left;
+      font-size: 0.8rem;
+    };
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 0.5em;
+  };
   @media screen and (max-width: 480px) {
-    margin-bottom: 0.5em;
+    flex-direction: column;
+    padding: 0.4em 0;
   };
 `;
+
+/*
+api 완성 시 추가
+{
+  daily && (
+    daily.map((art, i) => (
+      <Card>
+        <c.Img src='/test.jpg' alt='test1' />
+        <span>{art.regAddr1} {art.regAddr2}</span>
+      </Card>
+    ))
+  )
+}
+{
+  free && (
+    free.map((art, i) => (
+      <Article>
+        <span id='title'>{art.artSubject}</span>
+        <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
+      </Article>
+    ))
+  )
+}
+*/

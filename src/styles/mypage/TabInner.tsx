@@ -13,11 +13,9 @@ export const TabTitle = styled.div`
     font-weight: 420;
     border-bottom: 1px solid gray;
     @media screen and (max-width: 1024px){
-        display: flex;
-        justify-content: center;
-    };
-    @media screen and (max-width: 480px){
-        font-size: 1rem;
+        color: white;
+        font-size: 0.1rem;
+        border-bottom: none;
     };
 `;
 

@@ -17,7 +17,6 @@ export const Menu = styled.div`
     flex-basis: 15%;
     flex-direction: column;
     @media screen and (max-width: 1024px){
-        flex-direction: row;
         text-align: center;
     };
 `;
@@ -26,48 +25,52 @@ export const PageName = styled.div`
     height: 75px;
     font-size: 1.8rem;
     font-weight: 450;
+    text-align: center;
     @media screen and (max-width: 1024px){
         height: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-basis: 38%;
         font-size: 1.5rem;
     };
-    @media screen and (max-width: 480px) {
-        flex-basis: 35%;
-        font-size: 0.9rem;
+    @media screen and (max-width: 548px){
+        height: 35px;
+        font-size: 1.3rem;
     };
 `;
 
 export const List = styled.ul`
     @media screen and (max-width: 1024px){
         display: flex;
+        justify-content: center;
     };
 `;
 
 export const Tabs = styled.li`
-    height: 50px;
+    height: 45px;
     display: flex;
-    padding-left: 1em;
     align-items: center;
+    padding-left: 1em;
     background-color: #fafafa;
+    border-radius: 5px;
     border: 1px solid #CCCCCC;
     &:hover {
         background-color: skyblue;
         color: white;
         cursor: pointer;
     }
-    @media screen and (max-width: 767px){
-        padding: 0;
-        align-items: center;
+    @media screen and (max-width: 1024px){
+        padding: 0 2em;
+        margin: 0 0.6em;
+    };
+    @media screen and (max-width: 768px){
+        height: 40px;
         font-size: 0.9rem;
+        padding: 0 1.5em;
+        margin: 0 0.3em;
     };
-    @media screen and (min-width: 369px) and (max-width: 614px) {
-        padding: 0 0.4em;
-    };
-    @media screen and (min-width: 526px) and (max-width: 1024px) {
+    @media screen and (max-width: 548px){
+        height: 30px;
+        font-size: 0.8rem;
         padding: 0 0.5em;
+        margin: 0 0.1em;
     };
 `;
 

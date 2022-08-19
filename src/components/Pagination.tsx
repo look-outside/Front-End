@@ -30,7 +30,7 @@ const Pagination = ({setCurPage, curPage, totalPage, totalCount, size, pageCount
         let arr = []
         for (let i = firstNum; i <= lastNum; i++) {
             arr.push(
-                <PgBtn onClick={()=>setCurPage(i)} i={i} curPage={curPage}>{i}</PgBtn>
+                <PgBtn key={i} onClick={()=>setCurPage(i)} i={i} curPage={curPage}>{i}</PgBtn>
             )
         }
         return arr;

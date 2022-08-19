@@ -2,18 +2,18 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { RiKakaoTalkFill } from "react-icons/ri";
+import { FcGoogle } from "react-icons/fc";
+import { SiNaver } from "react-icons/si";
 import useInput from "../../hooks/use-input";
 import Swal from "sweetalert2";
 import { login } from "../../services/user";
 import authStore from "../../store/authStore";
-
 const Login = () => {
 	const navigate = useNavigate();
-	const {addUser} = authStore();
+	const { addUser } = authStore();
 	const {
 		value: enteredId,
 		isValid: enteredIdIsValid,
-		hasError: idInputHasError,
 		valueChangeHandler: idChangedHandler,
 		inputBlurHandler: idBlurHandler,
 		reset: resetIdInput,
@@ -22,7 +22,6 @@ const Login = () => {
 	const {
 		value: enteredPassword,
 		isValid: enteredPasswordIsValid,
-		hasError: passwordInputHasError,
 		valueChangeHandler: passwordChangedHandler,
 		inputBlurHandler: passwordBlurHandler,
 		reset: resetPasswordInput,
@@ -30,10 +29,13 @@ const Login = () => {
 
 	const loginHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const res = await login({
-			useId: enteredId,
-			usePw: enteredPassword,
-		},addUser);
+		const res = await login(
+			{
+				useId: enteredId,
+				usePw: enteredPassword,
+			},
+			addUser
+		);
 		if (res.status === 200) {
 			Swal.fire({
 				position: "center",
@@ -42,7 +44,7 @@ const Login = () => {
 				timer: 1500,
 				confirmButtonText: "확인",
 				confirmButtonColor: "skyblue",
-			}).then(() =>navigate(-1));
+			}).then(() => navigate(-1));
 		} else {
 			Swal.fire({
 				position: "center",
@@ -75,11 +77,6 @@ const Login = () => {
 								onBlur={idBlurHandler}
 								required
 							/>
-							{idInputHasError && (
-								<ErrorTag>
-									아이디를 5자리 이상 입력해주세요.
-								</ErrorTag>
-							)}
 							<input
 								type="password"
 								placeholder="비밀번호 입력"
@@ -88,11 +85,6 @@ const Login = () => {
 								onBlur={passwordBlurHandler}
 								required
 							/>
-							{passwordInputHasError && (
-								<ErrorTag>
-									비밀번호를 6자리 이상 입력해주세요.
-								</ErrorTag>
-							)}
 						</InputWrapperTag>
 
 						<div className="loginAndJoin">
@@ -121,10 +113,36 @@ const Login = () => {
 							<Link to="/find/password">비밀번호 찾기</Link>
 						</div>
 						<div className="sns">
-							<p>카카오로 간편하게 시작하세요</p>
-							<ButtonTag type="button" bgColor="yellow">
-								<RiKakaoTalkFill />
-								<span id="kakao">카카오로 시작하기</span>
+							<ButtonTag
+								type="button"
+								bgColor="yellow"
+								shadow={true}
+							>
+								<a href="">
+									<RiKakaoTalkFill />
+									카카오 로그인
+								</a>
+							</ButtonTag>
+							<ButtonTag
+								type="button"
+								bgColor="white"
+								shadow={true}
+							>
+								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect">
+									<FcGoogle />
+									구글 로그인
+								</a>
+							</ButtonTag>
+							<ButtonTag
+								type="button"
+								bgColor="#19ce60"
+								color="#fff"
+								shadow={true}
+							>
+								<a href="#">
+									<SiNaver />
+									네이버 로그인
+								</a>
 							</ButtonTag>
 						</div>
 					</FormTag>
@@ -247,6 +265,7 @@ interface ButtonProps {
 	bgColor: string;
 	color?: string;
 	border?: string;
+	shadow?: boolean;
 }
 
 export const ButtonTag = styled.button<ButtonProps>`
@@ -258,16 +277,22 @@ export const ButtonTag = styled.button<ButtonProps>`
 	border: ${({ border }) => (border ? `1px solid ${border}` : "none")};
 	padding: 1em;
 	border-radius: 5px;
-	font-size: 0.7rem;
 	transition: all 0.5s;
+	column-gap: 1em;
+	box-shadow: ${({ shadow }) =>
+		shadow
+			? "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px"
+			: ""};
 	a {
 		color: ${({ color }) => (color ? color : "black")};
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		column-gap: 1em;
 	}
 	svg {
-		font-size: 1rem;
-	}
-	#kakao {
-		margin-left: 0.5em;
+		font-size: 1.5rem;
 	}
 	:disabled {
 		background-color: gray;

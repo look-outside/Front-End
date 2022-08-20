@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -118,7 +119,7 @@ const Login = () => {
 								bgColor="yellow"
 								shadow={true}
 							>
-								<a href="">
+								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth/redirect">
 									<RiKakaoTalkFill />
 									카카오 로그인
 								</a>
@@ -139,7 +140,7 @@ const Login = () => {
 								color="#fff"
 								shadow={true}
 							>
-								<a href="#">
+								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect">
 									<SiNaver />
 									네이버 로그인
 								</a>

@@ -14,6 +14,9 @@ import { AiOutlineCheck } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { checkId, checkNickName, signUp } from "../../services/user";
+import { FcGoogle } from "react-icons/fc";
+import { SiNaver } from "react-icons/si";
+import { RiKakaoTalkFill } from "react-icons/ri";
 
 const Join = () => {
 	const navigate = useNavigate();
@@ -133,7 +136,7 @@ const Join = () => {
 	const vaildCheckHandler = async (name: string) => {
 		if (name === "id") {
 			const res = await checkId(enteredId);
-			console.log(res)
+			console.log(res);
 			if (res.data === true) {
 				setVaildCheckId(false);
 				Swal.fire({
@@ -354,6 +357,7 @@ const Join = () => {
 						</GenderTag>
 						{/* 회원가입 버튼  */}
 						<ButtonTag
+							shadow={true}
 							color="white"
 							bgColor="skyblue"
 							type="submit"
@@ -361,6 +365,39 @@ const Join = () => {
 						>
 							회원가입
 						</ButtonTag>
+						<div className="sns">
+							<ButtonTag
+								type="button"
+								bgColor="yellow"
+								shadow={true}
+							>
+								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth/redirect?join=true">
+									<RiKakaoTalkFill />
+									카카오 회원가입
+								</a>
+							</ButtonTag>
+							<ButtonTag
+								type="button"
+								bgColor="white"
+								shadow={true}
+							>
+								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect?join=true">
+									<FcGoogle />
+									구글 회원가입
+								</a>
+							</ButtonTag>
+							<ButtonTag
+								type="button"
+								bgColor="#19ce60"
+								color="#fff"
+								shadow={true}
+							>
+								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect?join=true">
+									<SiNaver />
+									네이버 회원가입
+								</a>
+							</ButtonTag>
+						</div>
 					</FormTag>
 				</FormWrapperTag>
 			</WrapperTag>
@@ -370,7 +407,7 @@ const Join = () => {
 
 export default Join;
 
-const VaildCheckWrapperTag = styled.div`
+export const VaildCheckWrapperTag = styled.div`
 	display: flex;
 	column-gap: 0.5em;
 	input {
@@ -382,7 +419,7 @@ const VaildCheckWrapperTag = styled.div`
 	}
 `;
 
-const GenderTag = styled.div`
+export const GenderTag = styled.div`
 	display: flex;
 	align-items: center;
 	column-gap: 1em;

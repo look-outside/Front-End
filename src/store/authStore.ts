@@ -6,6 +6,7 @@ export interface User {
 	id: string;
 	type: string;
 	nickname: string;
+	sns:boolean;
 }
 
 interface UserState {

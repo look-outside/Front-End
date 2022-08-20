@@ -1,9 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
-
-
-
 interface UserInfo {
 	useName?: string;
 	useNick?: string;
@@ -66,16 +63,17 @@ export const login = async (userInfo: UserInfo, addUser: any) => {
 		const res = await axios.post("/user/sign-in", userInfo, {
 			withCredentials: true,
 		});
-		const token = res.data.accessToken
+		const token = res.data.accessToken;
 		const { useId, useRole, useNick, useNo }: Token = jwtDecode(token);
 		const user = {
 			id: useId,
 			type: useRole,
 			nickname: useNick,
-			no: useNo
+			no: useNo,
+			sns: false,
 		};
 		onLoginSuccess(token);
-		addUser(user,token);
+		addUser(user, token);
 		return res;
 	} catch (error: any) {
 		return error;
@@ -91,10 +89,29 @@ export const login = async (userInfo: UserInfo, addUser: any) => {
 //         });
 // }
 
-const onLoginSuccess = (token:string) => {
+export const onLoginSuccess = (token: string) => {
 	// accessToken 설정
 	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
 	// accessToken 만료하기 1분 전에 로그인 연장 , 요건 나중에 해보자
 	// setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000);
+};
+
+// 임시 닉네임만
+
+export const infoEdit = async (
+	useNo: number,
+	nickname: string,
+	gender: string
+) => {
+	try {
+		const res = await axios.put("/user", {
+			useNo: useNo,
+			useNick: nickname,
+			useGender: gender,
+		});
+		return res.data;
+	} catch (error: any) {
+		return error.response;
+	}
 };

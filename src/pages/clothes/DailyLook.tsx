@@ -26,7 +26,7 @@ const DailyLook = () => {
 
     return (
         <c.Container>
-            <CateHeader category='데일리룩' onGetRegionNumber={getRegionHandler} />
+            <CateHeader categoryNum={0} category='데일리룩' onGetRegionNumber={getRegionHandler} />
             <c.Imgs>
                 {data && (
                     data.map((art,i) => (

@@ -15,3 +15,12 @@ export interface Post {
 export type PageT = {
     [key :string] :number
 }
+
+export interface Token {
+	useId?: string;
+	useRole: string;
+	useNick: string;
+	useNo: number;
+	sub?:string;
+	role?:string;
+}

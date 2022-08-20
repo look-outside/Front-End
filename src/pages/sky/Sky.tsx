@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { MdEdit } from 'react-icons/md';
 import CateHeader from '../../components/CateHeader';
 import Pagination from '../../components/Pagination';
 import * as c from '../../styles/Category';
@@ -16,8 +15,7 @@ const Sky = () => {
     const [curPage, setCurPage] = useState(1);
 
     useEffect(() => {
-        // axios.get(`/article/list/2/${region}`, {params: {page: (curPage-1)}})
-        axios.get('/article/list/2/0101', {params: {page: (curPage-1)}}) //임시
+        axios.get(`/article/list/2/${region}`, {params: {page: (curPage-1)}})
         .then(res => {
             setData(res.data.data.list)
             setPage(res.data.data.pageable)

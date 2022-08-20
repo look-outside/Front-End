@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { MdEdit } from 'react-icons/md';
 import CateHeader from '../../components/CateHeader';
 import Pagination from '../../components/Pagination';
 import * as c from '../../styles/Category';
@@ -16,8 +15,7 @@ const DailyLook = () => {
     const [curPage, setCurPage] = useState(1);
 
     useEffect(() => {
-        // axios.get(`/article/list/1/${region}`, {params: {page: (curPage-1)}})
-        axios.get('/article/list/1/0101', {params: {page: (curPage-1)}}) //임시
+        axios.get(`/article/list/0/${region}`, {params: {page: (curPage-1)}})
         .then(res => {
             setData(res.data.data.list)
             setPage(res.data.data.pageable)
@@ -31,7 +29,7 @@ const DailyLook = () => {
                 {data && (
                     data.map((art,i) => (
                         <c.Card key={i}>
-                            <c.Img src='/test.jpg' alt='test1'/>
+                            <c.Img src='/test.jpg' alt='test1'/>{/* 대기중 */}
                             <p>{art.artSubject}</p>
                             <span>{art.useNick}&nbsp;</span>
                             <span id='dis'>{art.regAddr1} {art.regAddr2}</span>
@@ -40,7 +38,7 @@ const DailyLook = () => {
                 )}
             </c.Imgs>
             {data && (
-                    <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+                <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
             )}
         </c.Container>
     );

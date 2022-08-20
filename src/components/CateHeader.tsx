@@ -37,6 +37,7 @@ export const WrapperTag = styled.div`
 	align-items: center;
 	row-gap: 2em;
 	width: 100%;
+	margin-bottom: 4em;
 `;
 
 export const PageHeaderTag = styled.div`

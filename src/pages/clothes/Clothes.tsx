@@ -4,23 +4,22 @@ import { AiOutlineCaretRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import * as c from '../../styles/Category';
+import { Post } from '../../types/types';
 
 const Clothes = () => {
-  const [daily, setDaily] = useState([]);
-  const [free, setFree] = useState([]);
+  const [daily, setDaily] = useState<Post[]>([]);
+  const [free, setFree] = useState<Post[]>([]);
 
-  // useEffect(() => {
-  //   // axios.get('/article/list/0')
-  //   axios.get('/article/list/1/0101') // 임시
-  //     .then(res => {
-  //       setDaily(res.data.data.list)
-  //     })
-  //   // axios.get('/article/list/1')
-  //   axios.get('/article/list/1/0101')
-  //     .then(res => {
-  //       setDaily(res.data.data.list)
-  //   })
-  // })
+  useEffect(() => {
+    axios.get('/article/category/0')
+    .then(res => {
+      setDaily(res.data.data.list)
+    })
+    axios.get('/article/category/1', {params: {size: 5}})
+    .then(res => {
+      setFree(res.data.data.list)
+    })
+  }, [])
   
   return (
     <c.Container>
@@ -34,24 +33,17 @@ const Clothes = () => {
         </span>
       </Line>
 
-      {/* 임시 (맨 밑의 코딩o) */}
-      <c.Imgs>        
-        <Card>
-          <c.Img src='/test.jpg' alt='test1' />
-          <span>서울 강동구</span>
-        </Card>
-        <Card>
-          <c.Img src='/test.jpg' alt='test1' />
-          <span>서울 송파구</span>
-        </Card>
-        <Card>
-          <c.Img src='/test.jpg' alt='test1' />
-          <span>서울 강남구</span>
-        </Card>
-        <Card>
-          <c.Img src='/test.jpg' alt='test1' />
-          <span>서울 마포구</span>
-        </Card>
+      <c.Imgs>
+        {
+          daily && (
+            daily.map((art, i) => (
+              <Card key={i}>
+                <c.Img src='/test.jpg' alt='test1' />{/* 임시 */}
+                <span>{art.regAddr1} {art.regAddr2}</span>
+              </Card>
+            ))
+          )
+        }
       </c.Imgs>
 
       <Line>        
@@ -62,28 +54,16 @@ const Clothes = () => {
           <Link to='../free' id='black'>더보기<AiOutlineCaretRight /></Link>
         </span>
       </Line>
-
-      {/* 임시 (맨 밑의 코딩o) */}
-      <Article>
-        <span id='title'>내추럴 소프트 숲속향</span>
-        <span id='dist'>서울특별시 강동구</span>
-      </Article>
-      <Article>
-        <span id='title'>이틀 뒤 나는 제주도</span>
-        <span id='dist'>제주도 서귀포시</span>
-      </Article>
-      <Article>
-        <span id='title'>내추럴 소프트 숲속향내추럴 소프트 숲속향</span>
-        <span id='dist'>서울특별시 강동구</span>
-      </Article>
-      <Article>
-        <span id='title'>이틀 뒤 나는 제주도이틀 뒤 나는 제주도이틀 뒤 나는 제주도</span>
-        <span id='dist'>제주도 서귀포시</span>
-      </Article>
-      <Article>
-        <span id='title'>이틀 뒤 나는 제주도이틀 뒤 나는 제주도</span>
-        <span id='dist'>제주도 서귀포시</span>
-      </Article>
+      {
+        free && (
+          free.map((art, i) => (
+            <Article key={i}>
+              <span id='title'>{art.artSubject}</span>
+              <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
+            </Article>
+          ))
+        )
+      }
     </c.Container>
   )
 }
@@ -142,10 +122,12 @@ const Article = styled.div`
   border-bottom: 1px solid lightgray;
   #title {
     width: 75%;
+    font-size: 1.1rem;
     @media screen and (max-width: 523px) {
       width: 72%;
     };
     @media screen and (max-width: 480px) {
+      font-size: 1rem;
       flex-direction: column;
       width: 100%;
       margin-bottom: 0.4em;
@@ -173,27 +155,3 @@ const Article = styled.div`
     padding: 0.4em 0;
   };
 `;
-
-/*
-api 완성 시 추가
-{
-  daily && (
-    daily.map((art, i) => (
-      <Card>
-        <c.Img src='/test.jpg' alt='test1' />
-        <span>{art.regAddr1} {art.regAddr2}</span>
-      </Card>
-    ))
-  )
-}
-{
-  free && (
-    free.map((art, i) => (
-      <Article>
-        <span id='title'>{art.artSubject}</span>
-        <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
-      </Article>
-    ))
-  )
-}
-*/

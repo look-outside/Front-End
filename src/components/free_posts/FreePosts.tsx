@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Post } from "../../types/types";
 
-
 interface Props {
 	posts: Post[];
 	path: string;
@@ -11,22 +10,45 @@ interface Props {
 const FreePosts = ({ posts, path }: Props) => {
 	return (
 		<FreePostsTag>
-			<ListTag>
-				{posts.map((post) => (
-					<li key={post.artNo}>
-						<Link to={`${path}/${post.artNo}`}>
-							<div className="left">
-								<span id="nickName">{post.useNick}</span>
-								<span id="city">{post.regAddr1}</span>
-								<span id="district">{post.regAddr2}</span>
-							</div>
-							<div className="right">
-								<span id="title">{post.artSubject}</span>
-							</div>
-						</Link>
-					</li>
-				))}
-			</ListTag>
+			{posts.length ? (
+				<ListTag>
+					{posts.map((post) => (
+						<li key={post.artNo}>
+							<Link to={`${path}/${post.artNo}`}>
+								<div className="left">
+									<span className="artSubject">
+										{post.artSubject}
+									</span>
+								</div>
+								<div className="right">
+										<div>
+											<span className="created">
+												{post.artCreated}
+											</span>
+										</div>
+									<div className="info">
+										<span className="nickName">
+											{post.useNick}
+										</span>
+										<div>
+											<span className="regAddr1">
+												{post.regAddr1}
+											</span>
+											<span className="regAddr2">
+												{post.regAddr2}
+											</span>
+										</div>
+									</div>
+								</div>
+							</Link>
+						</li>
+					))}
+				</ListTag>
+			) : (
+				<div className="nothing">
+					<p>글이 없습니다.</p>
+				</div>
+			)}
 		</FreePostsTag>
 	);
 };
@@ -34,94 +56,103 @@ const FreePosts = ({ posts, path }: Props) => {
 export default FreePosts;
 
 const FreePostsTag = styled.div`
-	background-color: skyblue;
-	border-radius: 15px;
-	padding: 1em;
-    @media screen and (min-width: 500px){
-        padding: 1.2em;
-    }
-    @media screen and (min-width: 875px){
-        padding: 1.5em;
-    }
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+	min-height: 120px;
+	border-radius: 5px;
 `;
 
 const ListTag = styled.ul`
-	background-color: white;
-	border-radius: 15px;
-	padding: 0.5em;
 	width: 100%;
-	display: grid;
+	display: flex;
+	flex-direction: column;
 	row-gap: 1em;
-	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 	li {
+		border-bottom: 2px solid lightgray;
 		a {
 			display: flex;
-            flex-direction: column;
-            row-gap: .5em;
+			flex-direction: column;
+			row-gap: 0.5em;
 			justify-content: space-between;
-			align-items: center;
-			border-bottom: 2px dotted skyblue;
-			padding: 0.5em .8em;
+			padding: 0.5rem 1rem;
 			color: black;
-            @media screen and (min-width: 500px){
-                flex-direction: row;
-                padding: 0.5em 1.5em;
-            }
 		}
 	}
 	.left {
 		display: flex;
-		align-items: flex-end;
+		flex-direction: column;
+		row-gap: 0.5em;
+		flex: 1;
 	}
-	#nickName {
-        font-size: .7rem;
-		font-weight: 800;
+	.right {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		row-gap: 0.5em;
+	}
+	.created {
+		font-size: 0.7rem;
+		color: gray;
+	}
+	.nickName {
+		font-size: 0.7rem;
+		font-weight: 500;
 		margin-right: 0.5em;
 	}
-	#city {
+	.regAddr1 {
 		margin-right: 0.2em;
 	}
-	#city,
-	#district {
+	.regAddr1,
+	.regAddr2 {
 		font-size: 0.4rem;
 		color: gray;
 	}
-	#title {
-        font-size: .7rem;
-		font-weight: 800;
+	.artSubject {
+		font-size: 0.9rem;
+		font-weight: 500;
 	}
 
-
-    
-    @media screen and (min-width: 500px) {
-		#nickName {
-            font-size: .8rem;
+	@media screen and (min-width: 500px) {
+		.left {
+			column-gap: 0.5em;
 		}
-		#city {
+		.right {
+			.info {
+				display: flex;
+				align-items: center;
+			}
 		}
-		#city,
-		#district {
-            font-size: 0.6rem;
-
+		.created {
+			font-size: 0.6rem;
 		}
-        #title {
-		font-size:.8rem;
-	}
+		.nickName {
+			font-size: 0.8rem;
+		}
+		.regAddr1 {
+		}
+		.regAddr1,
+		.regAddr2 {
+			font-size: 0.6rem;
+		}
+		.artSubject {
+			font-size: 1rem;
+		}
 	}
 
 	@media screen and (min-width: 875px) {
-		#nickName {
-			font-size: 1rem;
-		}
-		#city {
-		}
-		#city,
-		#district {
+		.created {
 			font-size: 0.7rem;
 		}
-        #title {
-		font-size:1rem;
+		.nickName {
+			font-size: 1rem;
+		}
+		.regAddr1 {
+		}
+		.regAddr1,
+		.regAddr2 {
+			font-size: 0.7rem;
+		}
 	}
-	}
-
 `;

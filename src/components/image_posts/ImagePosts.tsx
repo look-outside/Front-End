@@ -1,16 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Post } from "../../types/types";
 
-// 나중에 type.d.ts 에 추가!
-
-interface Post {
-	image: string;
-	title: string;
-	city: string;
-	district: string;
-	id: number;
-}
 
 interface Props {
 	posts: Post[];
@@ -22,23 +14,23 @@ const ImagePosts = ({ posts, path }: Props) => {
 		<ImagePostsTag>
 			<ListTag>
 				{posts.map((post) => (
-					<li key={post.id}>
-						<Link to={`${path}/${post.id}`}>
+					<li key={post.artNo}>
+						<Link to={`${path}/${post.artNo}`}>
 							<article>
 								<ImageWrapper>
 									<PostImageTag
-										src={post.image}
+										src={post.imgSave}
 										alt="게시물 이미지"
 									/>
 								</ImageWrapper>
 								<InfoWrapper>
 									<div>
-										<span id="city">{post.city}</span>
+										<span id="city">{post.regAddr1}</span>
 										<span id="district">
-											{post.district}
+											{post.regAddr2}
 										</span>
 									</div>
-									<h3>{post.title}</h3>
+									<h3>{post.artSubject}</h3>
 								</InfoWrapper>
 							</article>
 						</Link>

@@ -1,9 +1,33 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Pagination from '../../components/Pagination';
+import authStore from '../../store/authStore';
 import Col from '../../styles/mypage/MyList';
 import * as i from '../../styles/mypage/TabInner';
+import { PageT } from '../../types/types';
+
+interface CommentT {
+    repNo :number,
+    repContents :string,
+    repCreated :string,
+}
 
 const Comments = () => {
+    const {userProfile} = authStore()
+
+    const [data,setData] = useState<CommentT[]>();
+    const [page, setPage] = useState<PageT>();
+    const [curPage, setCurPage] = useState(1); 
+
+    useEffect(() => {
+        axios.get(`/article/reply/${userProfile?.no}`, { params: {page: (curPage-1)} })
+        .then(res => {
+            setData(res.data.data.list);
+            setPage(res.data.data.pageable);
+        })
+    },[curPage])
+
     return (
         <i.Outline>
             <i.TabTitle>댓글 목록</i.TabTitle>
@@ -11,14 +35,17 @@ const Comments = () => {
                 <li id='content'>댓글</li>
                 <li id='day'>날짜</li>
             </Col>
-            <Cmt>
-                <li id='cmt'>해피데이 </li>
-                <li id='date'>20.08.06</li>
-            </Cmt>
-            <Cmt>
-                <li id='cmt'>내추럴 소프트 숲속향</li>
-                <li id='date'>22.12.25</li>
-            </Cmt>
+            {data && (
+                data.map((com, i) => (
+                    <Cmt key={i}>
+                        <li id='cmt'>{com.repContents}</li>
+                        <li id='date'>{com.repCreated.slice(0,8)}</li>
+                    </Cmt>
+                ))
+            )}
+            {page && (
+                <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+            )}
         </i.Outline>
     );
 };

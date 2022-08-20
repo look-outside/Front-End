@@ -10,10 +10,14 @@ import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import styled from "styled-components";
 
-const WritePost = () => {
+interface Props {
+	onGetHtml : (html:string) => void
+}
+
+const WritePost = ({onGetHtml}:Props) => {
 	const editRef = useRef<Editor>(null);
 	const onChangeHandler = () => {
-		// console.log(editRef.current?.getInstance().getHTML());
+		onGetHtml(editRef.current?.getInstance().getHTML());
 	};
 
 	const onUploadImage = async (blob: any, callback: any) => {
@@ -58,3 +62,4 @@ const EditorWrapperTag = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
+

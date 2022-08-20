@@ -5,12 +5,13 @@ import styled from "styled-components";
 import SelectRezion from "./select_region/SelectRegion";
 
 interface Props {
+    categoryNum : number;
 	category: string;
 	onGetRegionNumber: (reg: string) => void;
 }
 
-const CateHeader = ({ category, onGetRegionNumber }: Props) => {
-	return (
+const CateHeader = ({categoryNum, category, onGetRegionNumber }: Props) => {
+    return (
 		<WrapperTag>
 			<PageHeaderTag>
 				<div className="title">
@@ -18,7 +19,7 @@ const CateHeader = ({ category, onGetRegionNumber }: Props) => {
 				</div>
 
 				<button type="button">
-					<Link to="/upload_post" state={{ category: category }}>
+					<Link to="/upload_post" state={{ category: category , categoryNum : categoryNum}}>
 						<MdEdit />
 						글쓰기
 					</Link>

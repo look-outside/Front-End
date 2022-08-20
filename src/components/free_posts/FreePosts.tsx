@@ -13,15 +13,15 @@ const FreePosts = ({ posts, path }: Props) => {
 		<FreePostsTag>
 			<ListTag>
 				{posts.map((post) => (
-					<li key={post.id}>
-						<Link to={`${path}/${post.id}`}>
+					<li key={post.artNo}>
+						<Link to={`${path}/${post.artNo}`}>
 							<div className="left">
-								<span id="nickName">{post.nickName}</span>
-								<span id="city">{post.city}</span>
-								<span id="district">{post.district}</span>
+								<span id="nickName">{post.useNick}</span>
+								<span id="city">{post.regAddr1}</span>
+								<span id="district">{post.regAddr2}</span>
 							</div>
 							<div className="right">
-								<span id="title">{post.title}</span>
+								<span id="title">{post.artSubject}</span>
 							</div>
 						</Link>
 					</li>

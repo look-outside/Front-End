@@ -24,7 +24,7 @@ const Sky = () => {
 
     return (
         <c.Container>
-            <CateHeader category='오늘의 하늘' onGetRegionNumber={getRegionHandler} />
+            <CateHeader categoryNum={2} category='오늘의 하늘' onGetRegionNumber={getRegionHandler} />
             <c.Imgs>
                 {data && (
                     data.map((art,i) => (

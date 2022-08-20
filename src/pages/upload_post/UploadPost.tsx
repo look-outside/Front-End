@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { ContainerTag } from "../meeting/Meeting";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -6,22 +6,39 @@ import Swal from "sweetalert2";
 import WritePost from "../../components/write_post/WritePost";
 import SelectRezion from "../../components/select_region/SelectRegion";
 import { WrapperTag } from "../../components/CateHeader";
+import SelectWeather from "../../components/select_weather/SelectWeather";
+import authStore from "../../store/authStore";
+import { postUpload } from "../../services/post";
 
 interface State {
 	category: string;
+	categoryNum: number;
 }
 
 const UploadPost = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const formRef = useRef<HTMLFormElement>(null);
-	const { category } = location.state as State;
+	const { category, categoryNum } = location.state as State;
+	const [selectedRegion, setSelectedRegion] = useState<string>("");
+	const [selectedWeather, setSelectedWeather] = useState<number>(0);
+	const [enteredTitle, setEnteredTitle] = useState<string>("");
+	const [enteredWrite, setEnteredWrite] = useState<string>("");
+	const { userProfile } = authStore();
 
-	const getRegionNumber = (region:string) => {
-		console.log(region)
-	}
+	const getRegionNumberHandler = (region: string) => {
+		setSelectedRegion(region);
+	};
+	const getWeatherHandler = (weather: number) => {
+		setSelectedWeather(weather);
+	};
+	const changeTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setEnteredTitle(event.target.value);
+	};
+	const getHtmlHandler = (html: string) => {
+		setEnteredWrite(html);
+	};
 
-	const submitHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
+	const submitHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		Swal.fire({
 			position: "center",
@@ -33,9 +50,18 @@ const UploadPost = () => {
 			showCancelButton: true,
 			cancelButtonText: "취소",
 			cancelButtonColor: "red",
-		}).then((result) => {
+		}).then(async (result) => {
 			if (result.isConfirmed) {
-				navigate(-1);
+				const res = await postUpload({
+					selectedRegion,
+					selectedWeather,
+					categoryNum,
+					enteredTitle,
+					enteredWrite,
+					useNo: userProfile.no,
+				});
+				console.log(res);
+				// navigate(-1);
 			} else {
 				Swal.close();
 			}
@@ -48,91 +74,13 @@ const UploadPost = () => {
 				<PageHeaderTag>
 					<h2>카테고리 - {category}</h2>
 				</PageHeaderTag>
-				<SelectRezion onGetRegionNumber={getRegionNumber}/>
-				<FormTag onSubmit={submitHandler} ref={formRef}>
+				<SelectRezion onGetRegionNumber={getRegionNumberHandler} />
+				<FormTag onSubmit={submitHandler}>
 					<InputWrapperTag>
 						<div>
 							<p>날씨</p>
 						</div>
-						<RadioWrapperTag>
-							<label htmlFor="sun">
-								<input
-									type="radio"
-									id="sun"
-									name="weather"
-									value="sun"
-								/>
-								<div>
-									<abbr title="맑음">☀️</abbr>
-									<span>맑음</span>
-								</div>
-							</label>
-
-							<label htmlFor="sunBehindCloud">
-								<input
-									type="radio"
-									id="sunBehindCloud"
-									name="weather"
-									value="sunBehindCloud"
-								/>
-								<div>
-									<abbr title="구름 많음">⛅</abbr>
-									<span>구름 많음</span>
-								</div>
-							</label>
-
-							<label htmlFor="cloud">
-								<input
-									type="radio"
-									id="cloud"
-									name="weather"
-									value="cloud"
-								/>
-								<div>
-									<abbr title="흐림">☁️</abbr>
-									<span>흐림</span>
-								</div>
-							</label>
-
-							<label htmlFor="rain">
-								<input
-									type="radio"
-									id="rain"
-									name="weather"
-									value="rain"
-								/>
-								<div>
-									<abbr title="비">🌧️</abbr>
-									<span>비</span>
-								</div>
-							</label>
-
-							<label htmlFor="lightning">
-								<input
-									type="radio"
-									id="lightning"
-									name="weather"
-									value="lightning"
-								/>
-								<div>
-									<abbr title="번개">🌩️</abbr>
-									<span>번개</span>
-								</div>
-							</label>
-
-							<label htmlFor="none">
-								<input
-									type="radio"
-									id="none"
-									name="weather"
-									value="none"
-								/>
-								<div>
-									<abbr title="선택 안함">✖️</abbr>
-									<span>선택 안함</span>
-								</div>
-							</label>
-						</RadioWrapperTag>
+						<SelectWeather onGetWeather={getWeatherHandler} />
 					</InputWrapperTag>
 					<InputWrapperTag>
 						<label htmlFor="title">제목</label>
@@ -140,9 +88,10 @@ const UploadPost = () => {
 							type="text"
 							id="title"
 							placeholder="제목을 입력해주세요."
+							onChange={changeTitleHandler}
 						/>
 					</InputWrapperTag>
-					<WritePost />
+					<WritePost onGetHtml={getHtmlHandler} />
 					<ButtonWrapperTag>
 						<button type="button" onClick={() => navigate(-1)}>
 							취소
@@ -228,70 +177,6 @@ const ButtonWrapperTag = styled.div`
 		column-gap: 1em;
 		button {
 			width: max-content;
-		}
-	}
-`;
-
-const RadioWrapperTag = styled.div`
-	display: flex;
-	align-items: center;
-	width: 100%;
-	flex: 2;
-	height: 100%;
-	justify-content: space-between;
-	column-gap: 0.5em;
-	min-width: min-content;
-	label {
-		position: relative;
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		input {
-			position: relative;
-			z-index: 1;
-			appearance: none;
-			display: none;
-		}
-		div {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			column-gap: 0.5em;
-			padding: 0.3em;
-			background-color: white;
-			border-radius: 5px;
-			box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-			font-size: 1.1rem;
-			width: 100%;
-			height: 100%;
-			@media screen and (min-width: 768px) {
-				font-size: 1.25rem;
-			}
-			@media screen and (min-width: 1024px) {
-				font-size: 1.5rem;
-			}
-			abbr {
-				text-decoration: none;
-			}
-			span {
-				font-size: 0.5rem;
-				@media screen and (max-width: 600px) {
-					display: none;
-				}
-				@media screen and (min-width: 820px) {
-					font-size: 0.75rem;
-				}
-				@media screen and (min-width: 1024px) {
-					font-size: 1rem;
-				}
-			}
-		}
-		input:checked ~ div {
-			transition: all 0.5s;
-			box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
-			background-color: skyblue;
-			color: white;
 		}
 	}
 `;

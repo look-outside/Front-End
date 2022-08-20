@@ -1,7 +1,13 @@
 export interface Post {
-    artNo: number,
-    artSubject: string,
+    useNo: number,
     useNick: string,
+    artNo: number,
+    artCategory: number,
+    artSubject: string,
+    artContents: string,
+    artCreated: string,
+    ImgSave: string | null,
+    regNo: string,
     regAddr1: string,
     regAddr2: string,
 }

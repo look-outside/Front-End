@@ -14,7 +14,7 @@ const FreePosts = ({ posts, path }: Props) => {
 				<ListTag>
 					{posts.map((post) => (
 						<li key={post.artNo}>
-							<Link to={`${path}/${post.artNo}`}>
+							<Link to={`${path}/${post.artNo}`} state={{artNo: post.artNo}}>
 								<div className="left">
 									<span className="artSubject">
 										{post.artSubject}

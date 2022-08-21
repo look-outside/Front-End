@@ -1,39 +1,26 @@
 import React from "react";
 import styled from "styled-components";
+import { CommentT } from "../../types/types";
 import Comment from "./Comment";
 
-const COMMENTS = [
-	{
-		name: "이시형",
-		comment: "끝내자 이제",
-		create: "Mon Aug 15 2022 00:40:28 GMT+0900",
-		id: 1,
-		userId: "dltlgud",
-	},
-	{
-		name: "이시형",
-		comment: "끝내자 이제",
-		create: "Mon Aug 15 2022 00:40:28 GMT+0900",
-		id: 2,
-		userId: "dltlgud",
-	},
-	{
-		name: "이시형",
-		comment: "끝내자 이제",
-		create: "Mon Aug 15 2022 00:40:28 GMT+0900",
-		id: 3,
-		userId: "dltlgud",
-	},
-];
+interface Props {
+	comments: CommentT[];
+}
 
-const Comments = () => {
+const Comments = ({ comments }: Props) => {
 	return (
 		<CommentListWrapperTag>
 			<h2>댓글 목록</h2>
 			<CommentList>
-				{COMMENTS.map((comment) => (
-					<Comment key={comment.id} comment={comment} />
-				))}
+				{comments.length ? (
+					comments.map((comment) => (
+						<Comment key={comment.repNo} comment={comment} />
+					))
+				) : (
+					<div>
+						<p>등록된 댓글이 없습니다.</p>
+					</div>
+				)}
 			</CommentList>
 		</CommentListWrapperTag>
 	);
@@ -42,16 +29,25 @@ const Comments = () => {
 export default Comments;
 
 const CommentListWrapperTag = styled.div`
-    h2{
-        margin-bottom: 1em;
-        color: skyblue;
-        font-size: 1.3rem;
-        font-weight: 800;
-    }
-`
+	h2 {
+		margin-bottom: 1em;
+		color: skyblue;
+		font-size: 1.3rem;
+		font-weight: 800;
+	}
+`;
 
 const CommentList = styled.ul`
 	display: flex;
 	flex-direction: column;
 	row-gap: 1em;
+	div{
+		box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+		rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2em;
+	}
 `;

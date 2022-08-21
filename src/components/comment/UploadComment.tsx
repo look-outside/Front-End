@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import authStore from "../../store/authStore";
+import { User } from "../../store/authStore";
 import TextareaAutosize from "react-textarea-autosize";
 
-const UploadComment = () => {
-	const { userProfile } = authStore();
+interface Props {
+	onAddComment : (text:string)=>void;
+	user : User
+}
+
+const UploadComment = ({onAddComment,user}:Props) => {
 	const [enteredComment, setEnteredComment] = useState<string>("");
 
 	const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setEnteredComment(event.target.value);
 	};
 
-	const submitHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
+	const submitHandler = async(event: React.ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		onAddComment(enteredComment)
 		setEnteredComment("");
 	};
 
-	if (!userProfile) {
+	if (!user) {
 		return (
 			<LoginTag>
 				<p>로그인 후 댓글 작성이 가능 합니다.</p>
@@ -30,7 +35,7 @@ const UploadComment = () => {
 	return (
 		<UploadWrapperTag>
 			<NickNameTag>
-				<span>{userProfile.nickname}</span>
+				<span>{user.nickname}</span>
 			</NickNameTag>
 			<form onSubmit={submitHandler}>
 				<CommentTag>

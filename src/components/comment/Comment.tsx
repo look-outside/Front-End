@@ -7,15 +7,10 @@ import styled from "styled-components";
 import authStore from "../../store/authStore";
 import TextareaAutosize from "react-textarea-autosize";
 import { UploadButtonTag } from "./UploadComment";
+import { CommentT } from "../../types/types";
 
 interface Props {
-	comment: {
-		name: string;
-		comment: string;
-		create: string;
-		id: number;
-		userId: string;
-	};
+	comment : CommentT
 }
 
 const Comment = ({ comment }: Props) => {
@@ -24,7 +19,7 @@ const Comment = ({ comment }: Props) => {
 	const [openEdit, setOpenEdit] = useState<boolean>(false);
 	const [editMode, setEditMode] = useState<boolean>(false);
 	const [enteredComment, setEnteredComment] = useState<string>(
-		comment.comment
+		comment.repContents
 	);
 	const [edited, setEdited] = useState<boolean>(false);
 
@@ -54,13 +49,14 @@ const Comment = ({ comment }: Props) => {
 			<CommentBoxTag>
 				<CommentHeaderTag>
 					<div className="user_info">
-						<span>{comment.name}</span>
-						{userProfile?.id === comment.userId && (
+						{/* 수정 이름 필드 추가해서 */}
+						<span>이름</span>
+						{userProfile?.no === comment.useNo && (
 							<span className="mine">내 댓글</span>
 						)}
-						<Moment fromNow>{comment.create}</Moment>
+						<Moment fromNow>{comment.repCreated}</Moment>
 					</div>
-					{hover && userProfile?.id === comment.userId && (
+					{hover && userProfile?.no === comment.useNo && (
 						<EditTag>
 							<BsThreeDotsVertical
 								onClick={() => setOpenEdit((pre) => !pre)}
@@ -86,7 +82,7 @@ const Comment = ({ comment }: Props) => {
 					)}
 				</CommentHeaderTag>
 				<CommentTag>
-					{!editMode && !edited && <p>{comment.comment}</p>}
+					{!editMode && !edited && <p>{comment.repContents}</p>}
 					{!editMode && edited && <p>{enteredComment}</p>}
 					{editMode && (
 						<form onSubmit={submitHandler}>
@@ -104,7 +100,7 @@ const Comment = ({ comment }: Props) => {
 									type="button"
 									onClick={() => {
 										setEditMode(false);
-										setEnteredComment(comment.comment);
+										setEnteredComment(comment.repContents);
 									}}
 								>
 									취소
@@ -112,7 +108,7 @@ const Comment = ({ comment }: Props) => {
 								<button
 									type="submit"
 									disabled={
-										enteredComment === comment.comment
+										enteredComment === comment.repContents
 									}
 									onClick={() => setEdited(true)}
 								>

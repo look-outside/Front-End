@@ -24,3 +24,11 @@ export interface Token {
 	sub?:string;
 	role?:string;
 }
+
+interface CommentT {
+    artNo: number;
+    repContents: string;
+    repCreated: string;
+    repNo: number;
+    useNo: number;
+}

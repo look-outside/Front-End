@@ -21,11 +21,11 @@ const FreePosts = ({ posts, path }: Props) => {
 									</span>
 								</div>
 								<div className="right">
-										<div>
-											<span className="created">
-												{post.artCreated}
-											</span>
-										</div>
+									<div>
+										<span className="created">
+											{post.artCreated}
+										</span>
+									</div>
 									<div className="info">
 										<span className="nickName">
 											{post.useNick}
@@ -60,8 +60,12 @@ const FreePostsTag = styled.div`
 	justify-content: center;
 	align-items: center;
 	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-	min-height: 120px;
 	border-radius: 5px;
+	.nothing {
+		min-height: 120px;
+		display: flex;
+		align-items: center;
+	}
 `;
 
 const ListTag = styled.ul`
@@ -69,12 +73,15 @@ const ListTag = styled.ul`
 	display: flex;
 	flex-direction: column;
 	row-gap: 1em;
+	/* height: 100%; */
 	li {
-		border-bottom: 2px solid lightgray;
+		:not(:last-child) {
+			border-bottom: 2px solid lightgray;
+		} 
 		a {
 			display: flex;
 			flex-direction: column;
-			row-gap: 0.5em;
+			row-gap: 0.8em;
 			justify-content: space-between;
 			padding: 0.5rem 1rem;
 			color: black;
@@ -143,7 +150,7 @@ const ListTag = styled.ul`
 
 	@media screen and (min-width: 875px) {
 		.created {
-			font-size: 0.7rem;
+			font-size: 0.8rem;
 		}
 		.nickName {
 			font-size: 1rem;

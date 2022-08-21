@@ -34,9 +34,9 @@ export const postUpload = async ({
 };
 
 
-export const getGategoryPosts  = async(categoryNum:number,regionNum:string,page:number) => {
+export const getGategoryPosts  = async(categoryNum:number,region:string,page:number) => {
 	try{
-		const res = await axios(`/article/list/${categoryNum}/${regionNum}`,{
+		const res = await axios.get(`/article/list/${categoryNum}/${region}`,{
 			params: {page}
 		})
 		return res

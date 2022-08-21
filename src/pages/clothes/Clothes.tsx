@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AiOutlineCaretRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
+import FreePosts from '../../components/free_posts/FreePosts';
 import * as c from '../../styles/Category';
 import { Post } from '../../types/types';
 
@@ -54,16 +55,7 @@ const Clothes = () => {
           <Link to='../free' id='black'>더보기<AiOutlineCaretRight /></Link>
         </span>
       </Line>
-      {
-        free && (
-          free.map((art, i) => (
-            <Article key={i}>
-              <span id='title'>{art.artSubject}</span>
-              <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
-            </Article>
-          ))
-        )
-      }
+      <FreePosts posts={free} path="/today_clothes/free" />
     </c.Container>
   )
 }

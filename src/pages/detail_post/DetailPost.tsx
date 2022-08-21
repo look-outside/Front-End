@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Comments from "../../components/comment/Comments";
 import UploadComment from "../../components/comment/UploadComment";
 import PostContent from "../../components/post_content/PostContent";
+import { addComment, getComments } from "../../services/comment";
+import authStore from "../../store/authStore";
 
 const DETAILPOST = {
 	artNo: 1,
@@ -14,14 +17,33 @@ const DETAILPOST = {
 	regNo: "0101",
 	artWSelect: 3,
 };
+interface CustomizedState {
+	artNo: number
+}
 
 const DetailPost = () => {
-	// 요기서 api를 호출하고 뿌려준다?
+	const { userProfile } = authStore();
+	const [comments, setComments] = useState<[]>([])
+	const location = useLocation()
+	const {artNo} = location.state as CustomizedState
+
+	const addCommentHandler = async(text:string) => {
+		const res = await addComment(artNo, userProfile.no ,text )
+	}
+	
+	useEffect(()=>{
+		const get = async()=>{
+			const res = await getComments(artNo)
+			setComments(res.data.data)
+		}
+		get()
+	},[])
+
 	return (
 		<ContainerTag>
 			<PostContent content={DETAILPOST}/>
-			<Comments />
-			<UploadComment />
+			<Comments comments={comments}/>
+			<UploadComment onAddComment={addCommentHandler} user={userProfile}/>
 		</ContainerTag>
 	);
 };

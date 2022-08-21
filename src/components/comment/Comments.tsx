@@ -17,7 +17,7 @@ const Comments = ({ comments }: Props) => {
 						<Comment key={comment.repNo} comment={comment} />
 					))
 				) : (
-					<div>
+					<div className="nothing">
 						<p>등록된 댓글이 없습니다.</p>
 					</div>
 				)}
@@ -41,7 +41,7 @@ const CommentList = styled.ul`
 	display: flex;
 	flex-direction: column;
 	row-gap: 1em;
-	div{
+	.nothing{
 		box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
 		rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 	border-radius: 5px;

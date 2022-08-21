@@ -56,3 +56,12 @@ export const Btn = styled.button`
         font-size: 0.8rem;
     };
 `;
+
+//for MyPage SnsInfo, PwCheck
+export const InputOne = styled(Val)`
+    width: 40%;
+    @media screen and (max-width: 480px){
+        width: 70%;
+        font-size: 0.9rem;
+    };
+`;

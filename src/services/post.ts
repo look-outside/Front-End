@@ -33,7 +33,17 @@ export const postUpload = async ({
 	return res;
 };
 
+//  메인 페이지 게시물 
+export const getMainPosts = async(categoryNum:number) => {
+	try{
+		const res = await axios.get(`/article/list/${categoryNum}`)
+		return res
+	}catch(error:any){
+		return error.response
+	}
+}
 
+//  페이지별 게시물
 export const getGategoryPosts  = async(categoryNum:number,region:string,page:number) => {
 	try{
 		const res = await axios.get(`/article/list/${categoryNum}/${region}`,{

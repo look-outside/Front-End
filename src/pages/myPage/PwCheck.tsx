@@ -45,18 +45,10 @@ const PwCheck = () => {
         <i.Outline>
             <i.TabTitle>회원정보 수정</i.TabTitle>
             <i.Title>비밀번호 재확인</i.Title>
-            <Pw type='password' placeholder='비밀번호를 입력해주세요' value={pw} onChange={(e) => setPw(e.target.value)} />
+            <i.InputOne type='password' placeholder='비밀번호를 입력해주세요' value={pw} onChange={(e) => setPw(e.target.value)} />
             <i.Btn onClick={() => Pass()}>확인</i.Btn>
         </i.Outline>
     );
 };
 
 export default PwCheck;
-
-const Pw = styled(i.Val)`
-    width: 40%;
-    @media screen and (max-width: 480px){
-        width: 70%;
-        font-size: 0.9rem;
-    };
-`;

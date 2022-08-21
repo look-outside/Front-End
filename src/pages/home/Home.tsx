@@ -104,7 +104,7 @@ const Home = () => {
 			</FreePostAndMapTag>
 
 			{/* 오늘의 옷 - 데일리 룩 */}
-			<ImageListTag>
+			<SectionTag>
 				<SectionHeaderTag>
 					<SectionTitleTag>
 						<h2>데일리 룩</h2>
@@ -119,9 +119,9 @@ const Home = () => {
 					posts={DUMMY_Image_POST}
 					path="/today_clothes/daily"
 				/>
-			</ImageListTag>
+			</SectionTag>
 			{/* 오늘의 하늘 */}
-			<ImageListTag>
+			<SectionTag>
 				<SectionHeaderTag>
 					<SectionTitleTag>
 						<h2>오늘의 하늘</h2>
@@ -133,9 +133,9 @@ const Home = () => {
 					</Link>
 				</SectionHeaderTag>
 				<ImagePosts posts={DUMMY_Image_POST} path="/today_sky" />
-			</ImageListTag>
+			</SectionTag>
 			{/* 오늘의 모임 */}
-			<section>
+			<SectionTag>
 				<SectionHeaderTag>
 					<SectionTitleTag>
 						<h2>오늘의 모임</h2>
@@ -151,7 +151,7 @@ const Home = () => {
 				) : (
 					<FreePosts posts={meetingPosts} path="/today_meeting" />
 				)}
-			</section>
+			</SectionTag>
 		</ContainerTag>
 	);
 };
@@ -185,6 +185,7 @@ const FreePostTag = styled.div`
 	flex-direction: column;
 	flex-basis: 50%;
 	height: 100%;
+	position: relative;
 `;
 
 const MapTag = styled.div`
@@ -240,4 +241,7 @@ const Map = styled.div`
 	border-radius: 15px;
 `;
 
-const ImageListTag = styled.section``;
+
+const SectionTag = styled.section`
+	position: relative;
+`

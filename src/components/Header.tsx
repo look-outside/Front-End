@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { logout } from "../services/user";
 import authStore from "../store/authStore";
 
 const Header = () => {
 	const { userProfile, removeUser } = authStore()
+	const navigate = useNavigate()
+	const logoutHandler = ()=> {
+		removeUser()
+		navigate("/")
+	}
 	return (
 		<HeaderTag>
 			<LogoTag>
@@ -53,7 +57,7 @@ const Header = () => {
 									<li>
 										<button
 											className="border"
-											onClick={() => logout(removeUser)}
+											onClick={logoutHandler}
 										>
 											<span>로그아웃</span>
 										</button>

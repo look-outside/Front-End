@@ -28,6 +28,8 @@ import DailyLook from "./pages/clothes/DailyLook";
 import Free from "./pages/clothes/Free";
 import DetailPost from "./pages/detail_post/DetailPost";
 import SnsLogin from "./pages/SnsLogin";
+import Map from "./components/Map";
+import SnsInfo from './pages/myPage/SnsInfo';
 
 function App() {
 	return (
@@ -55,6 +57,7 @@ function App() {
 					<Route path="my" element={<MyPage />}>
 						<Route path='info' element={<PwCheck />} />
 						<Route path='info/update' element={<Info />} />
+						<Route path='snsInfo' element={<SnsInfo/>} />
 						<Route path='posts' element={<Posts/>} />
 						<Route path='comments' element={<Comments/>} />
 						<Route path='delete' element={<Delete/>} />
@@ -64,6 +67,7 @@ function App() {
 						<Route path="board" element={<Board/>} />
 					</Route>
 					<Route path="/oauth/redirect" element={<SnsLogin/>}/>
+					<Route path="Map" element={<Map/>}/>
 				</Route>
 			</Routes>
 		</BrowserRouter>

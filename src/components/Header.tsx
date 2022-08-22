@@ -4,12 +4,6 @@ import styled from "styled-components";
 import { logout } from "../services/user";
 import authStore from "../store/authStore";
 
-interface User {
-	id: string;
-	type: string;
-	nickname: string;
-}
-
 const Header = () => {
 	const { userProfile, removeUser } = authStore()
 	return (
@@ -65,9 +59,15 @@ const Header = () => {
 										</button>
 									</li>
 									{userProfile?.type === "USER" ? (
-										<Link to="/my/info" className="border">
-											<span>마이 페이지</span>
-										</Link>
+										userProfile.sns === true ? (
+											<Link to="/my/snsInfo" className="border">
+												<span>마이 페이지</span>
+											</Link>
+										) : (
+											<Link to="/my/info" className="border">
+												<span>마이 페이지</span>
+											</Link>
+										)
 									) : (
 										<Link
 											to="/admin/users"

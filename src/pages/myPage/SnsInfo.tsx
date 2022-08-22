@@ -6,14 +6,8 @@ import Swal from 'sweetalert2';
 import authStore, { User } from '../../store/authStore';
 import * as i from '../../styles/mypage/TabInner';
 
-interface InfoT {
-    useNo: number,
-    useNick: string,
-}
-
 const SnsInfo = () => {
     const { userProfile } = authStore();
-
     const navigate = useNavigate();
 
     const [useNick,setNick] = useState('');

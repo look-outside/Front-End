@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 
@@ -30,8 +30,17 @@ import DetailPost from "./pages/detail_post/DetailPost";
 import SnsLogin from "./pages/SnsLogin";
 import Weather from "./components/Weather";
 import SnsInfo from './pages/myPage/SnsInfo';
+import { onSilentRefresh } from "./services/user";
+import authStore from "./store/authStore";
+import axios from "axios";
 
 function App() {
+	const {token} = authStore()
+	useEffect(()=>{
+		axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
+		onSilentRefresh()
+	},[token])
+	
 	return (
 		<BrowserRouter>
 			<GlobalStyles />

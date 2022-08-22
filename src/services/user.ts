@@ -1,5 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import authStore from "../store/authStore";
+const JWT_EXPIRY_TIME = 1800 * 1000;
 
 interface UserInfo {
 	useName?: string;
@@ -36,11 +38,6 @@ export const checkNickName = async (userNickName: string) => {
 	return res.data;
 };
 
-export const logout = async (removeUser: any) => {
-	await axios.put(`/user/sign-out`);
-	removeUser();
-};
-
 export const findId = async (email: string) => {
 	try {
 		const res = await axios.get(`/user/Email/${email}`);
@@ -63,8 +60,10 @@ export const login = async (userInfo: UserInfo, addUser: any) => {
 		const res = await axios.post("/user/sign-in", userInfo, {
 			withCredentials: true,
 		});
-		const token = res.data.accessToken;
-		const { useId, useRole, useNick, useNo }: Token = jwtDecode(token);
+		const token = res.data.body.token;
+		const { useId, useRole, useNick, useNo }: Token = jwtDecode(
+			res.data.body.token
+		);
 		const user = {
 			id: useId,
 			type: useRole,
@@ -80,25 +79,17 @@ export const login = async (userInfo: UserInfo, addUser: any) => {
 	}
 };
 
-// const onSilentRefresh = () => {
-//     axios.post('/silent-refresh', data)
-//         .then(onLoginSuccess)
-//         .catch(error => {
-// 			console.log(error)
-//             // ... 로그인 실패 처리
-//         });
-// }
-
-export const onLoginSuccess = (token: string) => {
-	// accessToken 설정
+export const onSilentRefresh = () => {
+	axios
+		.get("/user/refresh")
+		.then((res) => res.data.body && onLoginSuccess(res.data.body.token));
+};
+export const onLoginSuccess = (token: any) => {
 	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-	// accessToken 만료하기 1분 전에 로그인 연장 , 요건 나중에 해보자
-	// setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000);
+	setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000);
 };
 
 // 임시 닉네임만
-
 export const infoEdit = async (
 	useNo: number,
 	nickname: string,

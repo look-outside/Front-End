@@ -28,7 +28,7 @@ import DailyLook from "./pages/clothes/DailyLook";
 import Free from "./pages/clothes/Free";
 import DetailPost from "./pages/detail_post/DetailPost";
 import SnsLogin from "./pages/SnsLogin";
-import Map from "./components/Map";
+import Weather from "./components/Weather";
 import SnsInfo from './pages/myPage/SnsInfo';
 
 function App() {
@@ -67,7 +67,7 @@ function App() {
 						<Route path="board" element={<Board/>} />
 					</Route>
 					<Route path="/oauth/redirect" element={<SnsLogin/>}/>
-					<Route path="Map" element={<Map/>}/>
+					<Route path="Weather" element={<Weather/>}/>
 				</Route>
 			</Routes>
 		</BrowserRouter>

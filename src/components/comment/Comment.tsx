@@ -18,7 +18,6 @@ interface Props {
 
 const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 	const { userProfile } = authStore();
-	const [hover, setHover] = useState<boolean>(false);
 	const [openEdit, setOpenEdit] = useState<boolean>(false);
 	const [editMode, setEditMode] = useState<boolean>(false);
 	const [enteredComment, setEnteredComment] = useState<string>(
@@ -59,23 +58,19 @@ const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 	};
 	return (
 		<CommentWrapperTag
-			onMouseEnter={() => setHover(true)}
-			onMouseLeave={() => {
-				setHover(false);
-				setOpenEdit(false);
-			}}
+			onMouseLeave={() => setOpenEdit(false)}
 		>
-			<CommentBoxTag>
-				<CommentHeaderTag>
+			<CommentBoxTag >
+				<CommentHeaderTag >
 					<div className="user_info">
 						{/* 수정 이름 필드 추가해서 */}
-						<span>{comment.useNick}</span>
+						<span className="nickname">{comment.useNick}</span>
 						{userProfile?.nickname === comment.useNick && (
 							<span className="mine">내 댓글</span>
 						)}
 						{/* <Moment fromNow>{comment.repCreated}</Moment> */}
 					</div>
-					{hover && userProfile?.nickname === comment.useNick && (
+					{userProfile?.nickname === comment.useNick && (
 						<EditTag>
 							<BsThreeDotsVertical
 								onClick={() => setOpenEdit((pre) => !pre)}
@@ -153,12 +148,15 @@ const CommentWrapperTag = styled.li`
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
 		rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 	border-radius: 5px;
-	padding: 1em;
+	padding: 0.5em;
+	@media screen and (min-width: 780px) {
+		padding: 1em;
+	}
 `;
 
 const CommentBoxTag = styled.div`
 	display: grid;
-	row-gap: 2em;
+	row-gap: 1.25em;
 `;
 const CommentHeaderTag = styled.div`
 	display: flex;
@@ -168,11 +166,11 @@ const CommentHeaderTag = styled.div`
 		column-gap: 1em;
 		display: flex;
 		align-items: center;
-		span {
-			font-size: 1.2rem;
+		.nickname {
+			font-size: 1rem;
 		}
 		.mine {
-			font-size: 0.75rem;
+			font-size: 0.65rem;
 			color: white;
 			background-color: skyblue;
 			border-radius: 5px;
@@ -183,19 +181,28 @@ const CommentHeaderTag = styled.div`
 			font-size: 0.9rem;
 			color: gray;
 		}
+		@media screen and (min-width: 780px) {
+			.nickname {
+				font-size: 1.2rem;
+			}
+			.mine {
+				font-size: 0.75rem;
+			}
+		}
 	}
 `;
 
 const CommentTag = styled.div`
 	flex: 1;
 	p {
-		font-size: 1rem;
+		font-size: 0.85rem;
+		letter-spacing: 1.5px;
 		white-space: pre-line;
 	}
 	textarea {
 		width: 100%;
 		height: 100%;
-		font-size: 1rem;
+		font-size: 0.85rem;
 		padding: 0.5em;
 		border: none;
 		border-bottom: 1px solid lightgray;
@@ -203,6 +210,14 @@ const CommentTag = styled.div`
 		:focus {
 			outline: none;
 			border-bottom: 2px solid skyblue;
+		}
+	}
+	@media screen and (min-width: 780px) {
+		p {
+			font-size: 1rem;
+		}
+		textarea {
+			font-size: 1rem;
 		}
 	}
 `;

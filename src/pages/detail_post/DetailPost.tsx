@@ -4,8 +4,9 @@ import styled from "styled-components";
 import Comments from "../../components/comment/Comments";
 import UploadComment from "../../components/comment/UploadComment";
 import PostContent from "../../components/post_content/PostContent";
-import { addComment, getComments } from "../../services/comment";
+import { addComment, deleteComment, getComments } from "../../services/comment";
 import authStore from "../../store/authStore";
+import { CommentT } from "../../types/types";
 
 const DETAILPOST = {
 	artNo: 1,
@@ -23,18 +24,26 @@ interface CustomizedState {
 
 const DetailPost = () => {
 	const { userProfile } = authStore();
-	const [comments, setComments] = useState<[]>([])
+	const [comments, setComments] = useState<CommentT[]>([])
 	const location = useLocation()
 	const {artNo} = location.state as CustomizedState
 
 	const addCommentHandler = async(text:string) => {
 		const res = await addComment(artNo, userProfile.no ,text )
+		const newComment = res.data.data
+		setComments(pre=> pre.length ? [newComment,...pre] : [newComment])
 	}
 	
+	const deleteCommentHandler = async(repNo:number) => {
+		await deleteComment(repNo)
+		const updateComment = comments.filter(comment=> comment.repNo !== repNo)
+		setComments(updateComment)
+	}
+
 	useEffect(()=>{
 		const get = async()=>{
 			const res = await getComments(artNo)
-			setComments(res.data.data)
+			setComments(res.data.data.list)
 		}
 		get()
 	},[])
@@ -42,7 +51,7 @@ const DetailPost = () => {
 	return (
 		<ContainerTag>
 			<PostContent content={DETAILPOST}/>
-			<Comments comments={comments}/>
+			<Comments comments={comments} onDelete={deleteCommentHandler}/>
 			<UploadComment onAddComment={addCommentHandler} user={userProfile}/>
 		</ContainerTag>
 	);

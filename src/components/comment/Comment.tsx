@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Moment from "react-moment";
-import "moment/locale/ko";
+// import Moment from "react-moment";
+// import "moment/locale/ko";
 
 import { BsThreeDotsVertical } from "react-icons/bs"; // ... 클릭시 수정 삭제
 import styled from "styled-components";
@@ -8,12 +8,15 @@ import authStore from "../../store/authStore";
 import TextareaAutosize from "react-textarea-autosize";
 import { UploadButtonTag } from "./UploadComment";
 import { CommentT } from "../../types/types";
+import Swal from "sweetalert2";
 
 interface Props {
-	comment : CommentT
+	comment : CommentT;
+	onDelete : (repNo:number) => void
 }
 
-const Comment = ({ comment }: Props) => {
+const Comment = ({ comment, onDelete}: Props) => {
+	console.log(comment)
 	const { userProfile } = authStore();
 	const [hover, setHover] = useState<boolean>(false);
 	const [openEdit, setOpenEdit] = useState<boolean>(false);
@@ -36,6 +39,19 @@ const Comment = ({ comment }: Props) => {
 
 	const deleteHandler = () => {
 		// 삭제 api 호출
+		Swal.fire({
+			position: "center",
+			icon : "question",
+			title: "댓글을 삭제하시겠습니까?!",
+			confirmButtonText: "확인",
+			confirmButtonColor: "skyblue",
+			showCancelButton: true,
+			cancelButtonText: "취소",
+			cancelButtonColor: "red"
+		}).then(result=>{
+			if(result.isConfirmed)onDelete(comment.repNo)
+			else Swal.close()
+		})
 		setOpenEdit(false)
 	}
 	return (
@@ -50,13 +66,13 @@ const Comment = ({ comment }: Props) => {
 				<CommentHeaderTag>
 					<div className="user_info">
 						{/* 수정 이름 필드 추가해서 */}
-						<span>이름</span>
-						{userProfile?.no === comment.useNo && (
+						<span>{comment.useNick}</span>
+						{userProfile?.nickname === comment.useNick && (
 							<span className="mine">내 댓글</span>
 						)}
-						<Moment fromNow>{comment.repCreated}</Moment>
+						{/* <Moment fromNow>{comment.repCreated}</Moment> */}
 					</div>
-					{hover && userProfile?.no === comment.useNo && (
+					{hover && userProfile?.nickname === comment.useNick && (
 						<EditTag>
 							<BsThreeDotsVertical
 								onClick={() => setOpenEdit((pre) => !pre)}

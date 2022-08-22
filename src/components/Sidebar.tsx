@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import authStore from "../store/authStore";
 import { RiLogoutBoxRLine } from "react-icons/ri";
-import { logout } from "../services/user";
 import { NavLink } from "react-router-dom";
 const Sidebar = () => {
 	const [openSidebar, setOpenSidebar] = useState<boolean>(false);
@@ -15,7 +14,8 @@ const Sidebar = () => {
 
 	const logoutHandler = () => {
 		setOpenSidebar(false);
-		logout(removeUser);
+		removeUser();
+		navigate("/")
 	};
 
 	useEffect(() => {

@@ -1,10 +1,15 @@
 import jwtDecode from "jwt-decode";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useInput from "../hooks/use-input";
-import { checkNickName, infoEdit, onLoginSuccess } from "../services/user";
+import {
+	checkId,
+	checkNickName,
+	infoEdit,
+	onLoginSuccess,
+} from "../services/user";
 import authStore from "../store/authStore";
 import { Token } from "../types/types";
 import { GenderTag, VaildCheckWrapperTag } from "./Join/Join";
@@ -32,6 +37,55 @@ const SnsLogin = () => {
 	} = useInput((value) => value.trim() !== "" && value.length <= 6);
 
 	let checkedNickName = "";
+
+	const params = new URLSearchParams(location.search);
+	const join = params.get("join");
+	const token = params.get("token");
+	const { sub, useNo, role, useNick }: Token = jwtDecode(token);
+
+	const addUserHandler = useCallback((nickname: string) => {
+		addUser(
+			{
+				id: sub,
+				type: role === "ROLE_USER" ? "USER" : "ADMIN",
+				no: useNo,
+				nickname: nickname,
+				sns: true,
+			},
+			token
+		);
+		onLoginSuccess(token);
+	},[]);
+
+	const submitHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		await infoEdit(useNo, enteredNickName, gender);
+		addUserHandler(enteredNickName);
+		navigate("/");
+	};
+
+	useEffect(() => {
+		const checkUser = async () => {
+			const res = await checkId(sub);
+			if (res.data === true) {
+				Swal.fire({
+					position: "center",
+					icon: "error",
+					title: "이미 가입된 아이디 입니다.",
+					timer: 1500,
+					confirmButtonText: "확인",
+					confirmButtonColor: "skyblue",
+				}).then(()=>navigate("/login"));
+			}
+		};
+		if (join !== "true") {
+			addUserHandler(useNick);
+			navigate("/")
+			return
+		}
+		checkUser();
+	
+	}, []);
 
 	useEffect(() => {
 		if (checkedNickName !== enteredNickName) {
@@ -63,38 +117,7 @@ const SnsLogin = () => {
 		setGender(event.target.value);
 	};
 
-	const params = new URLSearchParams(location.search);
-	const join = params.get("join");
-	const token = params.get("token");
-	const { sub, useNo, role, useNick }: Token = jwtDecode(token);
-
-	const addUserHandler = (nickname: string) => {
-		addUser(
-			{
-				id: sub,
-				type: role === "ROLE_USER" ? "USER" : "ADMIN",
-				no: useNo,
-				nickname: nickname,
-				sns: true,
-			},
-			token
-		);
-		onLoginSuccess(token);
-	};
-
-	const submitHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		await infoEdit(useNo, enteredNickName, gender);
-		addUserHandler(enteredNickName);
-		navigate("/");
-	};
-
-	useEffect(() => {
-		if (join !== "true") {
-			addUserHandler(useNick);
-			navigate("/");
-		}
-	}, []);
+	
 	return (
 		<>
 			{join === "true" && (

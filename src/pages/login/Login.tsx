@@ -37,7 +37,7 @@ const Login = () => {
 			},
 			addUser
 		);
-		if (res.status === 200) {
+		if (res.data?.header.code === 200) {
 			Swal.fire({
 				position: "center",
 				icon: "success",

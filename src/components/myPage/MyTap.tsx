@@ -1,19 +1,30 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import authStore from '../../store/authStore';
 import * as t from '../../styles/mypage/Tab';
 
 const MyTap = () => {
+    const { userProfile } = authStore();
+
     return (
         <t.Menu>
             <t.PageName>마이페이지</t.PageName>
             <t.List>
-                <NavLink to="/my/info" style={({ isActive }) => { return { 
+                {userProfile.sns === true ? (
+                    <NavLink to="/my/snsInfo" style={({ isActive }) => { return { 
                         color: isActive ? "skyblue" : "black",
                         fontWeight: isActive ? "bold" : ""
-                    } }} >
-                    <t.Tabs>회원정보 수정</t.Tabs>
-                </NavLink>
-
+                    }}} >
+                        <t.Tabs>회원정보 수정</t.Tabs>
+                    </NavLink>
+                ) : (
+                    <NavLink to="/my/info" style={({ isActive }) => { return { 
+                        color: isActive ? "skyblue" : "black",
+                        fontWeight: isActive ? "bold" : ""
+                    }}} >
+                        <t.Tabs>회원정보 수정</t.Tabs>
+                    </NavLink>
+                )}
                 <NavLink to="/my/posts" style={({ isActive }) => { return { 
                         color: isActive ? "skyblue" : "black",
                         fontWeight: isActive ? "bold" : ""

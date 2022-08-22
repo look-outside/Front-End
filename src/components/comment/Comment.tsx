@@ -190,6 +190,7 @@ const CommentTag = styled.div`
 	flex: 1;
 	p {
 		font-size: 1rem;
+		white-space: pre-line;
 	}
 	textarea {
 		width: 100%;

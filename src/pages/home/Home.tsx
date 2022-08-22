@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import ImagePosts from "../../components/image_posts/ImagePosts";
 import { getMainPosts } from "../../services/post";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import Weather from "../../components/Weather";
 
 
 const DUMMY_Image_POST = [
@@ -99,7 +100,7 @@ const Home = () => {
 							<h2>지도</h2>
 						</SectionTitleTag>
 					</SectionHeaderTag>
-					<Map></Map>
+					<Weather />
 				</MapTag>
 			</FreePostAndMapTag>
 
@@ -234,12 +235,12 @@ const SectionTitleTag = styled.div`
 `;
 
 //  나중에 컴포넌트 분리
-const Map = styled.div`
-	background-color: skyblue;
-	width: 100%;
-	height: 100%;
-	border-radius: 15px;
-`;
+// const Map = styled.div`
+// 	background-color: skyblue;
+// 	width: 100%;
+// 	height: 100%;
+// 	border-radius: 15px;
+// `;
 
 
 const SectionTag = styled.section`

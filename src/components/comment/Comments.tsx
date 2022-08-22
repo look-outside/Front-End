@@ -5,17 +5,18 @@ import Comment from "./Comment";
 
 interface Props {
 	comments: CommentT[];
-	onDelete : (repNo:number)=>void
+	onDelete : (repNo:number)=>void;
+	onUpdate : (repNo:number, comment:string)=> void;
 }
 
-const Comments = ({ comments ,onDelete}: Props) => {
+const Comments = ({ comments ,onDelete,onUpdate}: Props) => {
 	return (
 		<CommentListWrapperTag>
 			<h2>댓글 목록</h2>
 			<CommentList>
 				{comments.length ? (
 					comments.map((comment) => (
-						<Comment key={comment.repNo} comment={comment} onDelete={onDelete}/>
+						<Comment key={comment.repNo} comment={comment} onDelete={onDelete} onUpdate={onUpdate}/>
 					))
 				) : (
 					<div className="nothing">

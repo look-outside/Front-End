@@ -11,12 +11,12 @@ import { CommentT } from "../../types/types";
 import Swal from "sweetalert2";
 
 interface Props {
-	comment : CommentT;
-	onDelete : (repNo:number) => void
+	comment: CommentT;
+	onDelete: (repNo: number) => void;
+	onUpdate: (repNo: number, comment: string) => void;
 }
 
-const Comment = ({ comment, onDelete}: Props) => {
-	console.log(comment)
+const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 	const { userProfile } = authStore();
 	const [hover, setHover] = useState<boolean>(false);
 	const [openEdit, setOpenEdit] = useState<boolean>(false);
@@ -24,8 +24,6 @@ const Comment = ({ comment, onDelete}: Props) => {
 	const [enteredComment, setEnteredComment] = useState<string>(
 		comment.repContents
 	);
-	const [edited, setEdited] = useState<boolean>(false);
-
 
 	const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setEnteredComment(event.target.value);
@@ -41,19 +39,24 @@ const Comment = ({ comment, onDelete}: Props) => {
 		// 삭제 api 호출
 		Swal.fire({
 			position: "center",
-			icon : "question",
+			icon: "question",
 			title: "댓글을 삭제하시겠습니까?!",
 			confirmButtonText: "확인",
 			confirmButtonColor: "skyblue",
 			showCancelButton: true,
 			cancelButtonText: "취소",
-			cancelButtonColor: "red"
-		}).then(result=>{
-			if(result.isConfirmed)onDelete(comment.repNo)
-			else Swal.close()
-		})
-		setOpenEdit(false)
-	}
+			cancelButtonColor: "red",
+		}).then((result) => {
+			if (result.isConfirmed) onDelete(comment.repNo);
+			else Swal.close();
+		});
+		setOpenEdit(false);
+	};
+
+	const updateHandler = () => {
+		onUpdate(comment.repNo, enteredComment);
+		setEditMode(false);
+	};
 	return (
 		<CommentWrapperTag
 			onMouseEnter={() => setHover(true)}
@@ -80,13 +83,14 @@ const Comment = ({ comment, onDelete}: Props) => {
 							{openEdit && (
 								<div className="edit_modal">
 									<ul>
-										<li id="delete" onClick={deleteHandler}>삭제</li>
+										<li id="delete" onClick={deleteHandler}>
+											삭제
+										</li>
 										<li
 											id="edit"
 											onClick={() => {
 												setOpenEdit(false);
 												setEditMode(true);
-												setEdited(false);
 											}}
 										>
 											수정
@@ -98,15 +102,19 @@ const Comment = ({ comment, onDelete}: Props) => {
 					)}
 				</CommentHeaderTag>
 				<CommentTag>
-					{!editMode && !edited && <p>{comment.repContents}</p>}
-					{!editMode && edited && <p>{enteredComment}</p>}
+					{!editMode && <p>{enteredComment}</p>}
 					{editMode && (
 						<form onSubmit={submitHandler}>
 							<CommentTag>
 								<TextareaAutosize
 									autoFocus
 									// 자동으로 커서위치를 끝으로 이동
-									onFocus={(e)=>e.target.setSelectionRange(enteredComment.length,enteredComment.length)}
+									onFocus={(e) =>
+										e.target.setSelectionRange(
+											enteredComment.length,
+											enteredComment.length
+										)
+									}
 									value={enteredComment}
 									onChange={onChange}
 								/>
@@ -126,7 +134,7 @@ const Comment = ({ comment, onDelete}: Props) => {
 									disabled={
 										enteredComment === comment.repContents
 									}
-									onClick={() => setEdited(true)}
+									onClick={updateHandler}
 								>
 									등록
 								</button>

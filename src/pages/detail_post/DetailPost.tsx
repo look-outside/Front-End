@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Comments from "../../components/comment/Comments";
 import UploadComment from "../../components/comment/UploadComment";
 import PostContent from "../../components/post_content/PostContent";
-import { addComment, deleteComment, getComments } from "../../services/comment";
+import { addComment, deleteComment, getComments, updateComment } from "../../services/comment";
 import authStore from "../../store/authStore";
 import { CommentT } from "../../types/types";
 
@@ -40,6 +40,10 @@ const DetailPost = () => {
 		setComments(updateComment)
 	}
 
+	const updateCommentHandler = async(repNo:number , comment:string)=>{
+		await updateComment(repNo, comment)
+	}
+
 	useEffect(()=>{
 		const get = async()=>{
 			const res = await getComments(artNo)
@@ -51,7 +55,7 @@ const DetailPost = () => {
 	return (
 		<ContainerTag>
 			<PostContent content={DETAILPOST}/>
-			<Comments comments={comments} onDelete={deleteCommentHandler}/>
+			<Comments comments={comments} onDelete={deleteCommentHandler} onUpdate={updateCommentHandler}/>
 			<UploadComment onAddComment={addCommentHandler} user={userProfile}/>
 		</ContainerTag>
 	);

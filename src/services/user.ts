@@ -14,7 +14,7 @@ interface UserInfo {
 
 interface Token {
 	useId: string;
-	useRole: string;
+	role: string;
 	useNick: string;
 	useNo: number;
 }
@@ -61,12 +61,12 @@ export const login = async (userInfo: UserInfo, addUser: any) => {
 			withCredentials: true,
 		});
 		const token = res.data.body.token;
-		const { useId, useRole, useNick, useNo }: Token = jwtDecode(
-			res.data.body.token
+		const { useId, role, useNick, useNo }: Token = jwtDecode(
+			token
 		);
 		const user = {
 			id: useId,
-			type: useRole,
+			type: role === "ROLE_USER" ? "USER" : "ADMIN",
 			nickname: useNick,
 			no: useNo,
 			sns: false,

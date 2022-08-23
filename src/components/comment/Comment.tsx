@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Moment from "react-moment";
-import "moment/locale/ko";
+// import Moment from "react-moment";
+// import "moment/locale/ko";
 
 import { BsThreeDotsVertical } from "react-icons/bs"; // ... 클릭시 수정 삭제
 import styled from "styled-components";
@@ -8,21 +8,21 @@ import authStore from "../../store/authStore";
 import TextareaAutosize from "react-textarea-autosize";
 import { UploadButtonTag } from "./UploadComment";
 import { CommentT } from "../../types/types";
+import Swal from "sweetalert2";
 
 interface Props {
-	comment : CommentT
+	comment: CommentT;
+	onDelete: (repNo: number) => void;
+	onUpdate: (repNo: number, comment: string) => void;
 }
 
-const Comment = ({ comment }: Props) => {
+const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 	const { userProfile } = authStore();
-	const [hover, setHover] = useState<boolean>(false);
 	const [openEdit, setOpenEdit] = useState<boolean>(false);
 	const [editMode, setEditMode] = useState<boolean>(false);
 	const [enteredComment, setEnteredComment] = useState<string>(
 		comment.repContents
 	);
-	const [edited, setEdited] = useState<boolean>(false);
-
 
 	const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setEnteredComment(event.target.value);
@@ -36,27 +36,41 @@ const Comment = ({ comment }: Props) => {
 
 	const deleteHandler = () => {
 		// 삭제 api 호출
-		setOpenEdit(false)
-	}
+		Swal.fire({
+			position: "center",
+			icon: "question",
+			title: "댓글을 삭제하시겠습니까?!",
+			confirmButtonText: "확인",
+			confirmButtonColor: "skyblue",
+			showCancelButton: true,
+			cancelButtonText: "취소",
+			cancelButtonColor: "red",
+		}).then((result) => {
+			if (result.isConfirmed) onDelete(comment.repNo);
+			else Swal.close();
+		});
+		setOpenEdit(false);
+	};
+
+	const updateHandler = () => {
+		onUpdate(comment.repNo, enteredComment);
+		setEditMode(false);
+	};
 	return (
 		<CommentWrapperTag
-			onMouseEnter={() => setHover(true)}
-			onMouseLeave={() => {
-				setHover(false);
-				setOpenEdit(false);
-			}}
+			onMouseLeave={() => setOpenEdit(false)}
 		>
-			<CommentBoxTag>
-				<CommentHeaderTag>
+			<CommentBoxTag >
+				<CommentHeaderTag >
 					<div className="user_info">
 						{/* 수정 이름 필드 추가해서 */}
-						<span>이름</span>
-						{userProfile?.no === comment.useNo && (
+						<span className="nickname">{comment.useNick}</span>
+						{userProfile?.nickname === comment.useNick && (
 							<span className="mine">내 댓글</span>
 						)}
-						<Moment fromNow>{comment.repCreated}</Moment>
+						{/* <Moment fromNow>{comment.repCreated}</Moment> */}
 					</div>
-					{hover && userProfile?.no === comment.useNo && (
+					{userProfile?.nickname === comment.useNick && (
 						<EditTag>
 							<BsThreeDotsVertical
 								onClick={() => setOpenEdit((pre) => !pre)}
@@ -64,13 +78,14 @@ const Comment = ({ comment }: Props) => {
 							{openEdit && (
 								<div className="edit_modal">
 									<ul>
-										<li id="delete" onClick={deleteHandler}>삭제</li>
+										<li id="delete" onClick={deleteHandler}>
+											삭제
+										</li>
 										<li
 											id="edit"
 											onClick={() => {
 												setOpenEdit(false);
 												setEditMode(true);
-												setEdited(false);
 											}}
 										>
 											수정
@@ -82,15 +97,19 @@ const Comment = ({ comment }: Props) => {
 					)}
 				</CommentHeaderTag>
 				<CommentTag>
-					{!editMode && !edited && <p>{comment.repContents}</p>}
-					{!editMode && edited && <p>{enteredComment}</p>}
+					{!editMode && <p>{enteredComment}</p>}
 					{editMode && (
 						<form onSubmit={submitHandler}>
 							<CommentTag>
 								<TextareaAutosize
 									autoFocus
 									// 자동으로 커서위치를 끝으로 이동
-									onFocus={(e)=>e.target.setSelectionRange(enteredComment.length,enteredComment.length)}
+									onFocus={(e) =>
+										e.target.setSelectionRange(
+											enteredComment.length,
+											enteredComment.length
+										)
+									}
 									value={enteredComment}
 									onChange={onChange}
 								/>
@@ -110,7 +129,7 @@ const Comment = ({ comment }: Props) => {
 									disabled={
 										enteredComment === comment.repContents
 									}
-									onClick={() => setEdited(true)}
+									onClick={updateHandler}
 								>
 									등록
 								</button>
@@ -129,12 +148,15 @@ const CommentWrapperTag = styled.li`
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
 		rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 	border-radius: 5px;
-	padding: 1em;
+	padding: 0.5em;
+	@media screen and (min-width: 780px) {
+		padding: 1em;
+	}
 `;
 
 const CommentBoxTag = styled.div`
 	display: grid;
-	row-gap: 2em;
+	row-gap: 1.25em;
 `;
 const CommentHeaderTag = styled.div`
 	display: flex;
@@ -144,11 +166,11 @@ const CommentHeaderTag = styled.div`
 		column-gap: 1em;
 		display: flex;
 		align-items: center;
-		span {
-			font-size: 1.2rem;
+		.nickname {
+			font-size: 1rem;
 		}
 		.mine {
-			font-size: 0.75rem;
+			font-size: 0.65rem;
 			color: white;
 			background-color: skyblue;
 			border-radius: 5px;
@@ -159,18 +181,28 @@ const CommentHeaderTag = styled.div`
 			font-size: 0.9rem;
 			color: gray;
 		}
+		@media screen and (min-width: 780px) {
+			.nickname {
+				font-size: 1.2rem;
+			}
+			.mine {
+				font-size: 0.75rem;
+			}
+		}
 	}
 `;
 
 const CommentTag = styled.div`
 	flex: 1;
 	p {
-		font-size: 1rem;
+		font-size: 0.85rem;
+		letter-spacing: 1.5px;
+		white-space: pre-line;
 	}
 	textarea {
 		width: 100%;
 		height: 100%;
-		font-size: 1rem;
+		font-size: 0.85rem;
 		padding: 0.5em;
 		border: none;
 		border-bottom: 1px solid lightgray;
@@ -178,6 +210,14 @@ const CommentTag = styled.div`
 		:focus {
 			outline: none;
 			border-bottom: 2px solid skyblue;
+		}
+	}
+	@media screen and (min-width: 780px) {
+		p {
+			font-size: 1rem;
+		}
+		textarea {
+			font-size: 1rem;
 		}
 	}
 `;

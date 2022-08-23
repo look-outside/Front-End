@@ -17,7 +17,7 @@ const rotate_spinner = keyframes`
 `;
 const SpinnerTag = styled.div`
     position: absolute;
-	top: calc(50% + 1em);
+	top: calc(50%);
 	left: calc(50% - 1em);
 	border: 4px solid lightgray;
 	border-top: 4px solid skyblue;

@@ -26,9 +26,8 @@ export interface Token {
 }
 
 interface CommentT {
-    artNo: number;
     repContents: string;
     repCreated: string;
     repNo: number;
-    useNo: number;
+    useNick: string;
 }

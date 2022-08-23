@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -37,16 +36,17 @@ const Login = () => {
 			},
 			addUser
 		);
-		if (res.data?.header.code === 200) {
-			Swal.fire({
-				position: "center",
-				icon: "success",
-				title: "로그인 완료!",
-				timer: 1500,
-				confirmButtonText: "확인",
-				confirmButtonColor: "skyblue",
-			}).then(() => navigate(-1));
-		} else {
+		if (res.data?.header.code !== 200) {
+		// 	Swal.fire({
+		// 		position: "center",
+		// 		icon: "success",
+		// 		title: "로그인 완료!",
+		// 		timer: 1500,
+		// 		confirmButtonText: "확인",
+		// 		confirmButtonColor: "skyblue",
+		// 	}).then(() => navigate(-1));
+		// } else 
+		// {
 			Swal.fire({
 				position: "center",
 				icon: "warning",

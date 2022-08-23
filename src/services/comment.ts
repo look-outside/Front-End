@@ -27,8 +27,10 @@ export const updateComment = async (repNo: number, updateComment: string) => {
 };
 
 // 댓글 목록 조회
-export const getComments = async (artNo: number) => {
-	const res = await axios.get(`/article/replylist/${artNo}`);
+export const getComments = async (artNo: number,page:number) => {
+	const res = await axios.get(`/article/replylist/${artNo}`, {
+		params: { page },
+	});
 	console.log("목록: ", res);
 	return res;
 };

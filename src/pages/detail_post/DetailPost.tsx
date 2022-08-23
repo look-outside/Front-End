@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Comments from "../../components/comment/Comments";
 import UploadComment from "../../components/comment/UploadComment";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import Pagination from "../../components/Pagination";
 import PostContent from "../../components/post_content/PostContent";
 import {
 	addComment,
@@ -12,7 +13,7 @@ import {
 	updateComment,
 } from "../../services/comment";
 import authStore from "../../store/authStore";
-import { CommentT } from "../../types/types";
+import { CommentT, PageT } from "../../types/types";
 
 const DETAILPOST = {
 	artNo: 1,
@@ -32,6 +33,8 @@ const DetailPost = () => {
 	const { userProfile } = authStore();
 	const [comments, setComments] = useState<CommentT[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [page, setPage] = useState<PageT>({})
+	const [curPage, setCurPage] = useState(1);
 	const location = useLocation();
 	const { artNo } = location.state as CustomizedState;
 
@@ -58,21 +61,23 @@ const DetailPost = () => {
 	useEffect(() => {
 		const get = async () => {
 			setIsLoading(true);
-			const res = await getComments(artNo);
+			const res = await getComments(artNo,curPage -1);
+			setPage(res.data.data.pageable)
 			setComments(res.data.data.list);
 			setIsLoading(false);
 		};
 		get();
-	}, []);
+	}, [curPage]);
 
 	return (
 		<ContainerTag>
 			<PostContent content={DETAILPOST} />
-			{isLoading ? (
+			{isLoading && (
 				<LoadingSpinnerWrapperTag>
 					<LoadingSpinner />
 				</LoadingSpinnerWrapperTag>
-			) : (
+			)}
+			{!isLoading && (
 				<Comments
 					comments={comments}
 					onDelete={deleteCommentHandler}
@@ -83,6 +88,16 @@ const DetailPost = () => {
 				onAddComment={addCommentHandler}
 				user={userProfile}
 			/>
+			{page && comments.length !== 0 && (
+				<Pagination
+					curPage={curPage}
+					setCurPage={setCurPage}
+					totalPage={page.totalPages}
+					totalCount={page.totalElements}
+					size={page.size}
+					pageCount={page.totalPages < 3 ? page.totalPages : 3}
+				/>
+			)}
 		</ContainerTag>
 	);
 };

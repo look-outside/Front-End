@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -15,7 +16,7 @@ const Sidebar = () => {
 	const logoutHandler = () => {
 		setOpenSidebar(false);
 		removeUser();
-		navigate("/")
+		navigate("/");
 	};
 
 	useEffect(() => {
@@ -35,8 +36,8 @@ const Sidebar = () => {
 			)}
 			{openSidebar && (
 				<>
-					<Backdrop onClick={() => setOpenSidebar(false)} />
-					<SidebarTag>
+					{ReactDOM.createPortal(<Backdrop onClick={() => setOpenSidebar(false)} />,document.getElementById("overlays"))}
+					{ReactDOM.createPortal(<SidebarTag>
 						<div className="title">
 							<h1>밖에봐봐</h1>
 							<span>Look OutSide</span>
@@ -49,7 +50,7 @@ const Sidebar = () => {
 											{userProfile?.nickname}
 										</p>
 										{userProfile.type === "USER" ? (
-											<NavLinkTag to="/my_page">
+											<NavLinkTag to="/my/info">
 												<span>마이 페이지</span>
 											</NavLinkTag>
 										) : (
@@ -110,7 +111,7 @@ const Sidebar = () => {
 								</span>
 							</div>
 						)}
-					</SidebarTag>
+					</SidebarTag>,document.getElementById("overlays"))}
 				</>
 			)}
 		</>
@@ -140,9 +141,8 @@ const Backdrop = styled.div`
 	left: 0;
 	width: 100%;
 	height: 100vh;
-	z-index: 20;
 	background-color: rgba(0, 0, 0, 0.75);
-	z-index: 1;
+	z-index: 29;
 `;
 
 const SidebarTag = styled.div`
@@ -152,7 +152,7 @@ const SidebarTag = styled.div`
 	width: 230px;
 	height: 100vh;
 	background-color: white;
-	z-index: 2;
+	z-index: 30;
 	padding: 1em 0;
 	display: flex;
 	flex-direction: column;
@@ -166,7 +166,7 @@ const SidebarTag = styled.div`
 			letter-spacing: 3px;
 		}
 		span {
-			font-size: .95rem;
+			font-size: 0.95rem;
 			font-weight: 600;
 			text-transform: uppercase;
 		}
@@ -214,7 +214,14 @@ const SidebarTag = styled.div`
 				display: grid;
 				row-gap: 1em;
 				padding: 1em 1em 0 1em;
-				font-size: .9rem;
+				font-size: 0.9rem;
+				li {
+					a {
+						:hover {
+							color: skyblue;
+						}
+					}
+				}
 			}
 		}
 	}

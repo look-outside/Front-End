@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import CateHeader from '../../components/CateHeader';
 import Pagination from '../../components/Pagination';
 import * as c from '../../styles/Category';
@@ -29,10 +30,12 @@ const Sky = () => {
                 {data && (
                     data.map((art,i) => (
                         <c.Card key={i}>
-                            <c.Img src='/test.jpg' alt='test1'/>{/* 대기중 */}
-                            <p>{art.artSubject}</p>
-                            <span>{art.useNick}&nbsp;</span>
-                            <span id='dis'>{art.regAddr1} {art.regAddr2}</span>
+                            <Link to={`/today_sky/${art.artNo}`}>
+                                <c.Img src='/test.jpg' alt='test1'/>{/* 대기중 */}
+                                <p>{art.artSubject}</p>
+                                <span>{art.useNick}&nbsp;</span>
+                                <span id='dis'>{art.regAddr1} {art.regAddr2}</span>
+                            </Link>
                         </c.Card>
                     ))
                 )}

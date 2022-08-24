@@ -39,8 +39,10 @@ const Clothes = () => {
           daily && (
             daily.map((art, i) => (
               <Card key={i}>
-                <c.Img src='/test.jpg' alt='test1' />{/* 임시 */}
-                <span>{art.regAddr1} {art.regAddr2}</span>
+                <Link to={`/today_clothes/main/${art.artNo}`}>
+                  <c.Img src='/test.jpg' alt='test1' />{/* 임시 */}
+                  <span>{art.regAddr1} {art.regAddr2}</span>
+                </Link>
               </Card>
             ))
           )

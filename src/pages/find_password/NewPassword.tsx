@@ -1,6 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import useInput from "../../hooks/use-input";
+import { updatePassword } from "../../services/user";
 import {
 	ButtonTag,
 	ContainerTag,
@@ -11,8 +13,14 @@ import {
 	WrapperTag,
 } from "../login/Login";
 
+interface CustomizedState {
+	useId: string;
+}
+
 const NewPassword = () => {
-    const navigate = useNavigate()
+	const navigate = useNavigate();
+	const location = useLocation();
+	const { useId } = location.state as CustomizedState;
 
 	const {
 		value: enteredPassword,
@@ -28,23 +36,36 @@ const NewPassword = () => {
 		hasError: password2InputHasError,
 		valueChangeHandler: password2ChangedHandler,
 		inputBlurHandler: password2BlurHandler,
-	} = useInput((value) => value.trim() !== "" && value.length >= 6 && enteredPassword === value );
+	} = useInput(
+		(value) =>
+			value.trim() !== "" &&
+			value.length >= 6 &&
+			enteredPassword === value
+	);
 
-	const editPasswordHandler = () => {
-
-        //  변경된 유저 정보를 보내준뒤?
-        navigate('/',{})
-
-    };
+	const updatePasswordHandler = async (
+		event: React.ChangeEvent<HTMLFormElement>
+	) => {
+		event.preventDefault();
+		await updatePassword(useId, enteredPassword);
+		Swal.fire({
+			position: "center",
+			icon: "success",
+			title: "비밀번호가 변경 되었습니다.",
+			confirmButtonText: "확인",
+			confirmButtonColor: "skyblue",
+		}).then(()=>navigate("/login"))
+		
+	};
 	let formValid = false;
 
 	if (enteredPasswordIsValid && enteredPassword2IsValid) formValid = true;
 	return (
 		<ContainerTag>
 			<WrapperTag>
-				<h2>새 비밀번호 변경</h2>
+				<h2>비밀번호 재설정</h2>
 				<FormWrapperTag>
-					<FormTag>
+					<FormTag onSubmit={updatePasswordHandler}>
 						{/* 이름 */}
 						<InputWrapperTag>
 							<label htmlFor="password">비밀번호</label>
@@ -75,7 +96,7 @@ const NewPassword = () => {
 								onBlur={password2BlurHandler}
 								required
 							/>
-							{   password2InputHasError && (
+							{password2InputHasError && (
 								<ErrorTag>비밀번호가 서로 다릅니다.</ErrorTag>
 							)}
 						</InputWrapperTag>
@@ -83,9 +104,8 @@ const NewPassword = () => {
 						<ButtonTag
 							color="white"
 							bgColor="skyblue"
-							onClick={editPasswordHandler}
 							disabled={!formValid}
-                            type="button"
+							type="submit"
 						>
 							변경
 						</ButtonTag>

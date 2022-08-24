@@ -1,27 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 import { CommentT } from "../../types/types";
+import Empty from "../Empty";
 import Comment from "./Comment";
 
 interface Props {
 	comments: CommentT[];
-	onDelete : (repNo:number)=>void;
-	onUpdate : (repNo:number, comment:string)=> void;
+	onDelete: (repNo: number) => void;
+	onUpdate: (repNo: number, comment: string) => void;
 }
 
-const Comments = ({ comments ,onDelete,onUpdate}: Props) => {
+const Comments = ({ comments, onDelete, onUpdate }: Props) => {
 	return (
 		<CommentListWrapperTag>
 			<h2>댓글 목록</h2>
 			<CommentList>
-				{comments.length ? (
-					comments.map((comment) => (
-						<Comment key={comment.repNo} comment={comment} onDelete={onDelete} onUpdate={onUpdate}/>
-					))
+				{!comments.length ? (
+					<Empty />
 				) : (
-					<div className="nothing">
-						<p>등록된 댓글이 없습니다.</p>
-					</div>
+					comments.map((comment) => (
+						<Comment
+							key={comment.repNo}
+							comment={comment}
+							onDelete={onDelete}
+							onUpdate={onUpdate}
+						/>
+					))
 				)}
 			</CommentList>
 		</CommentListWrapperTag>
@@ -43,13 +47,4 @@ const CommentList = styled.ul`
 	display: flex;
 	flex-direction: column;
 	row-gap: 1em;
-	.nothing{
-		box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
-		rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-	border-radius: 5px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 2em;
-	}
 `;

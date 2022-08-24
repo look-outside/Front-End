@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Post } from "../../types/types";
+import Empty from "../Empty";
 
 interface Props {
 	posts: Post[];
@@ -9,40 +10,47 @@ interface Props {
 }
 
 const ImagePosts = ({ posts, path }: Props) => {
+	console.log(posts);
 	return (
 		<ImagePostsTag>
-			<ListTag>
-				{posts.map((post) => (
-					<li key={post.artNo}>
-						<Link to={`${path}/${post.artNo}`}>
-							<article>
-								<ImageWrapper>
-									<PostImageTag
-										src={post.imgSave}
-										alt="게시물 이미지"
-									/>
-								</ImageWrapper>
-								<InfoWrapper>
-									<h3>{post.artSubject}</h3>
-									<div className="info">
-										<span className="nickname">
-											{post.useNick}
-										</span>
-										<div>
-											<span className="city">
-												{post.regAddr1}
+			{!posts.length ? (
+				<Empty />
+			) : (
+				<ListTag>
+					{posts.map((post) => (
+						<li key={post.artNo}>
+							<Link to={`${path}/${post.artNo}`} state={{ artNo: post.artNo }}>
+								<article>
+									<ImageWrapper>
+										<PostImageTag
+											src={post.imgSave}
+											alt="게시물 이미지"
+										/>
+									</ImageWrapper>
+									<InfoWrapper>
+										<h3 className="art-subject">
+											{post.artSubject}
+										</h3>
+										<div className="info">
+											<span className="nickname">
+												{post.useNick}
 											</span>
-											<span className="district">
-												{post.regAddr2}
-											</span>
+											<div>
+												<span className="addr1">
+													{post.regAddr1}
+												</span>
+												<span className="addr2">
+													{post.regAddr2}
+												</span>
+											</div>
 										</div>
-									</div>
-								</InfoWrapper>
-							</article>
-						</Link>
-					</li>
-				))}
-			</ListTag>
+									</InfoWrapper>
+								</article>
+							</Link>
+						</li>
+					))}
+				</ListTag>
+			)}
 		</ImagePostsTag>
 	);
 };
@@ -62,7 +70,7 @@ const ListTag = styled.ul`
 	/* @media screen and (min-width: 768px) {
 		grid-template-columns: repeat(4, 1fr);
 	} */
-	@media screen and (min-width:964px) {
+	@media screen and (min-width: 964px) {
 		grid-template-columns: repeat(4, 1fr);
 	}
 
@@ -92,26 +100,55 @@ const InfoWrapper = styled.div`
 	flex-direction: column;
 	row-gap: 0.5em;
 	padding: 0.5em;
+	.art-subject {
+		font-size: 0.9rem;
+		font-weight: 500;
+	}
 	.info {
 		display: flex;
 		align-items: center;
 		column-gap: 0.4em;
 	}
-	.name {
-		font-size: .9rem;
+	.nickname {
+		font-size: 0.7rem;
 		font-weight: 500;
 	}
-	.city,
-	.district {
-		font-size: 0.7rem;
+	.addr1,
+	.addr2 {
+		font-size: 0.4rem;
 		color: gray;
 	}
-	.city {
+	.addr1 {
 		margin-right: 0.2em;
 	}
 	h3 {
 		margin-top: 0.3em;
 		font-weight: 500;
 		line-height: 130%;
+	}
+	@media screen and (min-width: 500px) {
+		.nickname {
+			font-size: 0.8rem;
+		}
+		.addr1 {
+		}
+		.addr1,
+		.addr2 {
+			font-size: 0.6rem;
+		}
+		.art-subject {
+			font-size: 1rem;
+		}
+	}
+	@media screen and (min-width: 964px) {
+		.nickname {
+			font-size: 1rem;
+		}
+		.addr1 {
+		}
+		.addr1,
+		.addr2 {
+			font-size: 0.7rem;
+		}
 	}
 `;

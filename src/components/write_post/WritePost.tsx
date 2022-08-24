@@ -11,10 +11,10 @@ import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import styled from "styled-components";
 
 interface Props {
-	onGetHtml : (html:string) => void
+	onGetHtml: (html: string) => void;
 }
 
-const WritePost = ({onGetHtml}:Props) => {
+const WritePost = ({ onGetHtml }: Props) => {
 	const editRef = useRef<Editor>(null);
 	const onChangeHandler = () => {
 		onGetHtml(editRef.current?.getInstance().getHTML());
@@ -61,5 +61,12 @@ export default WritePost;
 const EditorWrapperTag = styled.div`
 	display: flex;
 	flex-direction: column;
+	// dropdown button css
+	@media only screen and (max-width: 480px) {
+		.toastui-editor-dropdown-toolbar {
+			max-width: none;
+			flex-wrap: wrap;
+			height: fit-content;
+		}
+	}
 `;
-

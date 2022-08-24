@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Post } from "../../types/types";
+import Empty from "../Empty";
 
 interface Props {
 	posts: Post[];
@@ -10,13 +11,18 @@ interface Props {
 const FreePosts = ({ posts, path }: Props) => {
 	return (
 		<FreePostsTag>
-			{posts.length ? (
+			{!posts.length ? (
+				<Empty />
+			) : (
 				<ListTag>
 					{posts.map((post) => (
 						<li key={post.artNo}>
-							<Link to={`${path}/${post.artNo}`} state={{artNo: post.artNo}}>
+							<Link
+								to={`${path}/${post.artNo}`}
+								state={{ artNo: post.artNo }}
+							>
 								<div className="left">
-									<span className="artSubject">
+									<span className="art-subject">
 										{post.artSubject}
 									</span>
 								</div>
@@ -27,14 +33,14 @@ const FreePosts = ({ posts, path }: Props) => {
 										</span>
 									</div>
 									<div className="info">
-										<span className="nickName">
+										<span className="nickname">
 											{post.useNick}
 										</span>
 										<div>
-											<span className="regAddr1">
+											<span className="addr1">
 												{post.regAddr1}
 											</span>
-											<span className="regAddr2">
+											<span className="addr2">
 												{post.regAddr2}
 											</span>
 										</div>
@@ -44,10 +50,6 @@ const FreePosts = ({ posts, path }: Props) => {
 						</li>
 					))}
 				</ListTag>
-			) : (
-				<div className="nothing">
-					<p>글이 없습니다.</p>
-				</div>
 			)}
 		</FreePostsTag>
 	);
@@ -59,13 +61,8 @@ const FreePostsTag = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: 5px;
-	.nothing {
-		min-height: 120px;
-		display: flex;
-		align-items: center;
-	}
 `;
 
 const ListTag = styled.ul`
@@ -77,7 +74,7 @@ const ListTag = styled.ul`
 	li {
 		:not(:last-child) {
 			border-bottom: 2px solid lightgray;
-		} 
+		}
 		a {
 			display: flex;
 			flex-direction: column;
@@ -103,20 +100,20 @@ const ListTag = styled.ul`
 		font-size: 0.7rem;
 		color: gray;
 	}
-	.nickName {
+	.nickname {
 		font-size: 0.7rem;
 		font-weight: 500;
 		margin-right: 0.5em;
 	}
-	.regAddr1 {
+	.addr1 {
 		margin-right: 0.2em;
 	}
-	.regAddr1,
-	.regAddr2 {
+	.addr1,
+	.addr2 {
 		font-size: 0.4rem;
 		color: gray;
 	}
-	.artSubject {
+	.art-subject {
 		font-size: 0.9rem;
 		font-weight: 500;
 	}
@@ -134,16 +131,16 @@ const ListTag = styled.ul`
 		.created {
 			font-size: 0.6rem;
 		}
-		.nickName {
+		.nickname {
 			font-size: 0.8rem;
 		}
-		.regAddr1 {
+		.addr1 {
 		}
-		.regAddr1,
-		.regAddr2 {
+		.addr1,
+		.addr2 {
 			font-size: 0.6rem;
 		}
-		.artSubject {
+		.art-subject {
 			font-size: 1rem;
 		}
 	}
@@ -152,13 +149,13 @@ const ListTag = styled.ul`
 		.created {
 			font-size: 0.8rem;
 		}
-		.nickName {
+		.nickname {
 			font-size: 1rem;
 		}
-		.regAddr1 {
+		.addr1 {
 		}
-		.regAddr1,
-		.regAddr2 {
+		.addr1,
+		.addr2 {
 			font-size: 0.7rem;
 		}
 	}

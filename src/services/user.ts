@@ -40,19 +40,16 @@ export const checkNickName = async (userNickName: string) => {
 
 export const findId = async (email: string) => {
 	try {
-		const res = await axios.get(`/user/Email/${email}`);
+		const res = await axios.get(`/user/myId/${email}`);
 		return res;
 	} catch (error: any) {
 		return error;
 	}
 };
-export const findPassword = async (userId: string, userName: string) => {
-	try {
-		const res = await axios.get(`/user/${userId}/${userName}`);
-		return res;
-	} catch (error: any) {
-		return error;
-	}
+export const updatePassword = async (useId: string, password: string) => {
+	await axios.put(`/user/NewPw/${useId}`, {
+		usePw: password,
+	});
 };
 
 export const login = async (userInfo: UserInfo, addUser: any) => {
@@ -61,9 +58,7 @@ export const login = async (userInfo: UserInfo, addUser: any) => {
 			withCredentials: true,
 		});
 		const token = res.data.body.token;
-		const { useId, role, useNick, useNo }: Token = jwtDecode(
-			token
-		);
+		const { useId, role, useNick, useNo }: Token = jwtDecode(token);
 		const user = {
 			id: useId,
 			type: role === "ROLE_USER" ? "USER" : "ADMIN",

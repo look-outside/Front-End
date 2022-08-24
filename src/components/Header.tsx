@@ -4,12 +4,12 @@ import styled from "styled-components";
 import authStore from "../store/authStore";
 
 const Header = () => {
-	const { userProfile, removeUser } = authStore()
-	const navigate = useNavigate()
-	const logoutHandler = ()=> {
-		removeUser()
-		navigate("/")
-	}
+	const { userProfile, removeUser } = authStore();
+	const navigate = useNavigate();
+	const logoutHandler = () => {
+		removeUser();
+		navigate("/");
+	};
 	return (
 		<HeaderTag>
 			<LogoTag>
@@ -41,12 +41,16 @@ const Header = () => {
 						<SecondNavTag>
 							{!userProfile && (
 								<>
-									<Link to="/login" className="border">
-										<span>로그인</span>
-									</Link>
-									<Link to="/join" className="border">
-										<span>회원가입</span>
-									</Link>
+									<li>
+										<Link to="/login" className="border">
+											<span>로그인</span>
+										</Link>
+									</li>
+									<li>
+										<Link to="/join" className="border">
+											<span>회원가입</span>
+										</Link>
+									</li>
 								</>
 							)}
 							{userProfile && (
@@ -54,31 +58,34 @@ const Header = () => {
 									<li className="border">
 										<span>{userProfile?.nickname}</span>
 									</li>
-									<li>
-										<button
-											className="border"
-											onClick={logoutHandler}
-										>
-											<span>로그아웃</span>
-										</button>
+									<li
+										className="border"
+										onClick={logoutHandler}
+									>
+										<span>로그아웃</span>
 									</li>
 									{userProfile?.type === "USER" ? (
-										userProfile.sns === true ? (
-											<Link to="/my/snsInfo" className="border">
+										<li>
+											<Link
+												to={`/my/${
+													userProfile.sns
+														? "snsInfo"
+														: "info"
+												}`}
+												className="border"
+											>
 												<span>마이 페이지</span>
 											</Link>
-										) : (
-											<Link to="/my/info" className="border">
-												<span>마이 페이지</span>
-											</Link>
-										)
+										</li>
 									) : (
-										<Link
-											to="/admin/users"
-											className="border"
-										>
-											<span>관리자 페이지</span>
-										</Link>
+										<li>
+											<Link
+												to="/admin/users"
+												className="border"
+											>
+												<span>관리자 페이지</span>
+											</Link>
+										</li>
 									)}
 								</>
 							)}
@@ -120,7 +127,6 @@ const LogoTag = styled.div`
 			text-transform: uppercase;
 		}
 	}
-
 `;
 
 const NavTag = styled.nav`
@@ -181,8 +187,6 @@ const SecondNavTag = styled.ul`
 	display: none;
 	column-gap: 0.5em;
 	.border {
-		border: 2px solid skyblue;
-		border-radius: 10px;
 		font-size: 0.7rem;
 		color: skyblue;
 		cursor: pointer;
@@ -194,8 +198,11 @@ const SecondNavTag = styled.ul`
 	@media screen and (min-width: 768px) {
 		column-gap: 1em;
 		display: flex;
+		align-items: center;
 		.border {
-			font-size: 0.8rem;
+			span {
+				font-size: 0.9rem;
+			}
 			padding: 0.5em 1em;
 		}
 	}
@@ -203,7 +210,9 @@ const SecondNavTag = styled.ul`
 		column-gap: 1em;
 		display: flex;
 		.border {
-			font-size: 1rem;
+			span {
+				font-size: 1rem;
+			}
 			padding: 0.5em 1em;
 		}
 	}

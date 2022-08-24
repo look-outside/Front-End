@@ -68,7 +68,7 @@ const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 						{userProfile?.nickname === comment.useNick && (
 							<span className="mine">내 댓글</span>
 						)}
-						{/* <Moment fromNow>{comment.repCreated}</Moment> */}
+						<span className="time">{comment.repCreated}</span>
 					</div>
 					{userProfile?.nickname === comment.useNick && (
 						<EditTag>
@@ -177,8 +177,8 @@ const CommentHeaderTag = styled.div`
 			padding: 0.25em 0.5em;
 			margin-left: -0.5em;
 		}
-		time {
-			font-size: 0.9rem;
+		.time {
+			font-size: 0.75rem;
 			color: gray;
 		}
 		@media screen and (min-width: 780px) {

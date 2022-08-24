@@ -47,7 +47,6 @@ function App() {
 			<GlobalStyles />
 			<Routes>
 				<Route path="/" element={<Layout />}>
-					{/* public routes */}
 					<Route index element={<Home />} />
 					<Route path="today_clothes">
 						<Route path="main" element={<Clothes />} />
@@ -67,6 +66,7 @@ function App() {
 						<Route path="password" element={<FindPassword />} />
 					</Route>
 					<Route path="edit_password" element={<NewPassword />} />
+					{/* public routes */}
 					<Route element={<PublicRoutes />}>
 						<Route path="login" element={<Login />} />
 						<Route path="join" element={<Join />} />

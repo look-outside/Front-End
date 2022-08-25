@@ -5,6 +5,10 @@ import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 
 const ADDR1 = [
 	{
+		key:"00",
+		value:"전체"
+	},
+	{
 		key: "01",
 		value: "서울특별시",
 	},
@@ -79,8 +83,8 @@ interface Props {
 }
 
 const SelectRezion = ({ onGetRegionNumber }: Props) => {
-	const [selectedAddr1Num, setSelectedAddr1Num] = useState<string>("01");
-	const [selectedAddr1, setSelectedAddr1] = useState<string>("서울특별시");
+	const [selectedAddr1Num, setSelectedAddr1Num] = useState<string>("00");
+	const [selectedAddr1, setSelectedAddr1] = useState<string>("전체");
 	const [openAddr1, setOpenAddr1] = useState<boolean>(false);
 	const [selectedAddr2, setSelectedAddr2] = useState<string>("전체");
 	const [openAddr2, setOpenAddr2] = useState<boolean>(false);
@@ -91,7 +95,7 @@ const SelectRezion = ({ onGetRegionNumber }: Props) => {
 			const res = await getRegion(selectedAddr1Num);
 			setAddr2(res.data.data);
 			setSelectedAddr2("전체");
-			onGetRegionNumber(selectedAddr1Num);
+			onGetRegionNumber(selectedAddr1Num === "00" ? "" : selectedAddr1Num);
 		};
 		region();
 	}, [selectedAddr1Num]);
@@ -140,7 +144,7 @@ const SelectRezion = ({ onGetRegionNumber }: Props) => {
 			</DropdownTag>
 			<DropdownTag onClick={() => setOpenAddr2((pre) => !pre)}>
 				<SelectedTag>
-					<span>{selectedAddr2}</span>
+					<span>{!selectedAddr2 ? "전체" : selectedAddr2}</span>
 					<div>
 						{openAddr2 ? <MdArrowDropUp /> : <MdArrowDropDown />}
 					</div>
@@ -148,15 +152,6 @@ const SelectRezion = ({ onGetRegionNumber }: Props) => {
 				{openAddr2 && (
 					<OptionTag>
 						<ul>
-							<li
-								key={selectedAddr1Num}
-								onClick={() => {
-									onGetRegionNumber(selectedAddr1Num);
-									setSelectedAddr2("전체");
-								}}
-							>
-								전체
-							</li>
 							{addr2.map(({ regNo, regAddr2 }) => (
 								<li
 									key={regNo}
@@ -164,8 +159,8 @@ const SelectRezion = ({ onGetRegionNumber }: Props) => {
 										onGetRegionNumber(regNo);
 										setSelectedAddr2(regAddr2);
 									}}
-								>
-									{regAddr2}
+								>	
+									{!regAddr2 ? "전체" : regAddr2}
 								</li>
 							))}
 						</ul>

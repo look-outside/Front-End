@@ -11,10 +11,11 @@ const WEAHTER = [
 ];
 
 interface Props {
-    onGetWeather : (weather:number)=>void
+	onGetWeather: (weather: number) => void;
+	selectedWeather: number;
 }
 
-const SelectWeather = ({onGetWeather}:Props) => {
+const SelectWeather = ({ onGetWeather, selectedWeather }: Props) => {
 	return (
 		<RadioWrapperTag>
 			{WEAHTER.map(({ id, value, icon, text }) => (
@@ -24,7 +25,8 @@ const SelectWeather = ({onGetWeather}:Props) => {
 						id={id}
 						name="weather"
 						value={value}
-						onClick={()=>onGetWeather(value)}
+						checked={selectedWeather=== value}
+						onChange={()=>onGetWeather(value)}
 					/>
 					<div>
 						<abbr title={text}>{icon}</abbr>

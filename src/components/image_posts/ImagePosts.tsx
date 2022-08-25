@@ -10,7 +10,6 @@ interface Props {
 }
 
 const ImagePosts = ({ posts, path }: Props) => {
-	console.log(posts);
 	return (
 		<ImagePostsTag>
 			{!posts.length ? (
@@ -22,8 +21,9 @@ const ImagePosts = ({ posts, path }: Props) => {
 							<Link to={`${path}/${post.artNo}`} state={{ artNo: post.artNo }}>
 								<article>
 									<ImageWrapper>
+										{/* 임시 사진 */}
 										<PostImageTag
-											src={post.imgSave}
+											src={"https://elasticbeanstalk-us-west-1-616077318706.s3.us-west-1.amazonaws.com/images/0d45f23b-f3f6-4a3e-a53e-34c7b369a7f8KakaoTalk_20220820_000937074.png"}
 											alt="게시물 이미지"
 										/>
 									</ImageWrapper>
@@ -93,6 +93,8 @@ const ImageWrapper = styled.div``;
 const PostImageTag = styled.img`
 	border-radius: 5px;
 	width: 100%;
+	height: 220px;
+	object-fit: contain;
 `;
 
 const InfoWrapper = styled.div`

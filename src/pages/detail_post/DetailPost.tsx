@@ -12,32 +12,26 @@ import {
 	getComments,
 	updateComment,
 } from "../../services/comment";
+import { getDetailPost } from "../../services/post";
 import authStore from "../../store/authStore";
-import { CommentT, PageT } from "../../types/types";
+import { CommentT, PageT, Post, Region } from "../../types/types";
 
-const DETAILPOST = {
-	artNo: 1,
-	useNo: 1,
-	artSubject: "공휴일",
-	artContents: "# Hello, *world*!",
-	artCreated: "22.08.16 01:35:35",
-	artCategory: 1,
-	regNo: "0101",
-	artWSelect: 3,
-};
 interface CustomizedState {
 	artNo: number;
 }
 
 const DetailPost = () => {
 	const { userProfile } = authStore();
+	const [post, setPost] = useState<Post>();
+	const [postRegion, setPostRegion] = useState<Region>();
+	const [postIsLoading, setPostIsLoading] = useState<boolean>(false);
 	const [comments, setComments] = useState<CommentT[]>([]);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [page, setPage] = useState<PageT>({})
+	const [commentIsLoading, setCommentIsLoading] = useState<boolean>(false);
+	const [page, setPage] = useState<PageT>({});
 	const [curPage, setCurPage] = useState(1);
 	const location = useLocation();
 	const { artNo } = location.state as CustomizedState;
-
+	console.log(location)
 	const addCommentHandler = async (text: string) => {
 		const res = await addComment(artNo, userProfile.no, text);
 		const newComment = res.data.data;
@@ -59,35 +53,44 @@ const DetailPost = () => {
 	};
 
 	useEffect(() => {
-		const get = async () => {
-			setIsLoading(true);
-			const res = await getComments(artNo,curPage -1);
-			setPage(res.data.data.pageable)
+		const getCommentList = async () => {
+			setCommentIsLoading(true);
+			const res = await getComments(artNo, curPage - 1);
+			setPage(res.data.data.pageable);
 			setComments(res.data.data.list);
-			setIsLoading(false);
+			setCommentIsLoading(false);
 		};
-		get();
-	}, [curPage]);
+		getCommentList();
+	}, [artNo, curPage]);
+
+	useEffect(() => {
+		const getPost = async () => {
+			setPostIsLoading(true);
+			const res = await getDetailPost(artNo);
+			setPost(res.data.data.article);
+			setPostRegion(res.data.data.region);
+			setPostIsLoading(false);
+		};
+		getPost();
+	}, [artNo]);
 
 	return (
 		<ContainerTag>
-			<PostContent content={DETAILPOST} />
-			{isLoading && (
-				<LoadingSpinnerWrapperTag>
-					<LoadingSpinner />
-				</LoadingSpinnerWrapperTag>
+			{postIsLoading ? (
+				<LoadingSpinner />
+			) : (
+				<PostContent post={post} region={postRegion} />
 			)}
-			{!isLoading && (
+
+			{commentIsLoading && <LoadingSpinner />}
+			{!commentIsLoading && (
 				<Comments
 					comments={comments}
 					onDelete={deleteCommentHandler}
 					onUpdate={updateCommentHandler}
 				/>
 			)}
-			<UploadComment
-				onAddComment={addCommentHandler}
-				user={userProfile}
-			/>
+
 			{page && comments.length !== 0 && (
 				<Pagination
 					curPage={curPage}
@@ -95,9 +98,13 @@ const DetailPost = () => {
 					totalPage={page.totalPages}
 					totalCount={page.totalElements}
 					size={page.size}
-					pageCount={page.totalPages < 3 ? page.totalPages : 3}
+					pageCount={3}
 				/>
 			)}
+			<UploadComment
+				onAddComment={addCommentHandler}
+				user={userProfile}
+			/>
 		</ContainerTag>
 	);
 };
@@ -112,9 +119,4 @@ const ContainerTag = styled.div`
 		max-width: 1160px;
 		margin: 0 auto;
 	}
-`;
-
-const LoadingSpinnerWrapperTag = styled.div`
-	position: relative;
-	height: 200px;
 `;

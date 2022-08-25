@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 
-const Empty = () => {
-	const { pathname } = useLocation();
 
+const Empty = () => {
+	const {state} = useLocation()
 	return (
 		<EmptyTag>
-			{pathname === "/" ? "글이 없습니다." : "댓글이 없습니다."}
+			{!state  ? "글이 없습니다." : "댓글이 없습니다."}
 		</EmptyTag>
 	);
 };
@@ -15,7 +15,7 @@ const Empty = () => {
 export default Empty;
 
 const EmptyTag = styled.div`
-	min-height: 120px;
+	height: 120px;
 	width: 100%;
 	display: flex;
 	align-items: center;

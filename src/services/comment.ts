@@ -31,6 +31,5 @@ export const getComments = async (artNo: number,page:number) => {
 	const res = await axios.get(`/article/replylist/${artNo}`, {
 		params: { page },
 	});
-	console.log("목록: ", res);
 	return res;
 };

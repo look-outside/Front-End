@@ -55,7 +55,7 @@ export const Imgs = styled.div`
 
 export const Card = styled.div`
     flex-basis: 23%;
-    margin-bottom: 0.8em;
+    margin-bottom: 3em;
     p {
         margin-bottom: 0.5em;
     }
@@ -63,6 +63,10 @@ export const Card = styled.div`
         color: gray;
         font-size: 0.9rem;
     }
+    #color {
+        color: black;
+    }
+    
     @media screen and (max-width: 768px) {
         font-size: 0.9rem;
     };

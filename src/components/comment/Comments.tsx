@@ -38,7 +38,7 @@ const CommentListWrapperTag = styled.div`
 	h2 {
 		margin-bottom: 1em;
 		color: skyblue;
-		font-size: 1.3rem;
+		font-size: 1.2rem;
 		font-weight: 800;
 	}
 `;

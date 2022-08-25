@@ -34,9 +34,7 @@ const UploadComment = ({ onAddComment, user }: Props) => {
 	}
 	return (
 		<UploadWrapperTag>
-			<NickNameTag>
-				<span>{user.nickname}</span>
-			</NickNameTag>
+			<NickNameTag>{user.nickname}</NickNameTag>
 			<form onSubmit={submitHandler}>
 				<CommentTag>
 					<TextareaAutosize
@@ -65,7 +63,7 @@ const LoginTag = styled.div`
 	justify-content: center;
 	row-gap: 1em;
 	p {
-		font-size: .8rem;
+		font-size: 0.8rem;
 		letter-spacing: 1.5px;
 		@media screen and (min-width: 780px) {
 			font-size: 1.2rem;
@@ -93,6 +91,7 @@ const UploadWrapperTag = styled.div`
 		rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 	border-radius: 5px;
 	padding: 0.5em;
+	margin: 2em 0;
 	form {
 		display: flex;
 		flex-direction: column;
@@ -105,16 +104,13 @@ const UploadWrapperTag = styled.div`
 	}
 `;
 
-const NickNameTag = styled.div`
+const NickNameTag = styled.span`
 	padding-top: 0.5em;
 	padding-left: 0.5em;
-	span {
-		font-size: 1rem;
-	}
+	font-size: 0.85rem;
 	@media screen and (min-width: 780px) {
-		span {
-			font-size: 1.2rem;
-		}
+		padding-left: 0;
+		font-size: 0.95rem;
 	}
 `;
 const CommentTag = styled.div`
@@ -134,12 +130,12 @@ const CommentTag = styled.div`
 			border-bottom: 2px solid skyblue;
 		}
 		::placeholder {
-			font-size: 0.85rem;
+			font-size: 0.8rem;
 		}
 		@media screen and (min-width: 780px) {
-			font-size: 1.25rem;
+			font-size: 1rem;
 			::placeholder {
-				font-size: 1.25rem;
+				font-size: 1rem;
 			}
 		}
 	}
@@ -163,7 +159,7 @@ export const UploadButtonTag = styled.div`
 			background-color: gray;
 		}
 		@media screen and (min-width: 780px) {
-			font-size: 1rem;
+			font-size: 0.9rem;
 		}
 	}
 	button[type="button"] {

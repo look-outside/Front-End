@@ -2,7 +2,11 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 
 const LoadingSpinner = () => {
-	return <SpinnerTag></SpinnerTag>;
+	return (
+		<LoadingSpinnerWrapperTag>
+			<SpinnerTag />
+		</LoadingSpinnerWrapperTag>
+	);
 };
 
 export default LoadingSpinner;
@@ -16,7 +20,7 @@ const rotate_spinner = keyframes`
     }
 `;
 const SpinnerTag = styled.div`
-    position: absolute;
+	position: absolute;
 	top: calc(50%);
 	left: calc(50% - 1em);
 	border: 4px solid lightgray;
@@ -25,4 +29,9 @@ const SpinnerTag = styled.div`
 	width: 35px;
 	height: 35px;
 	animation: ${rotate_spinner} 1.5s linear infinite;
+`;
+
+export const LoadingSpinnerWrapperTag = styled.div`
+	position: relative;
+	height: 200px;
 `;

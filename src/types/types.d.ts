@@ -2,7 +2,7 @@ export interface Post {
     useNo?:number,
     useNick?:string,
     artNo: number,
-    artCategory?:string,
+    artCategory?:number,
     artSubject: string,
     artContents?:string,
     artCreated?:string,
@@ -10,6 +10,7 @@ export interface Post {
     regNo?:string,
     regAddr1: string,
     regAddr2: string,
+    artWSelect?:number
 }
 
 export type PageT = {
@@ -25,9 +26,17 @@ export interface Token {
 	role?:string;
 }
 
-interface CommentT {
+export interface CommentT {
     repContents: string;
     repCreated: string;
     repNo: number;
     useNick: string;
+}
+
+
+export interface Region {
+	regNo: string;
+	regAddr1: string;
+	regAddr2: string;
+
 }

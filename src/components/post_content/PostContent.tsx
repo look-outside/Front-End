@@ -1,49 +1,127 @@
 import React from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
-interface Content {
-	content: {
-		artNo: number;
-		useNo: number;
-		artSubject: string; //title...???
-		artContents: string;
-		artCreated: string;
-		artCategory: number;
-		regNo: string;
-		artWSelect: number;
-	};
+import { Post, Region } from "../../types/types";
+import { Viewer } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+import styled from "styled-components";
+import authStore from "../../store/authStore";
+import EditModal from "../edit_modal/EditModal";
+import { useNavigate } from "react-router-dom";
+import {unescape}from "html-escaper"
+
+interface Props {
+	post: Post;
+	region: Region;
 }
 
-const weather = {
-	0: "☀️",
-	1: "⛅",
-	2: "☁️",
-	3: "🌧️",
-	4: "🌩️",
-	5: "선택 안함",
-};
+const PostContent = ({ post, region }: Props) => {
+	const { userProfile } = authStore();
+	const navigate = useNavigate()
+	const deleteHandler = async () => {};
 
-const category = {
-	0: "오늘의 옷",
-	1: "오늘의 하늘",
-	2: "오늘의 모임",
-};
-
-const PostContent = ({ content }: Content) => {
+	const goToEdit = async() => {
+		navigate("/")
+	}
 	return (
-		<article>
-			<header>
-				<div>
-					<h2>{content.artSubject}</h2>
-					{/* api 호출해서 addr1, addr2 보여준다. */}
-					<span>{content.regNo}</span>
+		<ArticleTag>
+			<HeaderTag>
+				<div className="user_info">
+					<div>
+						<span className="nickname">{post?.useNick}</span>
+						{userProfile.no === post?.useNo && (
+							<span className="mine">내 댓글</span>
+						)}
+					</div>
+					<div>
+						<span className="addr1">{region?.regAddr1}</span>
+						<span className="addr2">{region?.regAddr2}</span>
+					</div>
 				</div>
-				{/* 여기는 그냥 시간 */}
-				<span>{content.artCreated}</span>
-			</header>
-			<div>
-			</div>
-		</article>
+				{post?.useNo === userProfile.no && (
+					<EditModal onDelete={deleteHandler} onEdit={goToEdit} />
+				)}
+			</HeaderTag>
+			<TitleTag>{post?.artSubject}</TitleTag>
+			<TimeTag>{post?.artCreated}</TimeTag>
+			<Viewer initialValue={unescape(`${post?.artContents}`)} />
+		</ArticleTag>
 	);
 };
 
 export default PostContent;
+
+const ArticleTag = styled.article`
+	padding: 0.5em;
+	display: grid;
+	row-gap: 1.25em;
+	@media screen and (min-width: 780px) {
+		padding: 1em;
+	}
+`;
+
+const HeaderTag = styled.header`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: -0.75em;
+	.user_info {
+		display: flex;
+		flex-direction: column;
+		column-gap: 0.5em;
+		row-gap: .5em;
+	}
+	.nickname {
+		font-size: 0.9rem;
+		margin-right: 0.25em;
+	}
+	.mine {
+		display: flex;
+		align-items: center;
+		padding: 0.25em 0.5em;
+		border-radius: 5px;
+		background-color: skyblue;
+		color: #fff;
+		font-size: 0.65rem;
+	}
+	div {
+		display: flex;
+		column-gap: 0.25em;
+	}
+	.addr1,
+	.addr2 {
+		color: gray;
+		font-size: 0.65rem;
+	}
+	svg {
+		font-size: 1.2rem;
+	}
+	@media screen and (min-width: 480px) {
+		.user_info{
+			flex-direction: row;
+			align-items: center;
+		}
+		.nickname {
+			font-size: 1.1rem;
+		}
+		.mine {
+			font-size: 0.7rem;
+		}
+		.addr1,
+		.addr2 {
+			font-size: 0.75rem;
+		}
+	}
+`;
+
+const TitleTag = styled.h2`
+	font-size: 1.8rem;
+	font-weight: 600;
+	line-height: 150%;
+`;
+
+const TimeTag = styled.span`
+	font-size: 0.75rem;
+	color: gray;
+	margin-top: -0.5em;
+`;
+
+

@@ -9,7 +9,7 @@ import { WrapperTag } from "../../components/CateHeader";
 import SelectWeather from "../../components/select_weather/SelectWeather";
 import authStore from "../../store/authStore";
 import { postUpload } from "../../services/post";
-
+import {escape, unescape}from "html-escaper"
 interface State {
 	category: string;
 	categoryNum: number;
@@ -19,7 +19,7 @@ const UploadPost = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { category, categoryNum } = location.state as State;
-	const [selectedRegion, setSelectedRegion] = useState<string>("");
+	const [selectedRegion, setSelectedRegion] = useState<string>("01");
 	const [selectedWeather, setSelectedWeather] = useState<number>(0);
 	const [enteredTitle, setEnteredTitle] = useState<string>("");
 	const [enteredWrite, setEnteredWrite] = useState<string>("");
@@ -57,11 +57,11 @@ const UploadPost = () => {
 					selectedWeather,
 					categoryNum,
 					enteredTitle,
-					enteredWrite,
+					enteredWrite : escape(enteredWrite),
 					useNo: userProfile.no,
 				});
 				console.log(res);
-				// navigate(-1);
+				navigate(-1);
 			} else {
 				Swal.close();
 			}
@@ -80,7 +80,7 @@ const UploadPost = () => {
 						<div>
 							<p>날씨</p>
 						</div>
-						<SelectWeather onGetWeather={getWeatherHandler} />
+						<SelectWeather onGetWeather={getWeatherHandler} selectedWeather={selectedWeather}/>
 					</InputWrapperTag>
 					<InputWrapperTag>
 						<label htmlFor="title">제목</label>
@@ -89,6 +89,7 @@ const UploadPost = () => {
 							id="title"
 							placeholder="제목을 입력해주세요."
 							onChange={changeTitleHandler}
+							required
 						/>
 					</InputWrapperTag>
 					<WritePost onGetHtml={getHtmlHandler} />
@@ -96,7 +97,7 @@ const UploadPost = () => {
 						<button type="button" onClick={() => navigate(-1)}>
 							취소
 						</button>
-						<button type="submit">저장</button>
+						<button type="submit" disabled={!enteredTitle}>저장</button>
 					</ButtonWrapperTag>
 				</FormTag>
 			</WrapperTag>
@@ -170,6 +171,9 @@ const ButtonWrapperTag = styled.div`
 		background-color: skyblue;
 		width: 100%;
 		cursor: pointer;
+		:disabled{
+			background-color: gray;
+		}
 	}
 
 	@media screen and (min-width: 420px) {

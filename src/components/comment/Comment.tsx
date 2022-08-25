@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-// import Moment from "react-moment";
-// import "moment/locale/ko";
 
-import { BsThreeDotsVertical } from "react-icons/bs"; // ... 클릭시 수정 삭제
 import styled from "styled-components";
 import authStore from "../../store/authStore";
 import TextareaAutosize from "react-textarea-autosize";
 import { UploadButtonTag } from "./UploadComment";
 import { CommentT } from "../../types/types";
 import Swal from "sweetalert2";
+import EditModal from "../edit_modal/EditModal";
 
 interface Props {
 	comment: CommentT;
@@ -52,48 +50,32 @@ const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 		setOpenEdit(false);
 	};
 
+	const editModeHandler = () => {
+		setEditMode(true);
+	};
+
 	const updateHandler = () => {
 		onUpdate(comment.repNo, enteredComment);
 		setEditMode(false);
 	};
 	return (
-		<CommentWrapperTag
-			onMouseLeave={() => setOpenEdit(false)}
-		>
-			<CommentBoxTag >
-				<CommentHeaderTag >
+		<CommentWrapperTag>
+			<CommentBoxTag>
+				<CommentHeaderTag>
 					<div className="user_info">
-						{/* 수정 이름 필드 추가해서 */}
-						<span className="nickname">{comment.useNick}</span>
-						{userProfile?.nickname === comment.useNick && (
-							<span className="mine">내 댓글</span>
-						)}
+						<div>
+							<span className="nickname">{comment.useNick}</span>
+							{userProfile?.nickname === comment.useNick && (
+								<span className="mine">내 댓글</span>
+							)}
+						</div>
 						<span className="time">{comment.repCreated}</span>
 					</div>
 					{userProfile?.nickname === comment.useNick && (
-						<EditTag>
-							<BsThreeDotsVertical
-								onClick={() => setOpenEdit((pre) => !pre)}
-							/>
-							{openEdit && (
-								<div className="edit_modal">
-									<ul>
-										<li id="delete" onClick={deleteHandler}>
-											삭제
-										</li>
-										<li
-											id="edit"
-											onClick={() => {
-												setOpenEdit(false);
-												setEditMode(true);
-											}}
-										>
-											수정
-										</li>
-									</ul>
-								</div>
-							)}
-						</EditTag>
+						<EditModal
+							onDelete={deleteHandler}
+							onEdit={editModeHandler}
+						/>
 					)}
 				</CommentHeaderTag>
 				<CommentTag>
@@ -163,11 +145,13 @@ const CommentHeaderTag = styled.div`
 	align-items: center;
 	.user_info {
 		flex: 1;
-		column-gap: 1em;
+		column-gap: .75em;
 		display: flex;
-		align-items: center;
+		flex-direction: column;
+		row-gap: 0.75em;
 		.nickname {
-			font-size: 1rem;
+			font-size: 0.8rem;
+			margin-right: 0.5em;
 		}
 		.mine {
 			font-size: 0.65rem;
@@ -175,18 +159,21 @@ const CommentHeaderTag = styled.div`
 			background-color: skyblue;
 			border-radius: 5px;
 			padding: 0.25em 0.5em;
-			margin-left: -0.5em;
 		}
 		.time {
-			font-size: 0.75rem;
+			font-size: 0.7rem;
 			color: gray;
+		}
+		@media screen and (min-width: 480px) {
+			flex-direction: row;
+			align-items: center;
 		}
 		@media screen and (min-width: 780px) {
 			.nickname {
-				font-size: 1.2rem;
+				font-size: 0.95rem;
 			}
 			.mine {
-				font-size: 0.75rem;
+				font-size: 0.6rem;
 			}
 		}
 	}
@@ -202,7 +189,7 @@ const CommentTag = styled.div`
 	textarea {
 		width: 100%;
 		height: 100%;
-		font-size: 0.85rem;
+		font-size: 0.8rem;
 		padding: 0.5em;
 		border: none;
 		border-bottom: 1px solid lightgray;
@@ -214,48 +201,10 @@ const CommentTag = styled.div`
 	}
 	@media screen and (min-width: 780px) {
 		p {
-			font-size: 1rem;
+			font-size: 0.95rem;
 		}
 		textarea {
 			font-size: 1rem;
-		}
-	}
-`;
-
-const EditTag = styled.div`
-	position: relative;
-	svg {
-		cursor: pointer;
-	}
-
-	.edit_modal {
-		position: absolute;
-		top: 30px;
-		left: -30px;
-		width: max-content;
-		display: flex;
-		box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-			rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-		padding: 1em 0;
-		background-color: white;
-		border-radius: 5px;
-		font-size: 1rem;
-		ul {
-			li {
-				padding: 0.5em 1.5em;
-				cursor: pointer;
-				:hover {
-					background-color: skyblue;
-				}
-			}
-		}
-		#delete {
-			color: red;
-		}
-		#edit {
-			:hover {
-				color: white;
-			}
 		}
 	}
 `;

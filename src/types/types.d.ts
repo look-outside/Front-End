@@ -31,6 +31,7 @@ export interface CommentT {
     repCreated: string;
     repNo: number;
     useNick: string;
+    artCategory: number;
 }
 
 
@@ -39,4 +40,13 @@ export interface Region {
 	regAddr1: string;
 	regAddr2: string;
 
+}
+
+export interface UserT {
+    useNo: number,
+    useNick: string,
+    useId: string,
+    usePw: string,
+    useName: string,
+    useEmail: string,
 }

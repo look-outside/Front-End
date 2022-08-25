@@ -1,6 +1,5 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import authStore from "../store/authStore";
 const JWT_EXPIRY_TIME = 1800 * 1000;
 
 interface UserInfo {
@@ -13,7 +12,7 @@ interface UserInfo {
 }
 
 interface Token {
-	useId: string;
+	sub: string;
 	role: string;
 	useNick: string;
 	useNo: number;
@@ -58,9 +57,9 @@ export const login = async (userInfo: UserInfo, addUser: any) => {
 			withCredentials: true,
 		});
 		const token = res.data.body.token;
-		const { useId, role, useNick, useNo }: Token = jwtDecode(token);
+		const { sub, role, useNick, useNo }: Token = jwtDecode(token);
 		const user = {
-			id: useId,
+			id: sub,
 			type: role === "ROLE_USER" ? "USER" : "ADMIN",
 			nickname: useNick,
 			no: useNo,

@@ -9,9 +9,15 @@ export const mainFree = () => {
 }
 
 export const dailyCategory = (region :string, curPage :number) => {
-    return axios.get(`/article/list/0/${region}`, {params: {page: curPage}})
+    return axios.get('/article/list/0', {params: {
+        regNo: region,
+        page: curPage
+    }})
 }
 
 export const skyCategory = (region :string, curPage :number) => {
-    return axios.get(`/article/list/2/${region}`, {params: {page: curPage}})
+    return axios.get('/article/list/2', {params: {
+        regNo: region,
+        page: curPage
+    }})
 }

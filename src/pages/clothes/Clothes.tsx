@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { AiOutlineCaretRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
-// import FreePosts from '../../components/free_posts/FreePosts';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { mainDaily, mainFree } from '../../services/category';
 import * as c from '../../styles/Category';
@@ -54,7 +53,9 @@ const Clothes = () => {
             daily.map((art, i) => (
               <Card key={i}>
                 <Link to={`/today_clothes/main/${art.artNo}`}>
-                  <c.Img src='/test.jpg' alt='test1' />{/* 임시 */}
+                  <c.Thumnail>
+                    <c.Img src='/test.jpg' alt='test1' />{/* 임시 */}
+                  </c.Thumnail>
                   <span id='color'>{art.regAddr1} {art.regAddr2}</span>
                 </Link>
               </Card>

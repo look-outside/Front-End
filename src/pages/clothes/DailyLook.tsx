@@ -40,7 +40,9 @@ const DailyLook = () => {
                         data.map((art,i) => (
                             <c.Card key={i}>
                                 <Link to={`/today_clothes/dailylook/${art.artNo}`}>
-                                    <c.Img src='/test.jpg' alt='test1'/>{/* 대기중 */}
+                                    <c.Thumnail>
+                                        <c.Img src='/test.jpg' alt='test1'/>{/* 대기중 */}
+                                    </c.Thumnail>
                                     <p id='color'>{art.artSubject}</p>
                                     <span id='color'>{art.useNick}&nbsp;</span>
                                     <span id='dis'>{art.regAddr1} {art.regAddr2}</span>

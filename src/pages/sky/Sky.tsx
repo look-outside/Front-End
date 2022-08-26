@@ -40,7 +40,9 @@ const Sky = () => {
                         data.map((art,i) => (
                             <c.Card key={i}>
                                 <Link to={`/today_sky/${art.artNo}`}>
-                                    <c.Img src='/test.jpg' alt='test1'/>
+                                    <c.Thumnail>
+                                        <c.Img src='/test.jpg' alt='test1'/>
+                                    </c.Thumnail>
                                     <p id='color'>{art.artSubject}</p>
                                     <span id='color'>{art.useNick}&nbsp;</span>
                                     <span id='dis'>{art.regAddr1} {art.regAddr2}</span>

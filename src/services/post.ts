@@ -48,7 +48,6 @@ export const getGategoryPosts = async (
 	region: string,
 	page: number
 ) => {
-	console.log("region:", region);
 	try {
 		const res = await axios.get(`/article/list/${categoryNum}`, {
 			params: { page, regNo: region },

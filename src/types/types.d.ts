@@ -7,6 +7,7 @@ export interface Post {
     artContents?:string,
     artCreated?:string,
     imgSave ?: string | null,
+	imgPath: string,
     regNo?:string,
     regAddr1: string,
     regAddr2: string,

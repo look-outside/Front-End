@@ -83,7 +83,7 @@ export const postUpdate = async ({
 	uploadImg,
 }: Props) => {
 	const form = new FormData();
-	uploadImg.forEach(path=>{
+	uploadImg?.forEach(path=>{
 		form.append("multipartFiles",`{"imgPath" : "${path}"}`)
 	})
 	form.append(

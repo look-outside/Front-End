@@ -8,7 +8,7 @@ interface Props {
 	selectedRegion: string;
 	selectedWeather: number;
 	uploadImg: string[];
-	multipartFiles ?: string [];
+	multipartFiles : string [];
 }
 
 export const postUpload = async ({
@@ -22,11 +22,11 @@ export const postUpload = async ({
 	multipartFiles, // 컨테츠에서 뽑은 이미지 경로
 }: Props) => {
 	const form = new FormData();
-	const deleteFiles = uploadImg.filter(path => !multipartFiles.includes(path))
-	multipartFiles.forEach(path=>{
+	const deleteFiles = uploadImg?.filter(path => !multipartFiles?.includes(path))
+	multipartFiles?.forEach(path=>{
 		form.append("multipartFiles",`{"imgPath" : "${path}"}`)
 	})
-	deleteFiles.forEach(path=>{
+	deleteFiles?.forEach(path=>{
 		form.append("deleteFiles",`{"imgPath" : "${path}"}`)
 	})
 	form.append(
@@ -92,10 +92,15 @@ export const postUpdate = async ({
 	selectedRegion,
 	selectedWeather,
 	uploadImg,
+	multipartFiles
 }: Props) => {
 	const form = new FormData();
+	const deleteFiles = uploadImg?.filter(path => !multipartFiles?.includes(path))
 	uploadImg?.forEach(path=>{
 		form.append("multipartFiles",`{"imgPath" : "${path}"}`)
+	})
+	deleteFiles?.forEach(path=>{
+		form.append("deleteFiles",`{"imgPath" : "${path}"}`)
 	})
 	form.append(
 		"articles",

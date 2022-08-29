@@ -53,8 +53,8 @@ const UploadPost = () => {
 
 	const submitHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const imgArr = enteredWrite.match(/<*?src="(.*?)"/g);
-		const tmp = imgArr?.map((data) => data.split("=")[1].slice(1, -1));
+		const tmp = enteredWrite.match(/<*?src="(.*?)"/g);
+		const multipartFiles = tmp?.map((data) => data.split("=")[1].slice(1, -1));
 		Swal.fire({
 			position: "center",
 			icon: "question",
@@ -76,6 +76,7 @@ const UploadPost = () => {
 						enteredWrite: escape(enteredWrite),
 						useNo: userProfile.no,
 						uploadImg,
+						multipartFiles
 					});
 				} else {
 					await postUpdate({
@@ -86,7 +87,7 @@ const UploadPost = () => {
 						enteredTitle,
 						enteredWrite: escape(enteredWrite),
 						useNo: userProfile.no,
-						uploadImg: tmp,
+						uploadImg: multipartFiles,
 					});
 				}
 				navigate(-1);

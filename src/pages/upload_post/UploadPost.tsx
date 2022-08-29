@@ -15,12 +15,13 @@ interface State {
 	category: string;
 	categoryNum: number;
 	post: Post;
+	images:string[]
 }
 
 const UploadPost = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { category, categoryNum, post } = location.state as State;
+	const { category, categoryNum, post, images } = location.state as State;
 	const [selectedRegion, setSelectedRegion] = useState<string>("01");
 	const [selectedWeather, setSelectedWeather] = useState<number>(
 		!post?.artWselect ? 0 : post.artWselect
@@ -31,7 +32,9 @@ const UploadPost = () => {
 	const [enteredWrite, setEnteredWrite] = useState<string>(
 		!post?.artContents ? "" : post?.artContents
 	);
-	const [uploadImg, setUploadImg] = useState<string[]>([]);
+	const [uploadImg, setUploadImg] = useState<string[]>(
+		images ? images : []
+	);
 	const { userProfile } = authStore();
 
 	const getRegionNumberHandler = (region: string) => {
@@ -87,7 +90,8 @@ const UploadPost = () => {
 						enteredTitle,
 						enteredWrite: escape(enteredWrite),
 						useNo: userProfile.no,
-						uploadImg: multipartFiles,
+						uploadImg,
+						multipartFiles
 					});
 				}
 				navigate(-1);

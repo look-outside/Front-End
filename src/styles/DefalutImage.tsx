@@ -11,5 +11,8 @@ export const DefaultImage = styled(DefaultColor)`
 `;
 
 export const DefaultMyImage = styled(DefaultColor)`
-    padding-top: 100%;
+    width: 20%;
+    #inner {
+        padding-top: 100%;
+    }
 `;

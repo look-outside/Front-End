@@ -29,7 +29,7 @@ const Map = ({onGetRegion}:Props) => {
 
     useEffect(() => {
         getWeather()
-    }, [])
+    }, [data])
 
     const clickRegionHandler = (idx:number) => {
         setClickReg(regNum[idx])

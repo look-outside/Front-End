@@ -12,5 +12,5 @@ export const weatherData = async () => {
     const res = await axios.get("/api/data/2.5/group", {
         params
     });
-    return res.data;
+    return res;
 }

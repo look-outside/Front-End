@@ -9,7 +9,7 @@ export const weatherData = async () => {
         lang : "kr",
         units : "metric"
     };
-    const res = await axios.get("/api/data/2.5/group", {
+    const res = await axios.get("/api", {
         params
     });
     return res;

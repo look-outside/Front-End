@@ -128,6 +128,7 @@ const Thumnail = styled.div`
             height: 100%;
             object-fit: cover;
             transform: translate(-50%, -50%);
+            border-radius: 5px;
         }
     }
 `;

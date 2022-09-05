@@ -27,7 +27,6 @@ import DailyLook from "./pages/clothes/DailyLook";
 import Free from "./pages/clothes/Free";
 import DetailPost from "./pages/detail_post/DetailPost";
 import SnsLogin from "./pages/SnsLogin";
-import Weather from "./components/Weather";
 import SnsInfo from "./pages/myPage/SnsInfo";
 import { onSilentRefresh } from "./services/user";
 import authStore from "./store/authStore";
@@ -87,7 +86,6 @@ function App() {
 							<Route path="users" element={<Users />} />
 							<Route path="board" element={<Board />} />
 						</Route>
-						<Route path="Weather" element={<Weather />} />
 					</Route>
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Route>

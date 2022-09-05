@@ -39,7 +39,7 @@
 </p>
 
 ### **API**
-[API 설계 (notion)](https://www.notion.so/look-outiside/API-e388c9ea0b624e8abf3f1981ef4e00f7)
+<a href="https://www.notion.so/look-outiside/API-e388c9ea0b624e8abf3f1981ef4e00f7">API 설계 (notion)</a>
 
 ### **ERD**
 
@@ -47,16 +47,41 @@
     <img src="https://user-images.githubusercontent.com/97022695/188367117-73b6f0fc-cec0-470a-b6fb-a2c3887485d6.png" width="80%" />
 </p>
 
-
-
-
-
-
 ## 👨‍👨‍👧‍👧 팀원
 
  역할 | 팀원 | 구현 기능
  :--: | :--: | :-- 
- Front | [진현주](https://github.com/realzu) | - 프로젝트 총괄 및 아이디어 기획<br>- 마이페이지 (정보수정, 작성글/댓글목록, 탈퇴)<br>- 관리자페이지 (회원목록, 관리자임명/해임 기능)<br>- 지도 (open weather API 데이터 및 UI 구현)<br>- 페이지네이션 작업<br>- 오늘의 옷, 데일리룩, 오늘의 하늘 카테고리 개발
- Front | [이시형](https://github.com/SH-Lee2) | - 메인페이지(헤더, 풋터)<br>- 로그인, 회원가입<br>- 상세페이지 작업<br>- 게시물 작성 기능 구현<br>- 오늘 뭐 입지?, 오늘의 모임 카테고리 개발
- Back | [이한솔](https://github.com/Lee-Han-Sol) | - 로그인 및 소셜로그인(GOOGLE, KAKAO) 관리<br>- 회원가입 CRUD 작업<br>- 게시물 페이지 관련 CRUD 작업<br>- 관리자 페이지 관련 CRUD 작업<br>- 메인 페이지 기능 구현<br>- AWS(RDS, S3, EC2, Route53) 인프라 연동<br>- API 작성
- Back | [이나영](https://github.com/nlee013) | - AWS(S3) 인프라 연동<br>- 게시물 페이지 관련 CRUD 작업<br>- 댓글 관련 CRUD 작업<br>- API 작성
+ Front | <a href="https://github.com/realzu">진현주</a> | - 프로젝트 총괄 및 아이디어 기획<br>- 마이페이지 (정보수정, 작성글/댓글목록, 탈퇴)<br>- 관리자페이지 (회원목록, 관리자임명/해임 기능)<br>- 지도 (open weather API 데이터 및 UI 구현)<br>- 페이지네이션 작업<br>- 오늘의 옷, 데일리룩, 오늘의 하늘 카테고리 개발
+ Front | <a href="https://github.com/SH-Lee2">이시형</a> | - 메인페이지(헤더, 풋터)<br>- 로그인, 회원가입<br>- 상세페이지 작업<br>- 게시물 작성 기능 구현<br>- 오늘 뭐 입지?, 오늘의 모임 카테고리 개발
+ Back | <a href="https://github.com/Lee-Han-Sol">이한솔</a> | - 로그인 및 소셜로그인(GOOGLE, KAKAO) 관리<br>- 회원가입 CRUD 작업<br>- 게시물 페이지 관련 CRUD 작업<br>- 관리자 페이지 관련 CRUD 작업<br>- 메인 페이지 기능 구현<br>- AWS(RDS, S3, EC2, Route53) 인프라 연동<br>- API 작성
+ Back | <a href="https://github.com/nlee013">이나영</a> | - AWS(S3) 인프라 연동<br>- 게시물 페이지 관련 CRUD 작업<br>- 댓글 관련 CRUD 작업<br>- API 작성
+
+## 💻 페이지 기능
+
+#### - 메인페이지
+
+- 지도의 지역 아이콘 선택 시 "오늘 뭐 입지?" 게시글이 지역에 따라 바뀝니다.
+- 제공하는 모든 카테고리의 최신 게시글을 확인할 수 있습니다.
+
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/97022695/188448496-f791ee7e-5173-472c-995f-f38db13402db.gif" width="80%"/>
+</p>
+
+#### - 로그인, 회원가입
+
+- 유저 입력값의 유효성 검사를 통해 회원 가입을 할 수 있습니다.
+- 소셜 로그인 (구글, 카카오)이 가능하며, 해당 유저들은 닉네임 정보만 사용합니다.
+
+회원가입 | 로그인
+:--: | :--: 
+<img src="https://user-images.githubusercontent.com/97022695/188448903-2e5e20d0-6443-472c-b228-97b772bd8c78.gif"/> | <img src="https://user-images.githubusercontent.com/97022695/188448652-2190a771-8f2b-46bc-927e-941d7b3909b9.gif"/> 
+
+#### - 오늘의 옷
+
+- "데일리룩" 과 "오늘 뭐 입지?"를 담고 있는 첫번째 카테고리입니다.
+- **데일리룩** : 그날그날 날씨에 맞는 자신의 룩을 보여주는 카테고리
+- **오늘 뭐 입지?** : 가디건? 자켓? 지역별 날씨에 따라 어떤 옷을 입을 지 서로 공유하는 카테고리
+
+오늘의 옷| 데일리룩 | 오늘 뭐 입지?
+:--: | :--: | :--: 
+![image](https://user-images.githubusercontent.com/97022695/188447487-36232f6b-e329-43a6-a6ae-40890d5a356d.png) | ![image](https://user-images.githubusercontent.com/97022695/188447597-c6c85a70-accd-405f-a1b8-d5a4df2e4e93.png) | ![image](https://user-images.githubusercontent.com/97022695/188447721-59161887-f272-49c8-baef-aca0bb2cf287.png)

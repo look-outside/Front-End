@@ -94,13 +94,13 @@ export const postUpdate = async ({
 	categoryNum,
 	selectedRegion,
 	selectedWeather,
-	uploadImg,
-	multipartFiles
+	uploadImg, 	// 기존 url + 업로드 url
+	multipartFiles // 추출한 url
 }: Props) => {
 	const form = new FormData();
 	const deleteFiles = uploadImg?.filter(path => !multipartFiles?.includes(path))
 	const updateWrite = enteredWrite.replaceAll("temporary", "images")
-	uploadImg?.forEach(path=>{
+	multipartFiles?.forEach(path=>{
 		form.append("multipartFiles",`{"imgPath" : "${path}"}`)
 	})
 	deleteFiles?.forEach(path=>{

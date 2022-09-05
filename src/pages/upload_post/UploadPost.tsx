@@ -15,7 +15,7 @@ interface State {
 	category: string;
 	categoryNum: number;
 	post: Post;
-	images:string[]
+	images: string[];
 }
 
 const UploadPost = () => {
@@ -32,9 +32,7 @@ const UploadPost = () => {
 	const [enteredWrite, setEnteredWrite] = useState<string>(
 		!post?.artContents ? "" : post?.artContents
 	);
-	const [uploadImg, setUploadImg] = useState<string[]>(
-		images ? images : []
-	);
+	const [uploadImg, setUploadImg] = useState<string[]>(images ? images : []);
 	const { userProfile } = authStore();
 
 	const getRegionNumberHandler = (region: string) => {
@@ -57,7 +55,9 @@ const UploadPost = () => {
 	const submitHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const tmp = enteredWrite.match(/<*?src="(.*?)"/g);
-		const multipartFiles = tmp?.map((data) => data.split("=")[1].slice(1, -1));
+		const multipartFiles = tmp?.map((data) =>
+			data.split("=")[1].slice(1, -1)
+		);
 		Swal.fire({
 			position: "center",
 			icon: "question",
@@ -79,7 +79,7 @@ const UploadPost = () => {
 						enteredWrite: escape(enteredWrite),
 						useNo: userProfile.no,
 						uploadImg,
-						multipartFiles
+						multipartFiles,
 					});
 				} else {
 					await postUpdate({
@@ -91,7 +91,7 @@ const UploadPost = () => {
 						enteredWrite: escape(enteredWrite),
 						useNo: userProfile.no,
 						uploadImg,
-						multipartFiles
+						multipartFiles,
 					});
 				}
 				navigate(-1);
@@ -138,11 +138,11 @@ const UploadPost = () => {
 						post={post}
 					/>
 					<ButtonWrapperTag>
-						<button type="button" onClick={() => navigate(-1)}>
-							취소
-						</button>
 						<button type="submit" disabled={!enteredTitle}>
 							{post ? "수정" : "저장"}
+						</button>
+						<button type="button" onClick={() => navigate(-1)}>
+							취소
 						</button>
 					</ButtonWrapperTag>
 				</FormTag>
@@ -208,7 +208,7 @@ const ButtonWrapperTag = styled.div`
 	justify-content: center;
 	align-items: center;
 	row-gap: 0.5em;
-
+	
 	button {
 		padding: 0.5em 1em;
 		color: white;
@@ -219,7 +219,9 @@ const ButtonWrapperTag = styled.div`
 		cursor: pointer;
 		:disabled {
 			background-color: gray;
-		}
+		}:nth-child(2){
+		background-color: #fa5858;
+	}
 	}
 
 	@media screen and (min-width: 420px) {

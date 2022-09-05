@@ -16,6 +16,7 @@
 * Netlify
 
 **Back-end**
+
 - Java 8
 - SpringBoot 2.5.2, Gradle, Spring Security, OAuth2.0 + JWT
 - MySQL 8.0.28(RDB), JPA & QueryDSL (ORM)
@@ -41,16 +42,21 @@
 [API 설계 (notion)](https://www.notion.so/look-outiside/API-e388c9ea0b624e8abf3f1981ef4e00f7)
 
 ### **ERD**
-<!-- ![ERD](https://user-images.githubusercontent.com/97022695/188367117-73b6f0fc-cec0-470a-b6fb-a2c3887485d6.png) -->
+
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/97022695/188367117-73b6f0fc-cec0-470a-b6fb-a2c3887485d6.png" width="60%" />
+    <img src="https://user-images.githubusercontent.com/97022695/188367117-73b6f0fc-cec0-470a-b6fb-a2c3887485d6.png" width="80%" />
 </p>
+
+
+
+
+
 
 ## 👨‍👨‍👧‍👧 팀원
 
- 역할 | 팀원 | 맡은
+ 역할 | 팀원 | 구현 기능
  :--: | :--: | :-- 
- Front | 진현주 | - 프로젝트 총괄 및 아이디어 기획<br>- 마이페이지 (정보수정, 작성글/댓글목록, 탈퇴)<br>- 관리자페이지 (회원목록, 관리자임명/해임 기능)<br>- 지도 (open weather API 데이터 및 UI 구현)<br>- 페이지네이션 작업<br>- 오늘의 옷, 데일리룩, 오늘의 하늘 카테고리 개발
- Front | 이시형 | - 메인페이지(헤더, 풋터)<br>- 로그인, 회원가입<br>- 상세페이지 작업<br>- 게시물 작성 기능 구현<br>- 오늘 뭐 입지?, 오늘의 모임 카테고리 개발
- Back | 이한솔 | - 로그인 및 소셜로그인(GOOGLE, KAKAO) 관리<br>- 회원가입 CRUD 작업<br>- 게시물 페이지 관련 CRUD 작업<br>- 관리자 페이지 관련 CRUD 작업<br>- 메인 페이지 기능 구현<br>- AWS(RDS, S3, EC2, Route53) 인프라 연동<br>- API 작성
- Back | 이나영 | - AWS(S3) 인프라 연동<br>- 게시물 페이지 관련 CRUD 작업<br>- 댓글 관련 CRUD 작업<br>- API 작성
+ Front | [진현주](https://github.com/realzu) | - 프로젝트 총괄 및 아이디어 기획<br>- 마이페이지 (정보수정, 작성글/댓글목록, 탈퇴)<br>- 관리자페이지 (회원목록, 관리자임명/해임 기능)<br>- 지도 (open weather API 데이터 및 UI 구현)<br>- 페이지네이션 작업<br>- 오늘의 옷, 데일리룩, 오늘의 하늘 카테고리 개발
+ Front | [이시형](https://github.com/SH-Lee2) | - 메인페이지(헤더, 풋터)<br>- 로그인, 회원가입<br>- 상세페이지 작업<br>- 게시물 작성 기능 구현<br>- 오늘 뭐 입지?, 오늘의 모임 카테고리 개발
+ Back | [이한솔](https://github.com/Lee-Han-Sol) | - 로그인 및 소셜로그인(GOOGLE, KAKAO) 관리<br>- 회원가입 CRUD 작업<br>- 게시물 페이지 관련 CRUD 작업<br>- 관리자 페이지 관련 CRUD 작업<br>- 메인 페이지 기능 구현<br>- AWS(RDS, S3, EC2, Route53) 인프라 연동<br>- API 작성
+ Back | [이나영](https://github.com/nlee013) | - AWS(S3) 인프라 연동<br>- 게시물 페이지 관련 CRUD 작업<br>- 댓글 관련 CRUD 작업<br>- API 작성

@@ -14,7 +14,7 @@ const FreePosts = ({ posts, path }: Props) => {
 			{!posts.length ? (
 				<Empty />
 			) : (
-				<ListTag>
+				<ListTag size={posts.length}>
 					{posts.map((post) => (
 						<li key={post.artNo}>
 							<Link
@@ -64,10 +64,11 @@ const FreePostsTag = styled.div`
 	height: 100%;
 `;
 
-const ListTag = styled.ul`
+const ListTag = styled.ul<{size:number}>`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
+	justify-content: ${({size})=> size === 6 ? "space-between" : ''};
 	li {
 		border-bottom: 2px solid lightgray;
 		a {

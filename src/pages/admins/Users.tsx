@@ -1,9 +1,8 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import Pagination from '../../components/Pagination';
-import { TypeUser } from '../../services/admins';
+import { AdminUser, DeleteUser, TypeUser } from '../../services/admins';
 import * as a from '../../styles/Admin';
 import * as i from '../../styles/mypage/TabInner';
 import { PageT, UserT } from '../../types/types';
@@ -47,19 +46,17 @@ const Users = () => {
         }
     }
 
-    const del = () => { //회원 삭제
-        axios.delete(`/manager/user/${dels}`)
-        .then(res => {
-            if (res.data.data === 1) {
-                Swal.fire({
-                    icon: 'success',
-                    text: '삭제 완료',
-                    showConfirmButton: false,
-                    timer: 1000
-                })
-                .then(() => window.location.reload())
-            }         
-        });
+    const del = async () => { //회원 삭제
+        const res = await DeleteUser(dels)
+        if (res.data.data === 1) {
+            Swal.fire({
+                icon: 'success',
+                text: '삭제 완료',
+                showConfirmButton: false,
+                timer: 1000
+            })
+            .then(() => refreshDelete())
+        }         
     }
 
     const adminCk = (ck: boolean, no: number) => { //관리자 선택
@@ -70,26 +67,39 @@ const Users = () => {
         }
     }
 
-    const admin = () => { //관리자 임명,해임
+    const admin = async () => { //관리자 임명,해임
         if (admins.length !== 1) {
             Swal.fire({
                 icon: 'error',
                 text: '관리자는 1명만 선택 가능합니다'
             })
         } else {
-            axios.put(`/manager/user/${admins}`)
-            .then(res => {
-                if (res.data.data === 1) {
+            const res = await AdminUser(admins)
+            console.log(res)
+                if (res.data.status === 200) {
                     Swal.fire({
                         icon: 'success',
                         text: 'Admin 완료',
                         showConfirmButton: false,
                         timer: 1000
                     })
-                    .then(() => window.location.reload())
+                    .then(() => refreshAdmin())
+                } else {
+                    alert('error')
                 }
-            });
         }
+    }
+
+    const refreshDelete = () => { //Delete 후 리스트 세팅
+        getUsers();
+        dels.length = 0;
+        document.getElementById("delCkVal").click();
+    }
+
+    const refreshAdmin = () => { //Admin 후 리스트 세팅
+        getUsers();
+        admins.length = 0;
+        document.getElementById("adminCkVal").click();
     }
 
     return (
@@ -124,10 +134,10 @@ const Users = () => {
                             <li>{user.useName}</li>
                             <li>{user.useNick}</li>
                             <li id='ck'>
-                                <input type='checkbox' onChange={(e)=>{delCk(e.target.checked,user.useNo)}}/>
+                                <input type='checkbox' onChange={(e)=>{delCk(e.target.checked,user.useNo)}} id='delCkVal'/>
                             </li>
                             <li id='ck'>
-                                <input type='checkbox' onChange={(e)=>{adminCk(e.target.checked,user.useNo)}}/>
+                                <input type='checkbox' onChange={(e)=>{adminCk(e.target.checked,user.useNo)}} id='adminCkVal'/>
                             </li>
                         </Cnt>
                     ))

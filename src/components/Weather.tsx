@@ -32,8 +32,8 @@ const Map = ({onGetRegion}:Props) => {
     }, [])
 
     const clickRegionHandler = (idx:number) => {
+        onGetRegion(regNum[idx])
         setClickReg(regNum[idx])
-        onGetRegion(clickReg)
     }
 
     const weatherIcon = (i :number, temps :number, icon :string) => {

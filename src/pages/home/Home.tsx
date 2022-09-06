@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import FreePosts from "../../components/free_posts/FreePosts";
 import { AiOutlineCaretRight } from "react-icons/ai";
@@ -20,9 +20,9 @@ const Home = () => {
 	// 지도 지역
 	const [region, setRegion] = useState<string>("01");
 
-	const getRegion = (reg: string) => {
+	const getRegion = useCallback((reg: string) => {
 		setRegion(reg);
-	};
+	},[])
 
 	useEffect(() => {
 		const getFreePosts = async () => {
